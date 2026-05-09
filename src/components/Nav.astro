@@ -1,0 +1,91 @@
+---
+const navLinks = [
+  { label: 'Sources',   href: '/sources'   },
+  { label: 'Pricing',   href: '/pricing'   },
+  { label: 'Changelog', href: '/changelog' },
+  { label: 'Status',    href: '/status'    },
+];
+
+const currentPath = Astro.url.pathname;
+---
+
+<header class="nav-wrapper">
+  <div class="nav-inner container">
+    <!-- Wordmark -->
+    <a href="/" class="nav-logo" aria-label="NodalPulse home">
+      <svg width="148" height="24" viewBox="0 0 148 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <!-- Accent node square -->
+        <rect x="0" y="6" width="12" height="12" rx="2" fill="#6366F1"/>
+        <!-- Wordmark text -->
+        <text x="20" y="18" font-family="Inter, -apple-system, system-ui, sans-serif" font-size="15" font-weight="600" fill="#18181B" letter-spacing="-0.01em">NodalPulse</text>
+      </svg>
+    </a>
+
+    <!-- Nav links + CTA -->
+    <nav class="nav-links" aria-label="Primary navigation">
+      {navLinks.map(link => (
+        <a
+          href={link.href}
+          class:list={['nav-link', { 'nav-link--active': currentPath === link.href }]}
+        >
+          {link.label}
+        </a>
+      ))}
+      <a href="https://app.nodalpulse.com/signup" class="btn-primary nav-cta">
+        Get the brief
+      </a>
+    </nav>
+  </div>
+</header>
+
+<style>
+  .nav-wrapper {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: var(--np-surface);
+    border-bottom: 1px solid var(--np-border);
+  }
+
+  .nav-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 64px;
+  }
+
+  .nav-logo {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+  }
+
+  .nav-links {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .nav-link {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--np-text-muted);
+    padding: 6px 10px;
+    border-radius: var(--np-radius-md);
+    transition: color 0.12s ease, background 0.12s ease;
+    text-decoration: none;
+  }
+
+  .nav-link:hover {
+    color: var(--np-text-primary);
+    background: var(--np-surface-deep);
+  }
+
+  .nav-link--active {
+    color: var(--np-text-primary);
+  }
+
+  .nav-cta {
+    margin-left: 12px;
+  }
+</style>

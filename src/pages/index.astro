@@ -1,0 +1,438 @@
+---
+import Base from '../layouts/Base.astro';
+---
+
+<Base
+  title="NodalPulse — Regulatory Intelligence for ERCOT Participants"
+  description="NodalPulse delivers personalized morning briefs covering every PUCT filing, ERCOT protocol revision, and FERC ERCOT-tagged action that touched your market role. Cited. On time. Every weekday."
+>
+
+  <!-- ── Hero ── -->
+  <section class="hero section">
+    <div class="container">
+      <div class="hero-content">
+        <h1 class="hero-headline">
+          Every PUCT filing that touches your position.<br />
+          Every morning. With citations.
+        </h1>
+        <p class="hero-sub">
+          NodalPulse runs purpose-built crawlers across PUCT Interchange, ERCOT stakeholder pages, and FERC ERCOT-tagged dockets. At 06:30&nbsp;CT, you get a personalized brief — every relevant item sourced, cited, and linked to the original document.
+        </p>
+        <div class="hero-actions">
+          <a href="https://app.nodalpulse.com/signup" class="btn-primary btn-lg">
+            Start free trial
+          </a>
+          <a href="/digest/today" class="btn-secondary btn-lg">
+            View today's digest
+          </a>
+        </div>
+        <p class="hero-trust">
+          14-day trial &middot; No credit card &middot; Cancels anytime
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Brief preview mock ── -->
+  <section class="preview-section section-sm">
+    <div class="container">
+      <div class="brief-mock" role="img" aria-label="Example NodalPulse brief showing regulatory items with citations">
+
+        <!-- Mock header bar -->
+        <div class="mock-header">
+          <div class="mock-header-left">
+            <span class="mock-date-label">Today's Brief</span>
+            <span class="mock-date">Friday, May 9, 2026</span>
+          </div>
+          <div class="mock-meta">25 items across 4 categories</div>
+        </div>
+
+        <!-- Item 1 -->
+        <div class="mock-item">
+          <div class="mock-item-meta">
+            <span class="tag-chip">[NPRR]</span>
+            <span class="mock-category">Transmission</span>
+          </div>
+          <h3 class="mock-item-title">
+            NPRR1234: Proposed Revision to Protocol Section 3.1 — Interconnection Queue Priority for BESS Projects
+          </h3>
+          <p class="mock-item-body">
+            ERCOT proposes amending Section&nbsp;3.1 to grant queue priority status to battery storage projects above 100&nbsp;MW pending PUCT approval. The revision would affect approximately 38 active interconnection requests currently in the study phase. Comment period closes June&nbsp;3.
+          </p>
+          <div class="mock-citations">
+            <span class="mock-citation">[1] PUCT Docket 56789, Filing 2026-04-28, p.4, &#182;2</span>
+            <span class="mock-citation">[2] ERCOT NPRR1234 Staff Analysis, p.12, &#182;3</span>
+          </div>
+        </div>
+
+        <!-- Item 2 -->
+        <div class="mock-item">
+          <div class="mock-item-meta">
+            <span class="tag-chip">[PUCT]</span>
+            <span class="mock-category">Market Design</span>
+          </div>
+          <h3 class="mock-item-title">
+            Docket 57102: Commission Opens Proceeding on ERCOT Ancillary Service Market Reforms
+          </h3>
+          <p class="mock-item-body">
+            PUCT commissioners voted 3-1 to open a new proceeding examining ERCOT's ancillary service procurement methodology, citing post-Winter Storm Uri reserve margin concerns. Initial comments due July&nbsp;15, 2026. Reply comments due August&nbsp;5.
+          </p>
+          <div class="mock-citations">
+            <span class="mock-citation">[1] PUCT Open Meeting Transcript 2026-05-07, p.18, &#182;6</span>
+            <span class="mock-citation">[2] PUCT Docket 57102, Order No. 3, p.2</span>
+          </div>
+        </div>
+
+        <!-- Item 3 -->
+        <div class="mock-item mock-item--last">
+          <div class="mock-item-meta">
+            <span class="tag-chip">[FERC]</span>
+            <span class="mock-category">Federal / ERCOT-tagged</span>
+          </div>
+          <h3 class="mock-item-title">
+            FERC Order 896-A: Rehearing Denied on ERCOT Intrastate Exemption Clarification
+          </h3>
+          <p class="mock-item-body">
+            FERC denied rehearing of Order&nbsp;896, affirming its position that the ERCOT intrastate exemption does not extend to certain hybrid resources with interstate transmission touchpoints. Decision is final absent appellate review.
+          </p>
+          <div class="mock-citations">
+            <span class="mock-citation">[1] FERC Docket EL25-114-001, Order on Rehearing 2026-05-02, p.7, &#182;19</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Why not Claude Pro ── -->
+  <section class="differentiators section">
+    <div class="container">
+      <h2 class="section-heading">Why not just ask Claude Pro?</h2>
+      <p class="section-sub">
+        General-purpose LLMs are useful tools. They are not a compliance workflow.
+      </p>
+      <div class="diff-grid">
+
+        <div class="diff-card">
+          <div class="diff-icon" aria-hidden="true">
+            <!-- Target/precision icon -->
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="10" cy="10" r="8.5" stroke="#6366F1" stroke-width="1.5"/>
+              <circle cx="10" cy="10" r="5" stroke="#6366F1" stroke-width="1.5"/>
+              <circle cx="10" cy="10" r="1.5" fill="#6366F1"/>
+              <line x1="10" y1="1.5" x2="10" y2="4" stroke="#6366F1" stroke-width="1.5" stroke-linecap="round"/>
+              <line x1="10" y1="16" x2="10" y2="18.5" stroke="#6366F1" stroke-width="1.5" stroke-linecap="round"/>
+              <line x1="1.5" y1="10" x2="4" y2="10" stroke="#6366F1" stroke-width="1.5" stroke-linecap="round"/>
+              <line x1="16" y1="10" x2="18.5" y2="10" stroke="#6366F1" stroke-width="1.5" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <h3 class="diff-title">99% source recall</h3>
+          <p class="diff-body">
+            PUCT Interchange and ERCOT stakeholder pages are not well-indexed by general web crawlers. ChatGPT search captures 30&ndash;40% of filings at best. We crawl them directly on submission.
+          </p>
+        </div>
+
+        <div class="diff-card">
+          <div class="diff-icon" aria-hidden="true">
+            <!-- Link/citation icon -->
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M8.5 11.5L5.5 14.5C4.4 15.6 4.4 17.4 5.5 18.5C6.6 19.6 8.4 19.6 9.5 18.5L13.5 14.5" stroke="#6366F1" stroke-width="1.5" stroke-linecap="round"/>
+              <path d="M11.5 8.5L14.5 5.5C15.6 4.4 15.6 2.6 14.5 1.5C13.4 0.4 11.6 0.4 10.5 1.5L6.5 5.5" stroke="#6366F1" stroke-width="1.5" stroke-linecap="round"/>
+              <line x1="7.5" y1="12.5" x2="12.5" y2="7.5" stroke="#6366F1" stroke-width="1.5" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <h3 class="diff-title">Cited, not hallucinated</h3>
+          <p class="diff-body">
+            Every claim in the brief links to the exact page and paragraph it came from. Claims that cannot be sourced to a specific filing are dropped by the pipeline before delivery. No citation, no claim.
+          </p>
+        </div>
+
+        <div class="diff-card">
+          <div class="diff-icon" aria-hidden="true">
+            <!-- Clock icon -->
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="10" cy="10" r="8.5" stroke="#6366F1" stroke-width="1.5"/>
+              <path d="M10 5.5V10L13 12.5" stroke="#6366F1" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <h3 class="diff-title">06:30 CT, every weekday</h3>
+          <p class="diff-body">
+            Scheduled delivery with a public status page. Not a chat session you have to remember to open. The brief is in your inbox before the trading day starts, with a verified 06:30&nbsp;CT SLA.
+          </p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Social proof strip ── -->
+  <section class="proof-strip section-sm">
+    <div class="container">
+      <div class="proof-inner">
+        <div class="proof-stat">
+          <span class="proof-number">617</span>
+          <span class="proof-label">PUCT filings indexed</span>
+        </div>
+        <div class="proof-divider"></div>
+        <div class="proof-stat">
+          <span class="proof-number">47</span>
+          <span class="proof-label">Taxonomy tags</span>
+        </div>
+        <div class="proof-divider"></div>
+        <div class="proof-stat">
+          <span class="proof-number">95%</span>
+          <span class="proof-label">Per-tag accuracy gate</span>
+        </div>
+        <div class="proof-divider"></div>
+        <div class="proof-stat">
+          <span class="proof-number">06:30 CT</span>
+          <span class="proof-label">Delivery SLA</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</Base>
+
+<style>
+  /* ── Hero ── */
+  .hero {
+    border-bottom: 1px solid var(--np-border);
+  }
+
+  .hero-content {
+    max-width: 720px;
+  }
+
+  .hero-headline {
+    font-size: clamp(28px, 4vw, 44px);
+    font-weight: 600;
+    letter-spacing: -0.03em;
+    line-height: 1.15;
+    color: var(--np-text-primary);
+    margin-bottom: 20px;
+  }
+
+  .hero-sub {
+    font-size: 16px;
+    color: var(--np-text-muted);
+    line-height: 1.7;
+    max-width: 640px;
+    margin-bottom: 28px;
+  }
+
+  .hero-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 14px;
+  }
+
+  .btn-lg {
+    padding: 11px 22px;
+    font-size: 15px;
+  }
+
+  .hero-trust {
+    font-size: 12px;
+    color: var(--np-text-muted);
+  }
+
+  /* ── Brief mock ── */
+  .preview-section {
+    background: var(--np-surface-elevated);
+    border-top: 1px solid var(--np-border);
+    border-bottom: 1px solid var(--np-border);
+  }
+
+  .brief-mock {
+    border: 1px solid var(--np-border-strong);
+    border-radius: var(--np-radius-lg);
+    background: var(--np-surface);
+    overflow: hidden;
+    box-shadow: 0 1px 4px 0 rgba(0,0,0,0.06), 0 4px 16px 0 rgba(0,0,0,0.04);
+    max-width: 760px;
+    margin: 0 auto;
+  }
+
+  .mock-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 20px;
+    background: var(--np-surface-elevated);
+    border-bottom: 1px solid var(--np-border);
+  }
+
+  .mock-header-left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .mock-date-label {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--np-text-strong);
+    letter-spacing: 0.02em;
+  }
+
+  .mock-date {
+    font-size: 12px;
+    color: var(--np-text-muted);
+  }
+
+  .mock-meta {
+    font-size: 12px;
+    color: var(--np-text-muted);
+    font-family: var(--np-font-mono);
+  }
+
+  .mock-item {
+    padding: 18px 20px;
+    border-bottom: 1px solid var(--np-border);
+  }
+
+  .mock-item--last {
+    border-bottom: none;
+  }
+
+  .mock-item-meta {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 8px;
+  }
+
+  .mock-category {
+    font-size: 12px;
+    color: var(--np-text-muted);
+    font-weight: 500;
+  }
+
+  .mock-item-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--np-text-primary);
+    line-height: 1.45;
+    margin-bottom: 8px;
+  }
+
+  .mock-item-body {
+    font-size: 13px;
+    color: var(--np-text-body);
+    line-height: 1.65;
+    margin-bottom: 12px;
+  }
+
+  .mock-citations {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+  }
+
+  .mock-citation {
+    font-family: var(--np-font-mono);
+    font-size: 11px;
+    color: var(--np-text-muted);
+    line-height: 1.5;
+  }
+
+  /* ── Differentiators ── */
+  .section-heading {
+    font-size: 26px;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    color: var(--np-text-primary);
+    margin-bottom: 8px;
+  }
+
+  .section-sub {
+    font-size: 15px;
+    color: var(--np-text-muted);
+    margin-bottom: 40px;
+  }
+
+  .diff-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: var(--np-border);
+    border: 1px solid var(--np-border);
+    border-radius: var(--np-radius-lg);
+    overflow: hidden;
+  }
+
+  .diff-card {
+    background: var(--np-surface);
+    padding: 28px 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .diff-icon {
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--np-indigo-50);
+    border-radius: var(--np-radius-md);
+  }
+
+  .diff-title {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--np-text-primary);
+  }
+
+  .diff-body {
+    font-size: 14px;
+    color: var(--np-text-muted);
+    line-height: 1.65;
+  }
+
+  /* ── Proof strip ── */
+  .proof-strip {
+    border-top: 1px solid var(--np-border);
+    border-bottom: 1px solid var(--np-border);
+  }
+
+  .proof-inner {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0;
+  }
+
+  .proof-stat {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    padding: 0 48px;
+  }
+
+  .proof-number {
+    font-size: 24px;
+    font-weight: 600;
+    color: var(--np-text-primary);
+    letter-spacing: -0.02em;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .proof-label {
+    font-size: 12px;
+    color: var(--np-text-muted);
+    text-align: center;
+  }
+
+  .proof-divider {
+    width: 1px;
+    height: 36px;
+    background: var(--np-border);
+    flex-shrink: 0;
+  }
+</style>

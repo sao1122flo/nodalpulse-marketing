@@ -1,0 +1,180 @@
+---
+import Base from '../layouts/Base.astro';
+
+const entries = [
+  {
+    date: '2026-05-09',
+    version: 'v0.3.0',
+    items: [
+      'PUCT crawler live — 617 filings indexed from Interchange, going back 90 days',
+      'Haiku pre-pass gate reduces LLM cost by ~60% vs full-Sonnet on every doc',
+      'Brief composer: 25-item cap with relevance scoring per user market role',
+    ],
+  },
+  {
+    date: '2026-04-28',
+    version: 'v0.2.0',
+    items: [
+      'Extraction pipeline: Sonnet-based structured extraction with taxonomy tags',
+      'Eval gate: nightly golden-set run against 300 docs, 95% accuracy threshold',
+      'Citation enforcement: hallucinated citations dropped before brief send',
+    ],
+  },
+  {
+    date: '2026-04-15',
+    version: 'v0.1.0',
+    items: [
+      'Initial infrastructure: Railway Postgres, Cloudflare R2, pg_queue job system',
+      'Brevo transactional email integration with unsubscribe and bounce handling',
+      'Basic auth skeleton (better-auth, magic link)',
+    ],
+  },
+];
+---
+
+<Base
+  title="Changelog — NodalPulse"
+  description="NodalPulse changelog: version history, feature releases, and infrastructure milestones."
+>
+
+  <section class="section">
+    <div class="container">
+
+      <div class="page-header">
+        <h1 class="page-title">Changelog</h1>
+        <p class="page-sub">
+          What shipped, in reverse chronological order.
+        </p>
+      </div>
+
+      <div class="changelog-feed">
+        {entries.map(entry => (
+          <div class="changelog-entry">
+            <div class="entry-header">
+              <span class="entry-date">{entry.date}</span>
+              <span class="entry-version tag-chip">{entry.version}</span>
+            </div>
+            <ul class="entry-items">
+              {entry.items.map(item => (
+                <li class="entry-item">
+                  <span class="entry-bullet" aria-hidden="true">&bull;</span>
+                  <span>{item}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))}
+      </div>
+
+      <div class="changelog-footer">
+        <p class="changelog-note">
+          Older entries will be added as the product matures. Subscribe to the brief to follow product updates in context.
+        </p>
+        <a href="https://app.nodalpulse.com/signup" class="btn-primary">
+          Get the brief &rarr;
+        </a>
+      </div>
+
+    </div>
+  </section>
+
+</Base>
+
+<style>
+  .page-header {
+    margin-bottom: 48px;
+    max-width: 640px;
+  }
+
+  .page-title {
+    font-size: 32px;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    color: var(--np-text-primary);
+    margin-bottom: 10px;
+  }
+
+  .page-sub {
+    font-size: 15px;
+    color: var(--np-text-muted);
+  }
+
+  /* ── Feed ── */
+  .changelog-feed {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    max-width: 680px;
+    border: 1px solid var(--np-border);
+    border-radius: var(--np-radius-lg);
+    overflow: hidden;
+    margin-bottom: 48px;
+  }
+
+  .changelog-entry {
+    padding: 24px 24px;
+    border-bottom: 1px solid var(--np-border);
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .changelog-entry:last-child {
+    border-bottom: none;
+  }
+
+  .entry-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .entry-date {
+    font-family: var(--np-font-mono);
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--np-text-strong);
+    letter-spacing: 0.01em;
+  }
+
+  .entry-version {
+    /* inherits tag-chip from global */
+  }
+
+  .entry-items {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .entry-item {
+    display: flex;
+    gap: 10px;
+    font-size: 14px;
+    color: var(--np-text-body);
+    line-height: 1.6;
+    align-items: baseline;
+  }
+
+  .entry-bullet {
+    color: var(--np-text-muted);
+    flex-shrink: 0;
+    font-size: 12px;
+    position: relative;
+    top: -1px;
+  }
+
+  /* ── Footer ── */
+  .changelog-footer {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    max-width: 680px;
+  }
+
+  .changelog-note {
+    font-size: 13px;
+    color: var(--np-text-muted);
+    line-height: 1.6;
+  }
+</style>

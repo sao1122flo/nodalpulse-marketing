@@ -1,0 +1,306 @@
+---
+import Base from '../layouts/Base.astro';
+
+const sources = [
+  {
+    name: 'PUCT Interchange',
+    description: 'Every filing submitted to the Public Utility Commission of Texas. Updated on submission. We crawl the full document text, not just metadata or docket summaries.',
+    updateFrequency: 'On submission (continuous)',
+    documentTypes: 'Orders, filings, notices, motions, applications, commission open meeting transcripts',
+    publicUrl: 'https://interchange.puc.texas.gov/',
+    status: 'Live',
+    since: 'v0.3.0 (2026-05-09)',
+  },
+  {
+    name: 'ERCOT Stakeholder',
+    description: 'Protocol revision requests (NPRRs, OPRRs, POLRRs), nodal protocol sections, market notices, RFPs, and Board meeting materials published to ERCOT\'s public stakeholder portal.',
+    updateFrequency: 'Daily (06:00 CT)',
+    documentTypes: 'NPRRs, OPRRs, POLRRs, protocol sections, market notices, RFPs, Board materials',
+    publicUrl: 'https://www.ercot.com/mktrules/issues',
+    status: 'Live',
+    since: 'v0.3.0 (2026-05-09)',
+  },
+  {
+    name: 'FERC (ERCOT-tagged)',
+    description: 'Federal Energy Regulatory Commission orders and notices tagged to ERCOT-jurisdictional matters. Includes interregional proceedings affecting ERCOT interconnection policy and intrastate exemption clarifications.',
+    updateFrequency: 'Daily (06:00 CT)',
+    documentTypes: 'Orders, notices of proposed rulemaking, rehearing orders, commission letters',
+    publicUrl: 'https://www.ferc.gov/electric/rules-regs',
+    status: 'Live',
+    since: 'v0.3.0 (2026-05-09)',
+  },
+  {
+    name: 'Texas Legislature',
+    description: 'Session bills and committee reports touching electric utility regulation, ERCOT oversight, and Public Utility Commission authority. Coverage limited to active session periods.',
+    updateFrequency: 'During session, daily',
+    documentTypes: 'Bills, amendments, committee reports, fiscal notes',
+    publicUrl: 'https://capitol.texas.gov/',
+    status: 'Planned Q3 2026',
+    since: '—',
+  },
+];
+---
+
+<Base
+  title="Sources — NodalPulse"
+  description="NodalPulse ingests PUCT Interchange, ERCOT stakeholder pages, FERC ERCOT-tagged dockets, and Texas Legislature session materials. Full document text, not just metadata."
+>
+
+  <section class="section">
+    <div class="container">
+
+      <div class="page-header">
+        <h1 class="page-title">Sources we ingest</h1>
+        <p class="page-sub">
+          We crawl the source systems directly — not a search index, not a news aggregator.
+          Full document text is extracted, processed, and stored for citation linking and Q&A.
+        </p>
+      </div>
+
+      <div class="table-wrapper">
+        <table class="sources-table">
+          <thead>
+            <tr>
+              <th>Source</th>
+              <th>Update frequency</th>
+              <th>Document types</th>
+              <th>Status</th>
+              <th>Available since</th>
+            </tr>
+          </thead>
+          <tbody>
+            {sources.map(src => (
+              <tr class:list={[{ 'row--planned': src.status !== 'Live' }]}>
+                <td class="src-name-cell">
+                  <a
+                    href={src.publicUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="src-link"
+                  >
+                    {src.name}
+                    <svg class="ext-icon" width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                      <path d="M2 8L8 2M8 2H4.5M8 2V5.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                  </a>
+                  <p class="src-desc">{src.description}</p>
+                </td>
+                <td class="mono-cell">{src.updateFrequency}</td>
+                <td class="types-cell">{src.documentTypes}</td>
+                <td>
+                  <span class:list={['status-badge', { 'status-badge--live': src.status === 'Live', 'status-badge--planned': src.status !== 'Live' }]}>
+                    {src.status}
+                  </span>
+                </td>
+                <td class="mono-cell">{src.since}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Coverage notes -->
+      <div class="coverage-notes">
+        <h2 class="notes-heading">Coverage notes</h2>
+        <ul class="notes-list">
+          <li>
+            <strong>Recall vs. precision:</strong> We optimize for recall (≥99% of filings captured) first, then apply tag-level accuracy gates (95% threshold, nightly evals) to ensure only correctly-classified items appear in briefs.
+          </li>
+          <li>
+            <strong>Document history:</strong> PUCT Interchange indexed back 90 days from the v0.3.0 launch date. ERCOT and FERC indexed back 180 days. Historical archive expansion is on the roadmap.
+          </li>
+          <li>
+            <strong>What we do not cover:</strong> State agency guidance documents not published to official dockets, informal stakeholder communications, and news or commentary sources. The brief covers primary regulatory documents only.
+          </li>
+          <li>
+            <strong>Request a source:</strong> If there is a regulatory docket or agency feed you need covered, contact <a href="mailto:hello@nodalpulse.com" class="inline-link">hello@nodalpulse.com</a>.
+          </li>
+        </ul>
+      </div>
+
+    </div>
+  </section>
+
+</Base>
+
+<style>
+  .page-header {
+    margin-bottom: 40px;
+    max-width: 680px;
+  }
+
+  .page-title {
+    font-size: 32px;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    color: var(--np-text-primary);
+    margin-bottom: 10px;
+  }
+
+  .page-sub {
+    font-size: 15px;
+    color: var(--np-text-muted);
+    line-height: 1.7;
+  }
+
+  /* ── Table ── */
+  .table-wrapper {
+    border: 1px solid var(--np-border);
+    border-radius: var(--np-radius-lg);
+    overflow: hidden;
+    margin-bottom: 56px;
+    overflow-x: auto;
+  }
+
+  .sources-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+  }
+
+  .sources-table thead {
+    background: var(--np-surface-elevated);
+    border-bottom: 1px solid var(--np-border-strong);
+  }
+
+  .sources-table thead th {
+    text-align: left;
+    padding: 11px 16px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--np-text-muted);
+    white-space: nowrap;
+  }
+
+  .sources-table tbody tr {
+    border-bottom: 1px solid var(--np-border);
+    vertical-align: top;
+  }
+
+  .sources-table tbody tr:last-child {
+    border-bottom: none;
+  }
+
+  .sources-table tbody tr:hover {
+    background: var(--np-surface-elevated);
+  }
+
+  .row--planned {
+    opacity: 0.7;
+  }
+
+  .sources-table td {
+    padding: 16px 16px;
+    color: var(--np-text-body);
+    line-height: 1.55;
+  }
+
+  .src-name-cell {
+    min-width: 260px;
+  }
+
+  .src-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-weight: 600;
+    color: var(--np-indigo-600);
+    text-decoration: none;
+    font-size: 14px;
+    margin-bottom: 6px;
+  }
+
+  .src-link:hover {
+    color: var(--np-indigo-700);
+    text-decoration: underline;
+  }
+
+  .ext-icon {
+    opacity: 0.7;
+  }
+
+  .src-desc {
+    font-size: 12px;
+    color: var(--np-text-muted);
+    line-height: 1.6;
+    max-width: 320px;
+  }
+
+  .mono-cell {
+    font-family: var(--np-font-mono);
+    font-size: 12px;
+    color: var(--np-text-muted);
+    white-space: nowrap;
+    min-width: 140px;
+  }
+
+  .types-cell {
+    color: var(--np-text-muted);
+    font-size: 12px;
+    max-width: 280px;
+    min-width: 200px;
+  }
+
+  .status-badge {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 3px 8px;
+    border-radius: var(--np-radius-sm);
+    white-space: nowrap;
+    letter-spacing: 0.02em;
+  }
+
+  .status-badge--live {
+    background: #DCFCE7;
+    color: #166534;
+  }
+
+  .status-badge--planned {
+    background: var(--np-surface-deep);
+    color: var(--np-text-muted);
+  }
+
+  /* ── Coverage notes ── */
+  .coverage-notes {
+    max-width: 680px;
+  }
+
+  .notes-heading {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--np-text-primary);
+    margin-bottom: 16px;
+  }
+
+  .notes-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .notes-list li {
+    font-size: 14px;
+    color: var(--np-text-muted);
+    line-height: 1.7;
+    padding-left: 16px;
+    border-left: 2px solid var(--np-border-strong);
+  }
+
+  .notes-list li strong {
+    color: var(--np-text-strong);
+    font-weight: 600;
+  }
+
+  .inline-link {
+    color: var(--np-indigo-600);
+    text-decoration: underline;
+  }
+
+  .inline-link:hover {
+    color: var(--np-indigo-700);
+  }
+</style>

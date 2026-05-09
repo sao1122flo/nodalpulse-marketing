@@ -1,0 +1,426 @@
+---
+import Base from '../layouts/Base.astro';
+
+const tiers = [
+  { name: 'Free',    price: '$0',      period: '',    cta: 'Get started',    href: 'https://app.nodalpulse.com/signup', highlight: false },
+  { name: 'Starter', price: '$49',     period: '/mo', cta: 'Start trial',    href: 'https://app.nodalpulse.com/signup', highlight: false },
+  { name: 'Pro',     price: '$199',    period: '/mo', cta: 'Start trial',    href: 'https://app.nodalpulse.com/signup', highlight: true  },
+  { name: 'Team',    price: '$599',    period: '/mo', cta: 'Start trial',    href: 'https://app.nodalpulse.com/signup', highlight: false },
+  { name: 'Org',     price: '$1,499',  period: '/mo', cta: 'Contact us',     href: 'mailto:hello@nodalpulse.com',       highlight: false },
+];
+
+const rows = [
+  {
+    label: 'Daily brief',
+    values: ['Public digest only', 'Personalized', 'Personalized', 'Personalized', 'Personalized'],
+  },
+  {
+    label: 'Tracked dockets',
+    values: ['—', '5', '25', '100', 'Unlimited'],
+  },
+  {
+    label: 'Saved searches',
+    values: ['—', '2', '10', '50', 'Unlimited'],
+  },
+  {
+    label: 'Brief history',
+    values: ['—', '30 days', '1 year', '3 years', 'Unlimited'],
+  },
+  {
+    label: 'Q&A',
+    values: ['—', '—', '30 q/day', '100 q/day', '300 q/day'],
+  },
+  {
+    label: 'Team seats',
+    values: ['—', '1', '1', '5', '25'],
+  },
+  {
+    label: 'Audit export',
+    values: ['—', '—', '—', '—', '✓'],
+  },
+  {
+    label: 'API access',
+    values: ['—', '—', '—', '—', '✓'],
+  },
+  {
+    label: 'SLA',
+    values: ['—', '—', '—', '99.5%', '99.9%'],
+  },
+];
+
+const faqs = [
+  {
+    q: 'How is this different from asking Claude or ChatGPT?',
+    a: 'General-purpose LLMs rely on web search indexes that capture 30–40% of PUCT Interchange and ERCOT stakeholder filings. NodalPulse runs purpose-built crawlers that hit the source systems directly on submission — achieving ≥99% recall. Every summary is grounded to a specific filing ID, page, and paragraph. Claims that cannot be sourced are dropped before delivery. You also get a persistent docket history, saved searches, and a scheduled 06:30 CT delivery — none of which a chat session provides.',
+  },
+  {
+    q: 'What sources do you cover?',
+    a: 'Currently: PUCT Interchange (all filings), ERCOT stakeholder pages (NPRRs, protocol revisions, market notices, RFPs), and FERC dockets tagged to ERCOT-jurisdictional matters. Texas Legislature coverage is planned for Q3 2026. See the Sources page for full details.',
+  },
+  {
+    q: 'Is there a free trial?',
+    a: 'Yes. All paid plans include a 14-day free trial. No credit card is required to start. You can cancel before the trial ends and you will not be charged.',
+  },
+  {
+    q: 'Can I cancel anytime?',
+    a: 'Yes. Subscriptions are billed monthly and can be cancelled at any time from the account settings page. Cancellation takes effect at the end of the current billing period. No cancellation fees.',
+  },
+  {
+    q: 'Do you store the full documents?',
+    a: 'Yes. Full document text is extracted and stored in Cloudflare R2 (encrypted at rest, AES-256) to support citation linking and Q&A. We store the text content of public regulatory filings — not user-uploaded documents. Document retention is indefinite; user account data is deleted within 30 days of a deletion request.',
+  },
+];
+---
+
+<Base
+  title="Pricing — NodalPulse"
+  description="NodalPulse pricing: Free, Starter ($49/mo), Pro ($199/mo), Team ($599/mo), and Org ($1,499/mo). 14-day free trial on all paid plans."
+>
+
+  <section class="section">
+    <div class="container">
+
+      <div class="pricing-header">
+        <h1 class="page-title">Simple, transparent pricing</h1>
+        <p class="page-sub">
+          All paid plans include a 14-day free trial. No credit card required to start.
+        </p>
+      </div>
+
+      <!-- Tier cards row -->
+      <div class="tier-cards">
+        {tiers.map(tier => (
+          <div class:list={['tier-card', { 'tier-card--highlight': tier.highlight }]}>
+            {tier.highlight && <div class="tier-badge">Most popular</div>}
+            <div class="tier-name">{tier.name}</div>
+            <div class="tier-price">
+              <span class="tier-amount">{tier.price}</span>
+              {tier.period && <span class="tier-period">{tier.period}</span>}
+            </div>
+            <a
+              href={tier.href}
+              class:list={[tier.highlight ? 'btn-primary' : 'btn-secondary', 'tier-cta']}
+            >
+              {tier.cta}
+            </a>
+          </div>
+        ))}
+      </div>
+
+      <!-- Comparison table -->
+      <div class="table-wrapper">
+        <table class="compare-table">
+          <thead>
+            <tr>
+              <th class="row-label-header">Feature</th>
+              {tiers.map(tier => (
+                <th class:list={['col-header', { 'col-header--highlight': tier.highlight }]}>
+                  {tier.name}
+                </th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            {rows.map(row => (
+              <tr>
+                <td class="row-label">{row.label}</td>
+                {row.values.map((val, i) => (
+                  <td class:list={['row-val', { 'row-val--highlight': tiers[i].highlight, 'row-val--empty': val === '—' }]}>
+                    {val}
+                  </td>
+                ))}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+
+      <!-- FAQ -->
+      <div class="faq-section">
+        <h2 class="faq-heading">Frequently asked questions</h2>
+        <div class="faq-list">
+          {faqs.map(faq => (
+            <details class="faq-item">
+              <summary class="faq-question">{faq.q}</summary>
+              <div class="faq-answer">{faq.a}</div>
+            </details>
+          ))}
+        </div>
+      </div>
+
+      <!-- Bottom CTA -->
+      <div class="pricing-cta">
+        <a href="https://app.nodalpulse.com/signup" class="btn-primary btn-lg">
+          Start your 14-day free trial &rarr;
+        </a>
+        <p class="pricing-cta-note">No credit card required.</p>
+      </div>
+
+    </div>
+  </section>
+
+</Base>
+
+<style>
+  .pricing-header {
+    text-align: center;
+    margin-bottom: 48px;
+  }
+
+  .page-title {
+    font-size: 32px;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    color: var(--np-text-primary);
+    margin-bottom: 10px;
+  }
+
+  .page-sub {
+    font-size: 16px;
+    color: var(--np-text-muted);
+  }
+
+  /* ── Tier cards ── */
+  .tier-cards {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 1px;
+    background: var(--np-border);
+    border: 1px solid var(--np-border);
+    border-radius: var(--np-radius-lg);
+    overflow: hidden;
+    margin-bottom: 40px;
+  }
+
+  .tier-card {
+    background: var(--np-surface);
+    padding: 24px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    position: relative;
+  }
+
+  .tier-card--highlight {
+    background: var(--np-indigo-50);
+  }
+
+  .tier-badge {
+    position: absolute;
+    top: -1px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--np-indigo-600);
+    color: #fff;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    padding: 3px 10px;
+    border-radius: 0 0 var(--np-radius-sm) var(--np-radius-sm);
+  }
+
+  .tier-name {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--np-text-strong);
+    letter-spacing: 0.02em;
+    margin-top: 8px;
+  }
+
+  .tier-price {
+    display: flex;
+    align-items: baseline;
+    gap: 3px;
+  }
+
+  .tier-amount {
+    font-size: 24px;
+    font-weight: 600;
+    color: var(--np-text-primary);
+    letter-spacing: -0.02em;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .tier-period {
+    font-size: 13px;
+    color: var(--np-text-muted);
+  }
+
+  .tier-cta {
+    width: 100%;
+    justify-content: center;
+    font-size: 13px;
+    padding: 8px 12px;
+  }
+
+  /* ── Comparison table ── */
+  .table-wrapper {
+    overflow-x: auto;
+    margin-bottom: 64px;
+    border: 1px solid var(--np-border);
+    border-radius: var(--np-radius-lg);
+  }
+
+  .compare-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+  }
+
+  .compare-table thead tr {
+    background: var(--np-surface-elevated);
+    border-bottom: 1px solid var(--np-border-strong);
+  }
+
+  .row-label-header {
+    text-align: left;
+    padding: 12px 20px;
+    font-weight: 600;
+    color: var(--np-text-strong);
+    font-size: 12px;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    width: 220px;
+  }
+
+  .col-header {
+    text-align: center;
+    padding: 12px 16px;
+    font-weight: 600;
+    color: var(--np-text-strong);
+    font-size: 13px;
+    border-left: 1px solid var(--np-border);
+  }
+
+  .col-header--highlight {
+    background: var(--np-indigo-50);
+    color: var(--np-indigo-700);
+  }
+
+  .compare-table tbody tr {
+    border-bottom: 1px solid var(--np-border);
+  }
+
+  .compare-table tbody tr:last-child {
+    border-bottom: none;
+  }
+
+  .compare-table tbody tr:hover {
+    background: var(--np-surface-elevated);
+  }
+
+  .row-label {
+    padding: 12px 20px;
+    color: var(--np-text-body);
+    font-weight: 500;
+  }
+
+  .row-val {
+    text-align: center;
+    padding: 12px 16px;
+    color: var(--np-text-primary);
+    border-left: 1px solid var(--np-border);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .row-val--highlight {
+    background: color-mix(in srgb, var(--np-indigo-50) 40%, transparent);
+  }
+
+  .row-val--empty {
+    color: var(--np-text-muted);
+  }
+
+  /* ── FAQ ── */
+  .faq-section {
+    max-width: 680px;
+    margin: 0 auto 64px;
+  }
+
+  .faq-heading {
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--np-text-primary);
+    letter-spacing: -0.01em;
+    margin-bottom: 24px;
+  }
+
+  .faq-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    border: 1px solid var(--np-border);
+    border-radius: var(--np-radius-lg);
+    overflow: hidden;
+  }
+
+  .faq-item {
+    border-bottom: 1px solid var(--np-border);
+  }
+
+  .faq-item:last-child {
+    border-bottom: none;
+  }
+
+  .faq-question {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 20px;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--np-text-primary);
+    cursor: pointer;
+    list-style: none;
+    user-select: none;
+  }
+
+  .faq-question::-webkit-details-marker {
+    display: none;
+  }
+
+  .faq-question::after {
+    content: '+';
+    font-size: 18px;
+    font-weight: 400;
+    color: var(--np-text-muted);
+    flex-shrink: 0;
+    margin-left: 16px;
+    transition: transform 0.15s ease;
+  }
+
+  details[open] .faq-question::after {
+    content: '−';
+  }
+
+  .faq-question:hover {
+    background: var(--np-surface-elevated);
+  }
+
+  .faq-answer {
+    padding: 0 20px 16px;
+    font-size: 14px;
+    color: var(--np-text-muted);
+    line-height: 1.7;
+  }
+
+  /* ── Bottom CTA ── */
+  .pricing-cta {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .pricing-cta-note {
+    font-size: 13px;
+    color: var(--np-text-muted);
+  }
+
+  .btn-lg {
+    padding: 11px 22px;
+    font-size: 15px;
+  }
+</style>

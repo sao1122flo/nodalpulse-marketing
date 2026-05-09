@@ -1,0 +1,200 @@
+---
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+
+interface Props {
+  title: string;
+  description: string;
+  canonical?: string;
+  ogImage?: string;
+}
+
+const {
+  title,
+  description,
+  canonical = Astro.url.href,
+  ogImage = '/og-default.png',
+} = Astro.props;
+---
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{title}</title>
+  <meta name="description" content={description} />
+  <link rel="canonical" href={canonical} />
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content={canonical} />
+  <meta property="og:title" content={title} />
+  <meta property="og:description" content={description} />
+  <meta property="og:image" content={ogImage} />
+  <meta property="og:site_name" content="NodalPulse" />
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content={title} />
+  <meta name="twitter:description" content={description} />
+  <meta name="twitter:image" content={ogImage} />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.bunny.net" />
+  <link rel="stylesheet" href="https://fonts.bunny.net/css?family=inter:400,500,600&display=swap" />
+  <link rel="stylesheet" href="https://fonts.bunny.net/css?family=jetbrains-mono:400,500&display=swap" />
+
+  <style is:global>
+    /* ── Brand tokens ── */
+    :root {
+      --np-indigo-500: #6366F1;
+      --np-indigo-600: #4F46E5;
+      --np-indigo-50:  #EEF2FF;
+      --np-indigo-700: #4338CA;
+
+      --np-surface:          #FFFFFF;
+      --np-surface-elevated: #FAFAFA;
+      --np-surface-deep:     #F1F1F3;
+
+      --np-border:       #E5E5E7;
+      --np-border-strong:#D4D4D8;
+
+      --np-text-muted:   #71717A;
+      --np-text-body:    #44403C;
+      --np-text-strong:  #27272A;
+      --np-text-primary: #18181B;
+
+      --np-accent:       #6366F1;
+      --np-accent-hover: #4F46E5;
+      --np-accent-fg:    #FFFFFF;
+
+      --np-font-sans: "Inter", -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+      --np-font-mono: "JetBrains Mono", "SFMono-Regular", Menlo, Consolas, monospace;
+
+      --np-radius-sm: 4px;
+      --np-radius-md: 6px;
+      --np-radius-lg: 8px;
+    }
+
+    /* ── Resets ── */
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      font-size: 16px;
+      -webkit-text-size-adjust: 100%;
+    }
+
+    body {
+      font-family: var(--np-font-sans);
+      color: var(--np-text-primary);
+      background: var(--np-surface);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    img, svg {
+      display: block;
+      max-width: 100%;
+    }
+
+    ul, ol {
+      list-style: none;
+    }
+
+    button {
+      font-family: var(--np-font-sans);
+      cursor: pointer;
+      border: none;
+      background: none;
+    }
+
+    /* ── Layout utility ── */
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 16px;
+    }
+
+    /* ── Button primitives ── */
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--np-accent);
+      color: var(--np-accent-fg);
+      font-family: var(--np-font-sans);
+      font-size: 14px;
+      font-weight: 500;
+      padding: 9px 18px;
+      border-radius: var(--np-radius-md);
+      border: 1px solid transparent;
+      transition: background 0.15s ease;
+      text-decoration: none;
+      cursor: pointer;
+    }
+    .btn-primary:hover {
+      background: var(--np-accent-hover);
+    }
+
+    .btn-secondary {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--np-surface);
+      color: var(--np-text-strong);
+      font-family: var(--np-font-sans);
+      font-size: 14px;
+      font-weight: 500;
+      padding: 9px 18px;
+      border-radius: var(--np-radius-md);
+      border: 1px solid var(--np-border-strong);
+      transition: border-color 0.15s ease, background 0.15s ease;
+      text-decoration: none;
+      cursor: pointer;
+    }
+    .btn-secondary:hover {
+      background: var(--np-surface-elevated);
+      border-color: var(--np-text-muted);
+    }
+
+    /* ── Tag chip ── */
+    .tag-chip {
+      display: inline-block;
+      font-family: var(--np-font-mono);
+      font-size: 11px;
+      font-weight: 500;
+      padding: 2px 7px;
+      border-radius: var(--np-radius-sm);
+      background: var(--np-indigo-50);
+      color: var(--np-indigo-600);
+      letter-spacing: 0.01em;
+    }
+
+    /* ── Section spacing ── */
+    .section {
+      padding: 80px 0;
+    }
+    .section-sm {
+      padding: 48px 0;
+    }
+  </style>
+</head>
+<body>
+  <Nav />
+  <main>
+    <slot />
+  </main>
+  <Footer />
+</body>
+</html>
