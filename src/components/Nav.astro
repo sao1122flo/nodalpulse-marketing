@@ -31,7 +31,10 @@ const currentPath = Astro.url.pathname;
           {link.label}
         </a>
       ))}
-      <a href="https://app.nodalpulse.com/signup" class="btn-primary nav-cta">
+      <a href="https://app.nodalpulse.com/login" class="nav-link nav-login">
+        Log in <span aria-hidden="true">→</span>
+      </a>
+      <a href="https://app.nodalpulse.com/login" class="btn-primary nav-cta">
         Get the brief
       </a>
     </nav>
@@ -87,5 +90,16 @@ const currentPath = Astro.url.pathname;
 
   .nav-cta {
     margin-left: 12px;
+  }
+
+  .nav-login {
+    margin-left: 4px;
+  }
+
+  @media (max-width: 640px) {
+    /* Hide the four page-nav text links; keep Log in + primary CTA */
+    .nav-link:not(.nav-login) {
+      display: none;
+    }
   }
 </style>
