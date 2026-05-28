@@ -2,11 +2,11 @@
 import Base from '../layouts/Base.astro';
 
 const tiers = [
-  { name: 'Free',    price: '$0',      period: '',    cta: 'Get started',    href: 'https://app.nodalpulse.com/signup', highlight: false },
-  { name: 'Starter', price: '$49',     period: '/mo', cta: 'Start trial',    href: 'https://app.nodalpulse.com/signup', highlight: false },
-  { name: 'Pro',     price: '$199',    period: '/mo', cta: 'Start trial',    href: 'https://app.nodalpulse.com/signup', highlight: true  },
-  { name: 'Team',    price: '$599',    period: '/mo', cta: 'Start trial',    href: 'https://app.nodalpulse.com/signup', highlight: false },
-  { name: 'Org',     price: '$1,499',  period: '/mo', cta: 'Contact us',     href: 'mailto:hello@nodalpulse.com',       highlight: false },
+  { name: 'Free',    price: '$0',      period: '',    cta: 'Get started',    href: 'https://app.nodalpulse.com/login',                                                                    highlight: false },
+  { name: 'Starter', price: '$49',     period: '/mo', cta: 'Start trial',    href: 'https://app.nodalpulse.com/login?callbackURL=%2Fpricing%3Ftier%3Dstarter', highlight: false },
+  { name: 'Pro',     price: '$199',    period: '/mo', cta: 'Start trial',    href: 'https://app.nodalpulse.com/login?callbackURL=%2Fpricing%3Ftier%3Dpro',     highlight: true  },
+  { name: 'Team',    price: '$599',    period: '/mo', cta: 'Start trial',    href: 'https://app.nodalpulse.com/login?callbackURL=%2Fpricing%3Ftier%3Dteam',    highlight: false },
+  { name: 'Org',     price: '$1,499',  period: '/mo', cta: 'Contact us',     href: 'mailto:hello@nodalpulse.com',                                                                         highlight: false },
 ];
 
 const rows = [
@@ -28,7 +28,7 @@ const rows = [
   },
   {
     label: 'Q&A',
-    values: ['—', '—', '30 q/day', '100 q/day', '300 q/day'],
+    values: ['—', '10 q/day', '30 q/day', '100 q/day', '300 q/day'],
   },
   {
     label: 'Team seats',
@@ -51,7 +51,7 @@ const rows = [
 const faqs = [
   {
     q: 'How is this different from asking Claude or ChatGPT?',
-    a: 'General-purpose LLMs rely on web search indexes that capture 30–40% of PUCT Interchange and ERCOT stakeholder filings. NodalPulse runs purpose-built crawlers that hit the source systems directly on submission — achieving ≥99% recall. Every summary is grounded to a specific filing ID, page, and paragraph. Claims that cannot be sourced are dropped before delivery. You also get a persistent docket history, saved searches, and a scheduled 06:30 CT delivery — none of which a chat session provides.',
+    a: 'General-purpose LLMs rely on web search indexes that capture 30–40% of PUCT Interchange and ERCOT stakeholder filings. NodalPulse runs purpose-built crawlers that hit the source systems directly on submission — achieving ≥99% recall. Every answer is grounded to a specific filing with a source link. Claims that cannot be sourced are dropped before delivery. You also get a persistent docket history, saved searches, and a scheduled 06:00 CT delivery, weekdays — none of which a chat session provides.',
   },
   {
     q: 'What sources do you cover?',
@@ -59,7 +59,7 @@ const faqs = [
   },
   {
     q: 'Is there a free trial?',
-    a: 'Yes. All paid plans include a 14-day free trial. No credit card is required to start. You can cancel before the trial ends and you will not be charged.',
+    a: 'A card is required to start your trial. You won\'t be charged for 14 days. Cancel before the trial ends and you will not be charged.',
   },
   {
     q: 'Can I cancel anytime?',
@@ -83,7 +83,7 @@ const faqs = [
       <div class="pricing-header">
         <h1 class="page-title">Simple, transparent pricing</h1>
         <p class="page-sub">
-          All paid plans include a 14-day free trial. No credit card required to start.
+          All paid plans include a 14-day free trial. Card required, no charge until day 14. Cancel anytime.
         </p>
       </div>
 
@@ -150,10 +150,10 @@ const faqs = [
 
       <!-- Bottom CTA -->
       <div class="pricing-cta">
-        <a href="https://app.nodalpulse.com/signup" class="btn-primary btn-lg">
+        <a href="https://app.nodalpulse.com/pricing" class="btn-primary btn-lg">
           Start your 14-day free trial &rarr;
         </a>
-        <p class="pricing-cta-note">No credit card required.</p>
+        <p class="pricing-cta-note">Card required, no charge for 14 days.</p>
       </div>
 
     </div>
