@@ -3,8 +3,8 @@ import Base from '../layouts/Base.astro';
 ---
 
 <Base
-  title="NodalPulse — Regulatory Intelligence for ERCOT Participants"
-  description="Daily PUCT and ERCOT regulatory brief — every filing cited, sourced, and on your desk by 06:00 CT. Track dockets, never miss a filing."
+  title="NodalPulse — Regulatory Intelligence for US Power Markets"
+  description="Never miss a procedural deadline across the markets you work. One cited brief at 6 AM CT — Texas live, California and PJM in Beta."
 >
 
   <!-- ── Hero ── -->
@@ -12,33 +12,192 @@ import Base from '../layouts/Base.astro';
     <div class="container">
       <div class="hero-content">
         <h1 class="hero-headline">
-          Every filing in your tracked markets and dockets.<br />
-          Every morning. With citations.
+          Never miss a procedural deadline across the markets you work.
         </h1>
         <p class="hero-sub">
-          NodalPulse runs purpose-built crawlers across PUCT Interchange, ERCOT stakeholder pages, and FERC ERCOT-tagged dockets. At 06:00&nbsp;CT, you get a personalized brief filtered to your tracked markets, dockets, and keyword searches — every item sourced, cited, and linked to the original document.
+          NodalPulse reads the regulatory record for US power markets every morning and hands you one cited brief at 6:00&nbsp;AM&nbsp;CT — the new filings, the party positions, the dollar impacts, and the deadlines that decide whether you keep your seat in a proceeding. Rate, market, and reliability. Texas live; California and PJM in Beta.
         </p>
         <div class="hero-actions">
-          <a href="https://app.nodalpulse.com/signup" class="btn-primary btn-lg">
-            Start free trial
+          <a href="https://app.nodalpulse.com/login" class="btn-primary btn-lg">
+            Start your morning brief →
           </a>
-          <a href="/digest/today" class="btn-secondary btn-lg">
-            View today's digest
+          <a href="/coverage" class="btn-secondary btn-lg">
+            See what we cover →
           </a>
         </div>
         <p class="hero-trust">
-          14-day trial &middot; Card required &middot; Cancel anytime
+          14-day free trial &middot; No card required &middot; Cancel anytime
         </p>
       </div>
     </div>
   </section>
 
-  <!-- ── Brief preview mock ── -->
+  <!-- ── Region toggle ── CSS-only, all content server-rendered for AI crawlers -->
+  <section class="toggle-section section-sm">
+    <div class="container">
+      <p class="toggle-label">Choose your market</p>
+
+      <!-- Radio inputs must precede tabs + panels for CSS sibling selectors -->
+      <div class="toggle-root">
+        <input type="radio" name="region-tab" id="tab-tx" class="tab-radio" checked>
+        <input type="radio" name="region-tab" id="tab-ca" class="tab-radio">
+        <input type="radio" name="region-tab" id="tab-pjm" class="tab-radio">
+
+        <div class="tab-bar" role="tablist">
+          <label for="tab-tx" class="tab-label" role="tab">
+            Texas
+            <span class="tab-status tab-status--live">Live</span>
+          </label>
+          <label for="tab-ca" class="tab-label" role="tab">
+            California
+            <span class="tab-status tab-status--beta">Beta</span>
+          </label>
+          <label for="tab-pjm" class="tab-label" role="tab">
+            PJM
+            <span class="tab-status tab-status--beta">Beta</span>
+          </label>
+        </div>
+
+        <div class="tab-panels">
+          <!-- Texas panel -->
+          <div class="tab-panel" id="panel-tx" role="tabpanel">
+            <div class="panel-inner">
+              <div class="panel-copy">
+                <h2 class="panel-heading">The ERCOT regulatory record, read for you by 6&nbsp;AM.</h2>
+                <p class="panel-body">PUCT dockets, NPRRs, and rate-case activity — extracted into a cited brief with the deadlines and party positions that matter. Live and in general availability.</p>
+                <div class="panel-actions">
+                  <a href="/texas" class="btn-primary">Start tracking ERCOT →</a>
+                  <a href="/texas" class="panel-learn">Learn more about Texas coverage</a>
+                </div>
+              </div>
+              <div class="panel-meta">
+                <div class="panel-stat"><span class="stat-label">Status</span><span class="badge-live">Live &middot; GA</span></div>
+                <div class="panel-stat"><span class="stat-label">Sources</span><span class="stat-val">PUCT Interchange · ERCOT stakeholder pages</span></div>
+                <div class="panel-stat"><span class="stat-label">Federal layer</span><span class="stat-val">Not applicable (Texas is FERC-non-jurisdictional)</span></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- California panel -->
+          <div class="tab-panel" id="panel-ca" role="tabpanel">
+            <div class="panel-inner">
+              <div class="panel-copy">
+                <div class="panel-beta-flag">
+                  <span class="beta-badge-lg">Beta</span>
+                  <span class="panel-beta-note">Beta regions included at no extra cost with any paid plan.</span>
+                </div>
+                <h2 class="panel-heading">Three California forums. One thread.</h2>
+                <p class="panel-body">A CAISO matter rarely lives in one place — a stakeholder initiative becomes a FERC docket and runs alongside a CPUC proceeding, with no shared ID. NodalPulse threads the legs together.</p>
+                <div class="panel-actions">
+                  <a href="/california" class="btn-primary">Join the California Beta →</a>
+                  <a href="/california" class="panel-learn">Learn more about California coverage</a>
+                </div>
+              </div>
+              <div class="panel-meta">
+                <div class="panel-stat"><span class="stat-label">Status</span><span class="badge-beta">Beta</span></div>
+                <div class="panel-stat"><span class="stat-label">Sources</span><span class="stat-val">CAISO filings index · FERC ER/EL dockets</span></div>
+                <div class="panel-stat"><span class="stat-label">Roadmap</span><span class="stat-val">CPUC proceedings (Phase 2)</span></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- PJM panel -->
+          <div class="tab-panel" id="panel-pjm" role="tabpanel">
+            <div class="panel-inner">
+              <div class="panel-copy">
+                <div class="panel-beta-flag">
+                  <span class="beta-badge-lg">Beta</span>
+                  <span class="panel-beta-note">Beta regions included at no extra cost with any paid plan.</span>
+                </div>
+                <h2 class="panel-heading">The most contested capacity market in the country — tracked to the dollar.</h2>
+                <p class="panel-body">PJM's December 2025 capacity auction cleared at its cap and drove roughly <strong>$16.4&nbsp;billion</strong> in costs, with the Market Monitor attributing about <strong>40% to data-center load</strong>. NodalPulse extracts the numeric guts — not just the prose.</p>
+                <div class="panel-actions">
+                  <a href="/pjm" class="btn-primary">Join the PJM Beta →</a>
+                  <a href="/pjm" class="panel-learn">Learn more about PJM coverage</a>
+                </div>
+              </div>
+              <div class="panel-meta">
+                <div class="panel-stat"><span class="stat-label">Status</span><span class="badge-beta">Beta</span></div>
+                <div class="panel-stat"><span class="stat-label">Sources</span><span class="stat-val">FERC eLibrary · Independent Market Monitor · PJM stakeholder calendar</span></div>
+                <div class="panel-stat"><span class="stat-label">Roadmap</span><span class="stat-val">State commissions — PA/NJ/MD/VA first</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Value bullets ── -->
+  <section class="bullets-section section">
+    <div class="container">
+      <h2 class="section-heading">Why NodalPulse</h2>
+      <div class="bullets-list">
+
+        <div class="bullet-row">
+          <div class="bullet-icon" aria-hidden="true">
+            <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><rect x="1" y="1" width="16" height="16" rx="3" stroke="#6366F1" stroke-width="1.5"/><path d="M5 9h8M9 5v8" stroke="#6366F1" stroke-width="1.5" stroke-linecap="round"/></svg>
+          </div>
+          <div class="bullet-body">
+            <strong>One brief, multiple markets.</strong> Texas, California, and PJM in a single morning read — not three websites and three tabs.
+            <span class="market-chips">
+              <span class="chip chip--live">Texas · Live</span>
+              <span class="chip chip--beta">California · Beta</span>
+              <span class="chip chip--beta">PJM · Beta</span>
+            </span>
+          </div>
+        </div>
+
+        <div class="bullet-row">
+          <div class="bullet-icon" aria-hidden="true">
+            <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="9" r="7.5" stroke="#6366F1" stroke-width="1.5"/><path d="M9 5v4l2.5 2.5" stroke="#6366F1" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <div class="bullet-body">
+            <strong>Deadlines you can act on, labeled for trust.</strong> We show the deadlines that are certain — rehearing windows, effective dates, published stakeholder dates — and badge anything we estimate with a verify link. We never present a computed date as confirmed.
+          </div>
+        </div>
+
+        <div class="bullet-row">
+          <div class="bullet-icon" aria-hidden="true">
+            <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M3 4h12M3 8h9M3 12h6" stroke="#6366F1" stroke-width="1.5" stroke-linecap="round"/></svg>
+          </div>
+          <div class="bullet-body">
+            <strong>Structured extraction, not a link dump.</strong> Every filing becomes parties, positions, dollar impacts, and cross-references — the things regulator sites and general-purpose AI won't pull out for you.
+          </div>
+        </div>
+
+        <div class="bullet-row">
+          <div class="bullet-icon" aria-hidden="true">
+            <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M6 9a3 3 0 1 0 6 0 3 3 0 0 0-6 0Z" stroke="#6366F1" stroke-width="1.5"/><path d="M9 2v2M9 14v2M2 9h2M14 9h2" stroke="#6366F1" stroke-width="1.5" stroke-linecap="round"/></svg>
+          </div>
+          <div class="bullet-body">
+            <strong>One matter, threaded across systems.</strong> A single issue spans a stakeholder process, a FERC docket, and a state proceeding with no shared ID. We thread them so the matter reads as one story.
+          </div>
+        </div>
+
+        <div class="bullet-row">
+          <div class="bullet-icon" aria-hidden="true">
+            <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M3 15l4-4m0 0l2-6 6-2-2 6-6 2Z" stroke="#6366F1" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <div class="bullet-body">
+            <strong>Ask the Record.</strong> Ask a plain-English question and get an answer grounded in your tracked corpus, with verifiable citations back to the filing.
+            <span class="market-chips">
+              <span class="chip chip--live">Texas corpus · Live</span>
+              <span class="chip chip--beta">CAISO+PJM corpus · Beta</span>
+            </span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Brief preview mock (existing, Texas-focused) ── -->
   <section class="preview-section section-sm">
     <div class="container">
+      <p class="preview-label">What a brief looks like</p>
       <div class="brief-mock" role="img" aria-label="Example NodalPulse brief showing regulatory items with citations">
 
-        <!-- Mock header bar -->
         <div class="mock-header">
           <div class="mock-header-left">
             <span class="mock-date-label">Today's Brief</span>
@@ -47,7 +206,6 @@ import Base from '../layouts/Base.astro';
           <div class="mock-meta">25 items across 4 categories</div>
         </div>
 
-        <!-- Item 1 -->
         <div class="mock-item">
           <div class="mock-item-meta">
             <span class="tag-chip">[NPRR]</span>
@@ -65,7 +223,6 @@ import Base from '../layouts/Base.astro';
           </div>
         </div>
 
-        <!-- Item 2 -->
         <div class="mock-item">
           <div class="mock-item-meta">
             <span class="tag-chip">[PUCT]</span>
@@ -83,7 +240,6 @@ import Base from '../layouts/Base.astro';
           </div>
         </div>
 
-        <!-- Item 3 -->
         <div class="mock-item mock-item--last">
           <div class="mock-item-meta">
             <span class="tag-chip">[FERC]</span>
@@ -104,18 +260,17 @@ import Base from '../layouts/Base.astro';
     </div>
   </section>
 
-  <!-- ── Why not Claude Pro ── -->
+  <!-- ── Differentiators ── -->
   <section class="differentiators section">
     <div class="container">
-      <h2 class="section-heading">Why not just ask Claude Pro?</h2>
+      <h2 class="section-heading">Why not just ask Claude or ChatGPT?</h2>
       <p class="section-sub">
-        General-purpose LLMs are useful tools. They are not a compliance workflow.
+        General-purpose AI is useful. It is not a regulatory intelligence workflow.
       </p>
       <div class="diff-grid">
 
         <div class="diff-card">
           <div class="diff-icon" aria-hidden="true">
-            <!-- Target/precision icon -->
             <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
               <circle cx="10" cy="10" r="8.5" stroke="#6366F1" stroke-width="1.5"/>
               <circle cx="10" cy="10" r="5" stroke="#6366F1" stroke-width="1.5"/>
@@ -126,15 +281,14 @@ import Base from '../layouts/Base.astro';
               <line x1="16" y1="10" x2="18.5" y2="10" stroke="#6366F1" stroke-width="1.5" stroke-linecap="round"/>
             </svg>
           </div>
-          <h3 class="diff-title">99% source recall</h3>
+          <h3 class="diff-title">Purpose-built crawlers</h3>
           <p class="diff-body">
-            PUCT Interchange and ERCOT stakeholder pages are not well-indexed by general web crawlers. ChatGPT search captures 30&ndash;40% of filings at best. We crawl them directly on submission.
+            PUCT Interchange, the CAISO filings index, and FERC eLibrary are not well-indexed by general web crawlers. We hit the source systems directly on submission — not web search.
           </p>
         </div>
 
         <div class="diff-card">
           <div class="diff-icon" aria-hidden="true">
-            <!-- Link/citation icon -->
             <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M8.5 11.5L5.5 14.5C4.4 15.6 4.4 17.4 5.5 18.5C6.6 19.6 8.4 19.6 9.5 18.5L13.5 14.5" stroke="#6366F1" stroke-width="1.5" stroke-linecap="round"/>
               <path d="M11.5 8.5L14.5 5.5C15.6 4.4 15.6 2.6 14.5 1.5C13.4 0.4 11.6 0.4 10.5 1.5L6.5 5.5" stroke="#6366F1" stroke-width="1.5" stroke-linecap="round"/>
@@ -143,13 +297,12 @@ import Base from '../layouts/Base.astro';
           </div>
           <h3 class="diff-title">Cited, not hallucinated</h3>
           <p class="diff-body">
-            Every claim in the brief links to the source filing it came from. Claims that cannot be sourced to a specific filing are dropped by the pipeline before delivery. No citation, no claim.
+            Every claim in the brief links to the source filing it came from. Claims that cannot be sourced to a specific filing are dropped before delivery. No citation, no claim.
           </p>
         </div>
 
         <div class="diff-card">
           <div class="diff-icon" aria-hidden="true">
-            <!-- Clock icon -->
             <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
               <circle cx="10" cy="10" r="8.5" stroke="#6366F1" stroke-width="1.5"/>
               <path d="M10 5.5V10L13 12.5" stroke="#6366F1" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
@@ -157,37 +310,10 @@ import Base from '../layouts/Base.astro';
           </div>
           <h3 class="diff-title">06:00 CT, every weekday</h3>
           <p class="diff-body">
-            Scheduled delivery with a public status page. Not a chat session you have to remember to open. The brief is in your inbox before the trading day starts, with a verified 06:00&nbsp;CT SLA.
+            Scheduled delivery with a public status page. Not a chat session you have to remember to open. The brief is in your inbox before the trading day starts.
           </p>
         </div>
 
-      </div>
-    </div>
-  </section>
-
-  <!-- ── Social proof strip ── -->
-  <section class="proof-strip section-sm">
-    <div class="container">
-      <div class="proof-inner">
-        <div class="proof-stat">
-          <span class="proof-number">617</span>
-          <span class="proof-label">PUCT filings indexed</span>
-        </div>
-        <div class="proof-divider"></div>
-        <div class="proof-stat">
-          <span class="proof-number">47</span>
-          <span class="proof-label">Taxonomy tags</span>
-        </div>
-        <div class="proof-divider"></div>
-        <div class="proof-stat">
-          <span class="proof-number">95%</span>
-          <span class="proof-label">Per-tag accuracy gate</span>
-        </div>
-        <div class="proof-divider"></div>
-        <div class="proof-stat">
-          <span class="proof-number">06:00 CT</span>
-          <span class="proof-label">Delivery SLA</span>
-        </div>
       </div>
     </div>
   </section>
@@ -239,11 +365,320 @@ import Base from '../layouts/Base.astro';
     color: var(--np-text-muted);
   }
 
-  /* ── Brief mock ── */
+  /* ── Region toggle ── */
+  .toggle-section {
+    background: var(--np-surface-elevated);
+    border-bottom: 1px solid var(--np-border);
+  }
+
+  .toggle-label {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--np-text-muted);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+
+  .tab-radio {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+    width: 0;
+    height: 0;
+  }
+
+  .tab-bar {
+    display: flex;
+    gap: 4px;
+    margin-bottom: 0;
+    border-bottom: 1px solid var(--np-border);
+  }
+
+  .tab-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 10px 16px;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--np-text-muted);
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    margin-bottom: -1px;
+    transition: color 0.12s ease, border-color 0.12s ease;
+    user-select: none;
+  }
+
+  .tab-label:hover {
+    color: var(--np-text-primary);
+  }
+
+  .tab-status {
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 600;
+    padding: 1px 6px;
+    border-radius: 3px;
+    letter-spacing: 0.03em;
+  }
+
+  .tab-status--live {
+    background: #D1FAE5;
+    color: #065F46;
+  }
+
+  .tab-status--beta {
+    background: #FEF3C7;
+    color: #92400E;
+  }
+
+  /* CSS-only tab activation via sibling selectors */
+  #tab-tx:checked ~ .tab-bar label[for="tab-tx"],
+  #tab-ca:checked ~ .tab-bar label[for="tab-ca"],
+  #tab-pjm:checked ~ .tab-bar label[for="tab-pjm"] {
+    color: var(--np-text-primary);
+    border-bottom-color: var(--np-accent);
+  }
+
+  .tab-panels {
+    padding-top: 28px;
+  }
+
+  .tab-panel {
+    display: none;
+  }
+
+  #tab-tx:checked ~ .tab-panels #panel-tx,
+  #tab-ca:checked ~ .tab-panels #panel-ca,
+  #tab-pjm:checked ~ .tab-panels #panel-pjm {
+    display: block;
+  }
+
+  .panel-inner {
+    display: grid;
+    grid-template-columns: 1fr 280px;
+    gap: 48px;
+    align-items: start;
+    padding-bottom: 28px;
+  }
+
+  .panel-beta-flag {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 14px;
+  }
+
+  .beta-badge-lg {
+    display: inline-block;
+    background: #FEF3C7;
+    color: #92400E;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 3px 9px;
+    border-radius: 4px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  .panel-beta-note {
+    font-size: 12px;
+    color: var(--np-text-muted);
+  }
+
+  .panel-heading {
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--np-text-primary);
+    letter-spacing: -0.02em;
+    line-height: 1.3;
+    margin-bottom: 10px;
+  }
+
+  .panel-body {
+    font-size: 15px;
+    color: var(--np-text-muted);
+    line-height: 1.7;
+    margin-bottom: 20px;
+  }
+
+  .panel-actions {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+
+  .panel-learn {
+    font-size: 13px;
+    color: var(--np-text-muted);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+    transition: color 0.12s ease;
+  }
+
+  .panel-learn:hover {
+    color: var(--np-text-primary);
+  }
+
+  .panel-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    padding: 20px;
+    background: var(--np-surface);
+    border: 1px solid var(--np-border);
+    border-radius: var(--np-radius-lg);
+  }
+
+  .panel-stat {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+  }
+
+  .stat-label {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--np-text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+
+  .stat-val {
+    font-size: 12px;
+    color: var(--np-text-body);
+    line-height: 1.5;
+  }
+
+  .badge-live {
+    display: inline-block;
+    font-size: 12px;
+    font-weight: 600;
+    color: #065F46;
+    background: #D1FAE5;
+    padding: 2px 8px;
+    border-radius: 4px;
+    align-self: flex-start;
+  }
+
+  .badge-beta {
+    display: inline-block;
+    font-size: 12px;
+    font-weight: 600;
+    color: #92400E;
+    background: #FEF3C7;
+    padding: 2px 8px;
+    border-radius: 4px;
+    align-self: flex-start;
+  }
+
+  /* ── Value bullets ── */
+  .bullets-section {
+    border-top: 1px solid var(--np-border);
+    border-bottom: 1px solid var(--np-border);
+  }
+
+  .section-heading {
+    font-size: 26px;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    color: var(--np-text-primary);
+    margin-bottom: 32px;
+  }
+
+  .section-sub {
+    font-size: 15px;
+    color: var(--np-text-muted);
+    margin-bottom: 40px;
+  }
+
+  .bullets-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    max-width: 800px;
+    border: 1px solid var(--np-border);
+    border-radius: var(--np-radius-lg);
+    overflow: hidden;
+  }
+
+  .bullet-row {
+    display: flex;
+    gap: 16px;
+    padding: 20px 24px;
+    border-bottom: 1px solid var(--np-border);
+    align-items: flex-start;
+  }
+
+  .bullet-row:last-child {
+    border-bottom: none;
+  }
+
+  .bullet-icon {
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--np-indigo-50);
+    border-radius: var(--np-radius-md);
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  .bullet-body {
+    font-size: 14px;
+    color: var(--np-text-body);
+    line-height: 1.7;
+  }
+
+  .bullet-body strong {
+    color: var(--np-text-primary);
+    font-weight: 600;
+  }
+
+  .market-chips {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    margin-top: 8px;
+  }
+
+  .chip {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 500;
+    padding: 2px 8px;
+    border-radius: 3px;
+    letter-spacing: 0.01em;
+  }
+
+  .chip--live {
+    background: #D1FAE5;
+    color: #065F46;
+  }
+
+  .chip--beta {
+    background: #FEF3C7;
+    color: #92400E;
+  }
+
+  /* ── Brief preview ── */
   .preview-section {
     background: var(--np-surface-elevated);
     border-top: 1px solid var(--np-border);
     border-bottom: 1px solid var(--np-border);
+  }
+
+  .preview-label {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--np-text-muted);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    margin-bottom: 16px;
   }
 
   .brief-mock {
@@ -340,20 +775,6 @@ import Base from '../layouts/Base.astro';
   }
 
   /* ── Differentiators ── */
-  .section-heading {
-    font-size: 26px;
-    font-weight: 600;
-    letter-spacing: -0.02em;
-    color: var(--np-text-primary);
-    margin-bottom: 8px;
-  }
-
-  .section-sub {
-    font-size: 15px;
-    color: var(--np-text-muted);
-    margin-bottom: 40px;
-  }
-
   .diff-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -394,45 +815,14 @@ import Base from '../layouts/Base.astro';
     line-height: 1.65;
   }
 
-  /* ── Proof strip ── */
-  .proof-strip {
-    border-top: 1px solid var(--np-border);
-    border-bottom: 1px solid var(--np-border);
-  }
-
-  .proof-inner {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0;
-  }
-
-  .proof-stat {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 4px;
-    padding: 0 48px;
-  }
-
-  .proof-number {
-    font-size: 24px;
-    font-weight: 600;
-    color: var(--np-text-primary);
-    letter-spacing: -0.02em;
-    font-variant-numeric: tabular-nums;
-  }
-
-  .proof-label {
-    font-size: 12px;
-    color: var(--np-text-muted);
-    text-align: center;
-  }
-
-  .proof-divider {
-    width: 1px;
-    height: 36px;
-    background: var(--np-border);
-    flex-shrink: 0;
+  /* ── Responsive ── */
+  @media (max-width: 768px) {
+    .panel-inner {
+      grid-template-columns: 1fr;
+      gap: 24px;
+    }
+    .diff-grid {
+      grid-template-columns: 1fr;
+    }
   }
 </style>

@@ -1,0 +1,502 @@
+---
+import Base from '../layouts/Base.astro';
+
+const tiers = [
+  { name: 'Starter', price: '$99',   period: '/mo', dockets: '5',         history: '30 days',   qa: '10/day',  seats: '1',  highlight: false, contactOnly: false },
+  { name: 'Pro',     price: '$249',  period: '/mo', dockets: '25',        history: '1 year',    qa: '30/day',  seats: '1',  highlight: true,  contactOnly: false },
+  { name: 'Team',    price: '$749',  period: '/mo', dockets: '100',       history: '3 years',   qa: '100/day', seats: '5',  highlight: false, contactOnly: false },
+  { name: 'Org',     price: '$1,999',period: '/mo', dockets: 'Unlimited', history: 'Unlimited', qa: '300/day', seats: '25', highlight: false, contactOnly: true  },
+];
+
+const faqItems = [
+  {
+    q: 'Is CPUC covered?',
+    a: "CPUC is roadmap Phase 2. CPUC's legacy system has no public API — until a dedicated adapter ships, a matter's CPUC leg is referenced (from filing text) but not fully crawled. We say so plainly in the product. You will see CPUC proceeding references extracted from filings, but not independent CPUC docket monitoring."
+  },
+  {
+    q: 'What does "initiative-linking" mean?',
+    a: "EDAM, DAME, RA Reform, and other CAISO stakeholder initiatives don't share an ID with their downstream FERC dockets. We anchor a matter on its FERC docket and attach named CAISO initiatives and CPUC references extracted from the filing text — so a multi-track matter reads as one thread instead of scattered entries."
+  },
+  {
+    q: 'How are FERC protest/comment deadlines handled?',
+    a: "The FERC protest window lives in the FERC Notice — a separate document issued days after a filing posts — not in the filing itself. We do not compute or guess the protest deadline. We extract the requested effective date (shown directly) and link you to the FERC Notice to confirm the comment window. Any date we infer from the document text carries an 'estimated' label."
+  },
+  {
+    q: 'What does Beta mean in practice?',
+    a: "We're in a 5-day reliability window as of early June 2026. High-value filings that reference orders or tariff sections outside the document may produce less complete summaries — we label confidence and validate continuously. Beta is included at no extra cost with any paid plan."
+  },
+];
+---
+
+<Base
+  title="California CAISO Regulatory Intelligence — NodalPulse (Beta)"
+  description="CAISO filings, FERC ER/EL dockets, and cross-system initiative-linking in a daily cited brief. California is in Beta — included at no extra cost with any paid plan."
+  extraSchema={[{
+    "@type": "FAQPage",
+    "mainEntity": faqItems.map(f => ({
+      "@type": "Question",
+      "name": f.q,
+      "acceptedAnswer": { "@type": "Answer", "text": f.a }
+    }))
+  }]}
+>
+
+  <!-- ── Hero (Beta badge in hero + visible header area) ── -->
+  <section class="hero section">
+    <div class="container">
+      <div class="hero-content">
+        <div class="status-flag">
+          <span class="status-badge status-badge--beta">Beta</span>
+          <span class="status-note">Included at no extra cost with any paid plan during Beta</span>
+        </div>
+        <h1 class="hero-headline">
+          Three California forums. One thread. <span class="beta-inline">Beta</span>
+        </h1>
+        <p class="hero-sub">
+          A California matter rarely lives in one place — a CAISO stakeholder initiative becomes a FERC docket and runs alongside a CPUC proceeding, with no shared ID. NodalPulse crawls the CAISO filings index and the FERC dockets it references daily, extracts the substance, and threads the legs together. Launching in Beta — we label what's certain and what's estimated.
+        </p>
+        <div class="hero-actions">
+          <a href="https://app.nodalpulse.com/login" class="btn-primary btn-lg">Join the California Beta →</a>
+          <a href="/coverage" class="btn-secondary btn-lg">See full coverage →</a>
+        </div>
+        <p class="hero-trust">14-day free trial &middot; No card required &middot; California Beta included at no extra cost</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Value bullets ── -->
+  <section class="section">
+    <div class="container">
+      <h2 class="section-heading">What California Beta covers</h2>
+      <div class="bullets-list">
+
+        <div class="bullet-row">
+          <div class="bullet-icon" aria-hidden="true">
+            <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><rect x="2" y="2" width="14" height="14" rx="2" stroke="#6366F1" stroke-width="1.5"/><path d="M6 9h6M9 6v6" stroke="#6366F1" stroke-width="1.5" stroke-linecap="round"/></svg>
+          </div>
+          <div>
+            <h3 class="bullet-title">CAISO index + FERC, structured daily.</h3>
+            <p class="bullet-body">The most accessible entry point in California (the CAISO filings index) plus the FERC <code>ER</code>/<code>EL</code> dockets it references — read and structured every morning.</p>
+          </div>
+        </div>
+
+        <div class="bullet-row">
+          <div class="bullet-icon" aria-hidden="true">
+            <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M9 2C5.13 2 2 5.13 2 9s3.13 7 7 7 7-3.13 7-7-3.13-7-7-7Z" stroke="#6366F1" stroke-width="1.5"/><path d="M9 5v4l3 1.5" stroke="#6366F1" stroke-width="1.5" stroke-linecap="round"/></svg>
+          </div>
+          <div>
+            <h3 class="bullet-title">Initiative-linking across systems.</h3>
+            <p class="bullet-body">We anchor a matter on its FERC docket and attach named CAISO initiative and CPUC references extracted from the documents — so EDAM/DAME or RA reform reads as one thread. Links accumulate as we read more.</p>
+          </div>
+        </div>
+
+        <div class="bullet-row">
+          <div class="bullet-icon" aria-hidden="true">
+            <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="9" r="7.5" stroke="#6366F1" stroke-width="1.5"/><path d="M9 5v4l2.5 2.5" stroke="#6366F1" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <div>
+            <h3 class="bullet-title">The deadlines that govern your response right.</h3>
+            <p class="bullet-body">Requested effective dates and published stakeholder dates extracted directly. The FERC protest/comment window — which lives in the Notice, not the filing — shown as a labeled estimate with a verify link.</p>
+          </div>
+        </div>
+
+        <div class="bullet-row">
+          <div class="bullet-icon" aria-hidden="true">
+            <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M3 4h12M3 8h9M3 12h6" stroke="#6366F1" stroke-width="1.5" stroke-linecap="round"/></svg>
+          </div>
+          <div>
+            <h3 class="bullet-title">Built for the contested docket.</h3>
+            <p class="bullet-body">Motions, answers, rehearings, interlocutory appeals — the escalation points (e.g. the DCR Transmission dispute, ER23-2309/ER24-1394/EL26-34) surfaced the next morning with the deadline flagged.</p>
+          </div>
+        </div>
+
+        <div class="bullet-row">
+          <div class="bullet-icon" aria-hidden="true">
+            <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M3 15l4-4m0 0l2-6 6-2-2 6-6 2Z" stroke="#6366F1" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <div>
+            <h3 class="bullet-title">Ask the Record, CAISO corpus.</h3>
+            <p class="bullet-body">"What's the latest party position in ER23-2309?" — answered from the record, cited, without opening a PDF.</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ── CPUC disclaimer ── -->
+  <section class="cpuc-section section-sm">
+    <div class="container">
+      <div class="cpuc-box">
+        <h3 class="cpuc-heading">About CPUC coverage</h3>
+        <p class="cpuc-body">
+          <strong>CPUC is roadmap Phase 2.</strong> CPUC's legacy system has no public API — until it ships, a matter's CPUC leg is <em>referenced</em> (extracted from filing text where cited), not fully crawled. You'll see CPUC proceeding references in the brief, but independent CPUC docket monitoring is not available yet. We say this plainly so you know exactly what you're getting.
+        </p>
+        <p class="cpuc-body">
+          Cross-jurisdiction linking is labeled "best-effort, improves over time" as extraction reads more filings.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Pricing ladder (1D — California) ── -->
+  <section class="pricing-section section">
+    <div class="container">
+      <h2 class="section-heading">Simple, transparent pricing</h2>
+      <p class="section-sub">California Beta included at no extra cost. One region, one plan. Additional regions added in-app after signup.</p>
+
+      <div class="tier-row">
+        {tiers.map(tier => (
+          <div class:list={['tier-card', { 'tier-card--highlight': tier.highlight }]}>
+            {tier.highlight && <div class="tier-badge">Most popular</div>}
+            <div class="tier-name">{tier.name}</div>
+            <div class="tier-price">
+              <span class="tier-amount">{tier.price}</span>
+              <span class="tier-period">{tier.period}</span>
+            </div>
+            <ul class="tier-features">
+              <li>{tier.dockets} tracked dockets</li>
+              <li>{tier.history} brief history</li>
+              <li>{tier.qa} Ask the Record</li>
+              <li>{tier.seats} seat{tier.seats !== '1' ? 's' : ''}</li>
+            </ul>
+            {tier.contactOnly ? (
+              <a href="mailto:hello@nodalpulse.com" class:list={['tier-cta', 'btn-secondary']}>Contact us</a>
+            ) : (
+              <a href={`https://app.nodalpulse.com/login?callbackURL=%2Fpricing%3Ftier%3D${tier.name.toLowerCase()}`} class:list={['tier-cta', tier.highlight ? 'btn-primary' : 'btn-secondary']}>
+                Join Beta free
+              </a>
+            )}
+          </div>
+        ))}
+      </div>
+
+      <p class="pricing-note">
+        14-day free trial of Pro · No card required · California Beta included at no extra cost · Additional regions +$49/mo (Starter/Pro), +$99/mo (Team), included (Org)
+      </p>
+    </div>
+  </section>
+
+  <!-- ── FAQ ── -->
+  <section class="section-sm">
+    <div class="container">
+      <div class="faq-block">
+        <h2 class="faq-heading">Common questions</h2>
+        <div class="faq-list">
+          {faqItems.map(item => (
+            <details class="faq-item">
+              <summary class="faq-question">{item.q}</summary>
+              <div class="faq-answer">{item.a}</div>
+            </details>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+
+</Base>
+
+<style>
+  .hero { border-bottom: 1px solid var(--np-border); }
+  .hero-content { max-width: 720px; }
+
+  .status-flag {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 16px;
+    flex-wrap: wrap;
+  }
+
+  .status-badge {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 4px;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  .status-badge--beta {
+    background: #FEF3C7;
+    color: #92400E;
+  }
+
+  .status-note {
+    font-size: 12px;
+    color: var(--np-text-muted);
+  }
+
+  .hero-headline {
+    font-size: clamp(26px, 3.5vw, 40px);
+    font-weight: 600;
+    letter-spacing: -0.03em;
+    line-height: 1.2;
+    color: var(--np-text-primary);
+    margin-bottom: 18px;
+  }
+
+  .beta-inline {
+    display: inline-block;
+    font-size: 0.55em;
+    font-weight: 700;
+    background: #FEF3C7;
+    color: #92400E;
+    padding: 2px 8px;
+    border-radius: 4px;
+    vertical-align: middle;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  .hero-sub {
+    font-size: 16px;
+    color: var(--np-text-muted);
+    line-height: 1.7;
+    max-width: 640px;
+    margin-bottom: 28px;
+  }
+
+  .hero-actions {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 12px;
+  }
+
+  .btn-lg { padding: 11px 22px; font-size: 15px; }
+  .hero-trust { font-size: 12px; color: var(--np-text-muted); }
+
+  /* Bullets */
+  .section-heading {
+    font-size: 24px;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    color: var(--np-text-primary);
+    margin-bottom: 24px;
+  }
+
+  .section-sub {
+    font-size: 15px;
+    color: var(--np-text-muted);
+    margin-bottom: 28px;
+    margin-top: -16px;
+  }
+
+  .bullets-list {
+    max-width: 780px;
+    border: 1px solid var(--np-border);
+    border-radius: var(--np-radius-lg);
+    overflow: hidden;
+  }
+
+  .bullet-row {
+    display: flex;
+    gap: 16px;
+    padding: 20px 24px;
+    border-bottom: 1px solid var(--np-border);
+    align-items: flex-start;
+  }
+
+  .bullet-row:last-child { border-bottom: none; }
+
+  .bullet-icon {
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--np-indigo-50);
+    border-radius: var(--np-radius-md);
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  .bullet-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--np-text-primary);
+    margin-bottom: 4px;
+  }
+
+  .bullet-body {
+    font-size: 14px;
+    color: var(--np-text-muted);
+    line-height: 1.65;
+  }
+
+  code {
+    font-family: var(--np-font-mono);
+    font-size: 12px;
+    background: var(--np-surface-deep);
+    padding: 1px 5px;
+    border-radius: 3px;
+    color: var(--np-text-body);
+  }
+
+  /* CPUC box */
+  .cpuc-section {
+    background: var(--np-surface-elevated);
+    border-top: 1px solid var(--np-border);
+    border-bottom: 1px solid var(--np-border);
+  }
+
+  .cpuc-box { max-width: 680px; }
+
+  .cpuc-heading {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--np-text-strong);
+    margin-bottom: 10px;
+  }
+
+  .cpuc-body {
+    font-size: 14px;
+    color: var(--np-text-muted);
+    line-height: 1.7;
+    margin-bottom: 8px;
+  }
+
+  /* Pricing */
+  .pricing-section { border-top: 1px solid var(--np-border); }
+
+  .tier-row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1px;
+    background: var(--np-border);
+    border: 1px solid var(--np-border);
+    border-radius: var(--np-radius-lg);
+    overflow: hidden;
+    margin-bottom: 16px;
+  }
+
+  .tier-card {
+    background: var(--np-surface);
+    padding: 24px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    position: relative;
+  }
+
+  .tier-card--highlight { background: var(--np-indigo-50); }
+
+  .tier-badge {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--np-indigo-600);
+    color: #fff;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    padding: 3px 10px;
+    border-radius: 0 0 var(--np-radius-sm) var(--np-radius-sm);
+  }
+
+  .tier-name {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--np-text-strong);
+    letter-spacing: 0.02em;
+    margin-top: 12px;
+  }
+
+  .tier-price { display: flex; align-items: baseline; gap: 2px; }
+
+  .tier-amount {
+    font-size: 22px;
+    font-weight: 600;
+    color: var(--np-text-primary);
+    font-variant-numeric: tabular-nums;
+    letter-spacing: -0.02em;
+  }
+
+  .tier-period { font-size: 13px; color: var(--np-text-muted); }
+
+  .tier-features {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    flex: 1;
+    list-style: none;
+    padding: 0;
+  }
+
+  .tier-features li { font-size: 13px; color: var(--np-text-body); }
+
+  .tier-cta {
+    display: block;
+    text-align: center;
+    font-size: 13px;
+    padding: 8px 12px;
+    border-radius: var(--np-radius-md);
+  }
+
+  .pricing-note { font-size: 13px; color: var(--np-text-muted); line-height: 1.6; }
+
+  /* FAQ */
+  .faq-block { max-width: 680px; }
+
+  .faq-heading {
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--np-text-primary);
+    letter-spacing: -0.01em;
+    margin-bottom: 20px;
+  }
+
+  .faq-list {
+    border: 1px solid var(--np-border);
+    border-radius: var(--np-radius-lg);
+    overflow: hidden;
+  }
+
+  .faq-item { border-bottom: 1px solid var(--np-border); }
+  .faq-item:last-child { border-bottom: none; }
+
+  .faq-question {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 20px;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--np-text-primary);
+    cursor: pointer;
+    list-style: none;
+    user-select: none;
+  }
+
+  .faq-question::-webkit-details-marker { display: none; }
+
+  .faq-question::after {
+    content: '+';
+    font-size: 18px;
+    font-weight: 400;
+    color: var(--np-text-muted);
+    flex-shrink: 0;
+    margin-left: 16px;
+  }
+
+  details[open] .faq-question::after { content: '−'; }
+  .faq-question:hover { background: var(--np-surface-elevated); }
+
+  .faq-answer {
+    padding: 0 20px 16px;
+    font-size: 14px;
+    color: var(--np-text-muted);
+    line-height: 1.7;
+  }
+
+  @media (max-width: 768px) {
+    .tier-row { grid-template-columns: 1fr 1fr; }
+  }
+  @media (max-width: 480px) {
+    .tier-row { grid-template-columns: 1fr; }
+  }
+</style>

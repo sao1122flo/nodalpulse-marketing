@@ -1,9 +1,10 @@
 ---
 const navLinks = [
-  { label: 'Sources',   href: '/sources'   },
-  { label: 'Pricing',   href: '/pricing'   },
-  { label: 'Changelog', href: '/changelog' },
-  { label: 'Status',    href: '/status'    },
+  { label: 'Texas',      href: '/texas',      badge: 'Live' as const  },
+  { label: 'California', href: '/california', badge: 'Beta' as const  },
+  { label: 'PJM',        href: '/pjm',        badge: 'Beta' as const  },
+  { label: 'Coverage',   href: '/coverage'                             },
+  { label: 'Pricing',    href: '/pricing'                              },
 ];
 
 const currentPath = Astro.url.pathname;
@@ -14,9 +15,7 @@ const currentPath = Astro.url.pathname;
     <!-- Wordmark -->
     <a href="/" class="nav-logo" aria-label="NodalPulse home">
       <svg width="148" height="24" viewBox="0 0 148 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-        <!-- Accent node square -->
         <rect x="0" y="6" width="12" height="12" rx="2" fill="#6366F1"/>
-        <!-- Wordmark text -->
         <text x="20" y="18" font-family="Inter, -apple-system, system-ui, sans-serif" font-size="15" font-weight="600" fill="#18181B" letter-spacing="-0.01em">NodalPulse</text>
       </svg>
     </a>
@@ -26,16 +25,18 @@ const currentPath = Astro.url.pathname;
       {navLinks.map(link => (
         <a
           href={link.href}
-          class:list={['nav-link', { 'nav-link--active': currentPath === link.href }]}
+          class:list={['nav-link', { 'nav-link--active': currentPath === link.href || currentPath.startsWith(link.href + '/') }]}
         >
           {link.label}
+          {link.badge === 'Beta' && <span class="nav-badge nav-badge--beta">Beta</span>}
+          {link.badge === 'Live' && <span class="nav-badge nav-badge--live">Live</span>}
         </a>
       ))}
       <a href="https://app.nodalpulse.com/login" class="nav-link nav-login">
         Log in <span aria-hidden="true">→</span>
       </a>
       <a href="https://app.nodalpulse.com/login" class="btn-primary nav-cta">
-        Get the brief
+        Start free trial
       </a>
     </nav>
   </div>
@@ -66,17 +67,21 @@ const currentPath = Astro.url.pathname;
   .nav-links {
     display: flex;
     align-items: center;
-    gap: 4px;
+    gap: 2px;
   }
 
   .nav-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
     font-size: 14px;
     font-weight: 500;
     color: var(--np-text-muted);
-    padding: 6px 10px;
+    padding: 6px 9px;
     border-radius: var(--np-radius-md);
     transition: color 0.12s ease, background 0.12s ease;
     text-decoration: none;
+    white-space: nowrap;
   }
 
   .nav-link:hover {
@@ -88,16 +93,35 @@ const currentPath = Astro.url.pathname;
     color: var(--np-text-primary);
   }
 
+  .nav-badge {
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.03em;
+    padding: 1px 5px;
+    border-radius: 3px;
+    line-height: 1.4;
+  }
+
+  .nav-badge--beta {
+    background: #FEF3C7;
+    color: #92400E;
+  }
+
+  .nav-badge--live {
+    background: #D1FAE5;
+    color: #065F46;
+  }
+
   .nav-cta {
-    margin-left: 12px;
+    margin-left: 10px;
   }
 
   .nav-login {
-    margin-left: 4px;
+    margin-left: 2px;
   }
 
-  @media (max-width: 640px) {
-    /* Hide the four page-nav text links; keep Log in + primary CTA */
+  @media (max-width: 768px) {
     .nav-link:not(.nav-login) {
       display: none;
     }

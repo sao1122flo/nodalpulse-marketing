@@ -1,0 +1,217 @@
+---
+import Base from '../layouts/Base.astro';
+---
+
+<Base
+  title="Limitations — What NodalPulse Is Not"
+  description="What NodalPulse doesn't cover yet: CAISO and PJM are Beta, CPUC is roadmap, PJM state commissions are phased, some FERC deadlines are estimated. Honest gaps, no disclaimers buried in fine print."
+>
+
+  <!-- ── Hero ── -->
+  <section class="hero section">
+    <div class="container">
+      <div class="hero-content">
+        <h1 class="hero-headline">What NodalPulse is not — and where it's still maturing.</h1>
+        <p class="hero-sub">
+          We'd rather you know the gaps up front. For a regulatory professional, a confident wrong answer is worse than an honest "not yet."
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Gaps list ── -->
+  <section class="section">
+    <div class="container">
+      <div class="gaps-list">
+
+        <div class="gap-item">
+          <div class="gap-header">
+            <span class="gap-badge gap-badge--beta">Beta</span>
+            <h2 class="gap-title">CAISO and PJM are Beta, not GA.</h2>
+          </div>
+          <p class="gap-body">
+            High-value filings that reference orders or tariff sections <em>outside the document</em> may produce less complete summaries — cross-references that require reading a prior order or a tariff section aren't always captured in a single-filing extraction. We label confidence, validate continuously, and are adding coverage as the Beta window progresses. Beta is included at no extra cost with any paid plan.
+          </p>
+        </div>
+
+        <div class="gap-item">
+          <div class="gap-header">
+            <span class="gap-badge gap-badge--roadmap">Roadmap</span>
+            <h2 class="gap-title">CPUC is not in scope yet.</h2>
+          </div>
+          <p class="gap-body">
+            California's CPUC leg is referenced — extracted from filing text where cited — but not fully crawled. CPUC's legacy system has no public API. Until a dedicated adapter ships, you'll see CPUC proceeding references in the brief, but independent CPUC docket monitoring is Phase 2. We say this in the product, not in the fine print.
+          </p>
+        </div>
+
+        <div class="gap-item">
+          <div class="gap-header">
+            <span class="gap-badge gap-badge--phased">Phased</span>
+            <h2 class="gap-title">PJM state coverage is phased.</h2>
+          </div>
+          <p class="gap-body">
+            Launch is complete on FERC + Independent Market Monitor + stakeholder. The 13 states and DC in the PJM footprint roll out in waves — <strong>PA/NJ/MD/VA → OH/IL → the rest</strong> — each with a visible per-state badge on the <a href="/pjm" class="inline-link">PJM page</a>. Not all states on day one.
+          </p>
+        </div>
+
+        <div class="gap-item">
+          <div class="gap-header">
+            <span class="gap-badge gap-badge--beta">Estimated</span>
+            <h2 class="gap-title">Some FERC deadlines are computed estimates.</h2>
+          </div>
+          <p class="gap-body">
+            The FERC protest/comment window lives in the FERC Notice — a separate document issued days after a filing posts — not in the filing itself. Until Notice-confirmed deadlines are implemented, dates we infer from filing text carry an <span class="estimated-label">estimated</span> badge and a verify link. FERC rehearing windows (30 days statutory) and published PJM calendar dates are shown as confirmed. See the <a href="/methodology" class="inline-link">methodology</a> for full detail.
+          </p>
+        </div>
+
+        <div class="gap-item">
+          <div class="gap-header">
+            <span class="gap-badge gap-badge--beta">Best-effort</span>
+            <h2 class="gap-title">Cross-jurisdiction linking improves over time.</h2>
+          </div>
+          <p class="gap-body">
+            A single matter that spans CAISO, FERC, and CPUC — or PJM FERC, a state commission, and the Market Monitor — is linked best-effort: we anchor on the FERC docket and attach extracted references. Linking deepens as extraction reads more filings from the same matter. It is not complete on day one.
+          </p>
+        </div>
+
+        <div class="gap-item gap-item--last">
+          <div class="gap-header">
+            <span class="gap-badge gap-badge--permanent">Always</span>
+            <h2 class="gap-title">NodalPulse is supplementary, not the system of record.</h2>
+          </div>
+          <p class="gap-body">
+            For a filing of record, confirm against the primary source — we link you there. We are regulatory intelligence, not a regulator's docket system and not a reporting or management platform. Use us to understand what's happening and what's due; rely on the source system for formal submissions.
+          </p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ── CTA ── -->
+  <section class="section-sm">
+    <div class="container">
+      <div class="cta-row">
+        <div class="cta-text">
+          <h2 class="cta-heading">Still have questions about coverage?</h2>
+          <p class="cta-sub">We'd rather explain a gap in detail than have you find out after you've subscribed.</p>
+        </div>
+        <a href="mailto:hello@nodalpulse.com" class="btn-secondary">Talk to us →</a>
+        <a href="/coverage" class="btn-secondary">See the coverage map →</a>
+      </div>
+    </div>
+  </section>
+
+</Base>
+
+<style>
+  .hero { border-bottom: 1px solid var(--np-border); }
+  .hero-content { max-width: 680px; }
+
+  .hero-headline {
+    font-size: clamp(26px, 3.5vw, 40px);
+    font-weight: 600;
+    letter-spacing: -0.03em;
+    line-height: 1.2;
+    color: var(--np-text-primary);
+    margin-bottom: 18px;
+  }
+
+  .hero-sub {
+    font-size: 16px;
+    color: var(--np-text-muted);
+    line-height: 1.7;
+  }
+
+  /* Gaps list */
+  .gaps-list {
+    max-width: 780px;
+    border: 1px solid var(--np-border);
+    border-radius: var(--np-radius-lg);
+    overflow: hidden;
+  }
+
+  .gap-item {
+    padding: 24px 28px;
+    border-bottom: 1px solid var(--np-border);
+  }
+
+  .gap-item--last { border-bottom: none; }
+
+  .gap-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 10px;
+  }
+
+  .gap-badge {
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 700;
+    padding: 3px 8px;
+    border-radius: 4px;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    flex-shrink: 0;
+  }
+
+  .gap-badge--beta { background: #FEF3C7; color: #92400E; }
+  .gap-badge--roadmap { background: var(--np-surface-deep); color: var(--np-text-muted); }
+  .gap-badge--phased { background: #EDE9FE; color: #4C1D95; }
+  .gap-badge--permanent { background: #F3F4F6; color: #374151; }
+
+  .gap-title {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--np-text-primary);
+    line-height: 1.3;
+  }
+
+  .gap-body {
+    font-size: 14px;
+    color: var(--np-text-muted);
+    line-height: 1.75;
+  }
+
+  .estimated-label {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 600;
+    background: #FEF3C7;
+    color: #92400E;
+    padding: 1px 6px;
+    border-radius: 3px;
+  }
+
+  .inline-link {
+    color: var(--np-accent);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+
+  /* CTA */
+  .cta-row {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    align-items: center;
+    padding: 24px 0;
+    border-top: 1px solid var(--np-border);
+  }
+
+  .cta-text { flex: 1; min-width: 200px; }
+
+  .cta-heading {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--np-text-primary);
+    margin-bottom: 4px;
+  }
+
+  .cta-sub {
+    font-size: 14px;
+    color: var(--np-text-muted);
+    line-height: 1.6;
+  }
+</style>

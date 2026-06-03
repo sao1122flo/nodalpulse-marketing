@@ -2,79 +2,61 @@
 import Base from '../layouts/Base.astro';
 
 const tiers = [
-  { name: 'Free',    price: '$0',      period: '',    cta: 'Get started',    href: 'https://app.nodalpulse.com/login',                                                                    highlight: false },
-  { name: 'Starter', price: '$49',     period: '/mo', cta: 'Start trial',    href: 'https://app.nodalpulse.com/login?callbackURL=%2Fpricing%3Ftier%3Dstarter', highlight: false },
-  { name: 'Pro',     price: '$199',    period: '/mo', cta: 'Start trial',    href: 'https://app.nodalpulse.com/login?callbackURL=%2Fpricing%3Ftier%3Dpro',     highlight: true  },
-  { name: 'Team',    price: '$599',    period: '/mo', cta: 'Start trial',    href: 'https://app.nodalpulse.com/login?callbackURL=%2Fpricing%3Ftier%3Dteam',    highlight: false },
-  { name: 'Org',     price: '$1,499',  period: '/mo', cta: 'Contact us',     href: 'mailto:hello@nodalpulse.com',                                                                         highlight: false },
+  { name: 'Starter', price: '$99',   period: '/mo', highlight: false, contactOnly: false, href: 'https://app.nodalpulse.com/login?callbackURL=%2Fpricing%3Ftier%3Dstarter' },
+  { name: 'Pro',     price: '$249',  period: '/mo', highlight: true,  contactOnly: false, href: 'https://app.nodalpulse.com/login?callbackURL=%2Fpricing%3Ftier%3Dpro'     },
+  { name: 'Team',    price: '$749',  period: '/mo', highlight: false, contactOnly: false, href: 'https://app.nodalpulse.com/login?callbackURL=%2Fpricing%3Ftier%3Dteam'    },
+  { name: 'Org',     price: '$1,999',period: '/mo', highlight: false, contactOnly: true,  href: 'mailto:hello@nodalpulse.com'                                              },
 ];
 
 const rows = [
-  {
-    label: 'Daily brief',
-    values: ['Public digest only', 'Personalized', 'Personalized', 'Personalized', 'Personalized'],
-  },
-  {
-    label: 'Tracked dockets',
-    values: ['—', '5', '25', '100', 'Unlimited'],
-  },
-  {
-    label: 'Saved searches',
-    values: ['—', '2', '10', '50', 'Unlimited'],
-  },
-  {
-    label: 'Brief history',
-    values: ['—', '30 days', '1 year', '3 years', 'Unlimited'],
-  },
-  {
-    label: 'Q&A',
-    values: ['—', '10 q/day', '30 q/day', '100 q/day', '300 q/day'],
-  },
-  {
-    label: 'Team seats',
-    values: ['—', '1', '1', '5', '25'],
-  },
-  {
-    label: 'Audit export',
-    values: ['—', '—', '—', '—', '✓'],
-  },
-  {
-    label: 'API access',
-    values: ['—', '—', '—', '—', '✓'],
-  },
-  {
-    label: 'SLA',
-    values: ['—', '—', '—', '99.5%', '99.9%'],
-  },
+  { label: 'Tracked dockets',     values: ['5', '25', '100', 'Unlimited'] },
+  { label: 'Brief history',       values: ['30 days', '1 year', '3 years', 'Unlimited'] },
+  { label: 'Ask the Record',      values: ['10 q/day', '30 q/day', '100 q/day', '300 q/day'] },
+  { label: 'Team seats',          values: ['1', '1', '5', '25'] },
+  { label: 'Regions included',    values: ['1', '1', '1', 'All'] },
+  { label: 'SLA',                 values: ['—', '—', '99.5%', '99.9%'] },
+  { label: 'API access',          values: ['—', '—', '—', '✓'] },
 ];
 
 const faqs = [
   {
-    q: 'How is this different from asking Claude or ChatGPT?',
-    a: 'General-purpose LLMs rely on web search indexes that capture 30–40% of PUCT Interchange and ERCOT stakeholder filings. NodalPulse runs purpose-built crawlers that hit the source systems directly on submission — achieving ≥99% recall. Every answer is grounded to a specific filing with a source link. Claims that cannot be sourced are dropped before delivery. You also get a persistent docket history, saved searches, and a scheduled 06:00 CT delivery, weekdays — none of which a chat session provides.',
-  },
-  {
-    q: 'What sources do you cover?',
-    a: 'Currently: PUCT Interchange (all filings), ERCOT stakeholder pages (NPRRs, protocol revisions, market notices, RFPs), and FERC dockets tagged to ERCOT-jurisdictional matters. Texas Legislature coverage is planned for Q3 2026. See the Sources page for full details.',
+    q: 'How does regional pricing work?',
+    a: 'Each plan includes one region of your choice — Texas, California, or PJM. Additional regions are +$49/mo (Starter/Pro) or +$99/mo (Team), added in-app after signup. Org includes all regions. There is no published 2D pricing matrix — you pick your region when you start.',
   },
   {
     q: 'Is there a free trial?',
-    a: 'A card is required to start your trial. You won\'t be charged for 14 days. Cancel before the trial ends and you will not be charged.',
+    a: 'Yes. 14 days free on the Pro plan with one region of your choice. No credit card required to start.',
+  },
+  {
+    q: 'Are CAISO (California) and PJM included during Beta?',
+    a: 'Yes. Both Beta regions are included at no additional cost with any paid plan during the Beta period. When Beta ends and they become generally available, you\'ll have the option to add them at the standard region add-on price.',
+  },
+  {
+    q: 'How is this different from asking Claude or ChatGPT?',
+    a: 'General-purpose AI relies on web search indexes that capture 30–40% of PUCT Interchange and FERC filings at best. NodalPulse runs purpose-built crawlers that hit the source systems directly on submission. Every answer is grounded in extracted filing text with source citations. Claims that cannot be sourced are dropped before delivery. You also get a persistent docket history, deadline extraction, and scheduled 06:00 CT delivery — none of which a chat session provides.',
   },
   {
     q: 'Can I cancel anytime?',
-    a: 'Yes. Subscriptions are billed monthly and can be cancelled at any time from the account settings page. Cancellation takes effect at the end of the current billing period. No cancellation fees.',
+    a: 'Yes. Subscriptions are billed monthly and cancel at any time from your account settings. Cancellation takes effect at the end of the current billing period. No cancellation fees.',
   },
   {
-    q: 'Do you store the full documents?',
-    a: 'Yes. Full document text is extracted and stored in Cloudflare R2 (encrypted at rest, AES-256) to support citation linking and Q&A. We store the text content of public regulatory filings — not user-uploaded documents. Document retention is indefinite; user account data is deleted within 30 days of a deletion request.',
+    q: 'What sources are covered?',
+    a: 'Texas: PUCT Interchange (all filings), ERCOT stakeholder pages. California (Beta): CAISO filings index + referenced FERC ER/EL dockets. PJM (Beta): FERC eLibrary + Independent Market Monitor + PJM stakeholder/auction calendar. See the Coverage page for full detail and roadmap.',
   },
 ];
 ---
 
 <Base
   title="Pricing — NodalPulse"
-  description="NodalPulse pricing: Free, Starter ($49/mo), Pro ($199/mo), Team ($599/mo), and Org ($1,499/mo). 14-day free trial on all paid plans."
+  description="NodalPulse pricing: Starter $99/mo, Pro $249/mo, Team $749/mo, Org $1,999/mo. One region per plan. 14-day free trial, no card required. CAISO and PJM Beta included at no extra cost."
+  extraSchema={[{
+    "@type": "FAQPage",
+    "mainEntity": faqs.map(f => ({
+      "@type": "Question",
+      "name": f.q,
+      "acceptedAnswer": { "@type": "Answer", "text": f.a }
+    }))
+  }]}
 >
 
   <section class="section">
@@ -83,7 +65,7 @@ const faqs = [
       <div class="pricing-header">
         <h1 class="page-title">Simple, transparent pricing</h1>
         <p class="page-sub">
-          All paid plans include a 14-day free trial. Card required, no charge until day 14. Cancel anytime.
+          One region per plan. 14-day free trial on Pro — no card required. CAISO and PJM Beta included at no extra cost.
         </p>
       </div>
 
@@ -101,10 +83,20 @@ const faqs = [
               href={tier.href}
               class:list={[tier.highlight ? 'btn-primary' : 'btn-secondary', 'tier-cta']}
             >
-              {tier.cta}
+              {tier.contactOnly ? 'Contact us' : 'Start free trial'}
             </a>
           </div>
         ))}
+      </div>
+
+      <!-- Region add-on note -->
+      <div class="addon-note">
+        <span class="addon-icon" aria-hidden="true">+</span>
+        <span>
+          Additional regions: <strong>+$49/mo</strong> (Starter &amp; Pro) · <strong>+$99/mo</strong> (Team) · <strong>Included</strong> (Org).
+          Added in-app after signup — cross-sell happens in the product, not here.
+          California (Beta) and PJM (Beta) are included at no extra cost during Beta.
+        </span>
       </div>
 
       <!-- Comparison table -->
@@ -153,7 +145,7 @@ const faqs = [
         <a href="https://app.nodalpulse.com/pricing" class="btn-primary btn-lg">
           Start your 14-day free trial &rarr;
         </a>
-        <p class="pricing-cta-note">Card required, no charge for 14 days.</p>
+        <p class="pricing-cta-note">No card required. Pro plan + 1 region of your choice.</p>
       </div>
 
     </div>
@@ -164,7 +156,7 @@ const faqs = [
 <style>
   .pricing-header {
     text-align: center;
-    margin-bottom: 48px;
+    margin-bottom: 40px;
   }
 
   .page-title {
@@ -178,18 +170,21 @@ const faqs = [
   .page-sub {
     font-size: 16px;
     color: var(--np-text-muted);
+    max-width: 540px;
+    margin: 0 auto;
+    line-height: 1.6;
   }
 
-  /* ── Tier cards ── */
+  /* Tier cards */
   .tier-cards {
     display: grid;
-    grid-template-columns: repeat(5, 1fr);
+    grid-template-columns: repeat(4, 1fr);
     gap: 1px;
     background: var(--np-border);
     border: 1px solid var(--np-border);
     border-radius: var(--np-radius-lg);
     overflow: hidden;
-    margin-bottom: 40px;
+    margin-bottom: 0;
   }
 
   .tier-card {
@@ -225,7 +220,7 @@ const faqs = [
     font-weight: 600;
     color: var(--np-text-strong);
     letter-spacing: 0.02em;
-    margin-top: 8px;
+    margin-top: 10px;
   }
 
   .tier-price {
@@ -252,12 +247,38 @@ const faqs = [
     justify-content: center;
     font-size: 13px;
     padding: 8px 12px;
+    text-align: center;
+    display: block;
   }
 
-  /* ── Comparison table ── */
+  /* Region add-on note */
+  .addon-note {
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+    font-size: 13px;
+    color: var(--np-text-muted);
+    background: var(--np-surface-elevated);
+    border: 1px solid var(--np-border);
+    border-top: none;
+    border-radius: 0 0 var(--np-radius-lg) var(--np-radius-lg);
+    padding: 12px 16px;
+    margin-bottom: 32px;
+    line-height: 1.6;
+  }
+
+  .addon-icon {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--np-accent);
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  /* Comparison table */
   .table-wrapper {
     overflow-x: auto;
-    margin-bottom: 64px;
+    margin-bottom: 56px;
     border: 1px solid var(--np-border);
     border-radius: var(--np-radius-lg);
   }
@@ -281,7 +302,7 @@ const faqs = [
     font-size: 12px;
     letter-spacing: 0.04em;
     text-transform: uppercase;
-    width: 220px;
+    width: 200px;
   }
 
   .col-header {
@@ -332,10 +353,10 @@ const faqs = [
     color: var(--np-text-muted);
   }
 
-  /* ── FAQ ── */
+  /* FAQ */
   .faq-section {
     max-width: 680px;
-    margin: 0 auto 64px;
+    margin: 0 auto 56px;
   }
 
   .faq-heading {
@@ -387,7 +408,6 @@ const faqs = [
     color: var(--np-text-muted);
     flex-shrink: 0;
     margin-left: 16px;
-    transition: transform 0.15s ease;
   }
 
   details[open] .faq-question::after {
@@ -405,7 +425,7 @@ const faqs = [
     line-height: 1.7;
   }
 
-  /* ── Bottom CTA ── */
+  /* Bottom CTA */
   .pricing-cta {
     text-align: center;
     display: flex;
@@ -422,5 +442,12 @@ const faqs = [
   .btn-lg {
     padding: 11px 22px;
     font-size: 15px;
+  }
+
+  @media (max-width: 768px) {
+    .tier-cards { grid-template-columns: 1fr 1fr; }
+  }
+  @media (max-width: 480px) {
+    .tier-cards { grid-template-columns: 1fr; }
   }
 </style>

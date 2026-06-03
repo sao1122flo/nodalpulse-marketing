@@ -1,0 +1,580 @@
+---
+import Base from '../layouts/Base.astro';
+
+const tiers = [
+  { name: 'Starter', price: '$99',   period: '/mo', dockets: '5',         history: '30 days',   qa: '10/day',  seats: '1',  highlight: false, contactOnly: false },
+  { name: 'Pro',     price: '$249',  period: '/mo', dockets: '25',        history: '1 year',    qa: '30/day',  seats: '1',  highlight: true,  contactOnly: false },
+  { name: 'Team',    price: '$749',  period: '/mo', dockets: '100',       history: '3 years',   qa: '100/day', seats: '5',  highlight: false, contactOnly: false },
+  { name: 'Org',     price: '$1,999',period: '/mo', dockets: 'Unlimited', history: 'Unlimited', qa: '300/day', seats: '25', highlight: false, contactOnly: true  },
+];
+
+// State coverage status. Wave order: PA/NJ/MD/VA → OH/IL → rest (final order per B5)
+const pjmStates = [
+  // Federal + IMM + Stakeholder layer — Beta live at launch
+  { label: 'FERC + IMM + Stakeholder', status: 'beta',    note: 'Federal layer — complete at Beta launch' },
+  // Wave 1
+  { label: 'PA', status: 'wave1', note: 'Pennsylvania State Commission — Wave 1' },
+  { label: 'NJ', status: 'wave1', note: 'New Jersey Board of Public Utilities — Wave 1' },
+  { label: 'MD', status: 'wave1', note: 'Maryland PSC — Wave 1' },
+  { label: 'VA', status: 'wave1', note: 'Virginia SCC — Wave 1' },
+  // Wave 2
+  { label: 'OH', status: 'wave2', note: 'Ohio PUCO — Wave 2' },
+  { label: 'IL', status: 'wave2', note: 'Illinois Commerce Commission — Wave 2' },
+  // Wave 3
+  { label: 'DE', status: 'wave3', note: 'Delaware PSC — Wave 3' },
+  { label: 'IN', status: 'wave3', note: 'Indiana IURC — Wave 3' },
+  { label: 'KY', status: 'wave3', note: 'Kentucky PSC — Wave 3' },
+  { label: 'MI', status: 'wave3', note: 'Michigan PSC — Wave 3' },
+  { label: 'NC', status: 'wave3', note: 'North Carolina PUC — Wave 3' },
+  { label: 'TN', status: 'wave3', note: 'Tennessee — Wave 3' },
+  { label: 'WV', status: 'wave3', note: 'West Virginia PSC — Wave 3' },
+  { label: 'DC', status: 'wave3', note: 'DC PSC — Wave 3' },
+  { label: 'WI', status: 'wave3', note: 'Wisconsin PSC — Wave 3' },
+];
+
+const faqItems = [
+  {
+    q: 'What does "FERC-primary" mean for PJM?',
+    a: "PJM's substance lives in FERC eLibrary and the Independent Market Monitor's filings — not on PJM's own JS-walled library, which we use as enrichment only. FERC eLibrary and the IMM are the primary crawled sources, supplemented by PJM's published stakeholder vote/comment and auction calendar."
+  },
+  {
+    q: 'What are RPM/RTEP structured fields?',
+    a: "RPM (Reliability Pricing Model) auction parameters — caps, floors, $/MW-day by Delivery Year, UCAP vs. ICAP distinctions — are extracted as structured data with unit validation so a mix-up between UCAP and ICAP can't silently corrupt a number. RTEP (Regional Transmission Expansion Plan) cost allocation by zone is similarly extracted so you see your zone's dollar exposure without parsing Schedule 12 tables."
+  },
+  {
+    q: 'Are state commission filings covered at launch?',
+    a: "No. Launch covers FERC eLibrary, the Independent Market Monitor's filings, and PJM's stakeholder/auction calendar — completely. State commissions (PA, NJ, MD, VA, OH, IL, and the rest of the PJM footprint) roll out in waves, each with a visible per-state coverage badge. The badge tells you exactly which states are live."
+  },
+  {
+    q: 'How are PJM deadlines different from FERC deadlines?',
+    a: "PJM's stakeholder vote/comment and auction calendar is unusually clean — dates are published in advance and confirmed, so a large share of PJM deadlines are shown as confirmed, not estimated. FERC protest/comment windows (which live in the FERC Notice, not the filing) are still shown as labeled estimates with a link to verify."
+  },
+];
+---
+
+<Base
+  title="PJM Regulatory Intelligence — NodalPulse (Beta)"
+  description="Track PJM's $16.4B capacity fight, RPM auction parameters, RTEP cost allocation, and FERC dockets daily. PJM Beta includes FERC-primary, IMM, and stakeholder calendar coverage."
+  extraSchema={[{
+    "@type": "FAQPage",
+    "mainEntity": faqItems.map(f => ({
+      "@type": "Question",
+      "name": f.q,
+      "acceptedAnswer": { "@type": "Answer", "text": f.a }
+    }))
+  }]}
+>
+
+  <!-- ── Hero ── -->
+  <section class="hero section">
+    <div class="container">
+      <div class="hero-content">
+        <div class="status-flag">
+          <span class="status-badge status-badge--beta">Beta</span>
+          <span class="status-note">Included at no extra cost with any paid plan during Beta</span>
+        </div>
+        <h1 class="hero-headline">
+          The most contested capacity market in the country — tracked to the dollar. <span class="beta-inline">Beta</span>
+        </h1>
+        <p class="hero-sub">
+          PJM's December 2025 capacity auction cleared at its cap and drove roughly <strong>$16.4&nbsp;billion</strong> in costs, with PJM's own Market Monitor attributing about <strong>40% — approximately $6.5&nbsp;billion — to data-center load</strong>
+          <span class="cite">(PJM December 2025 BRA; Independent Market Monitor filing; via Utility Dive)</span>.
+          NodalPulse treats FERC eLibrary as the primary source, enriched with the Market Monitor's filings and PJM's vote-and-auction calendar, and extracts the numeric guts — RPM parameters, RTEP cost allocation — not just the prose.
+        </p>
+        <div class="hero-actions">
+          <a href="https://app.nodalpulse.com/login" class="btn-primary btn-lg">Join the PJM Beta →</a>
+          <a href="/coverage" class="btn-secondary btn-lg">See full coverage →</a>
+        </div>
+        <p class="hero-trust">14-day free trial &middot; No card required &middot; PJM Beta included at no extra cost</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Value bullets ── -->
+  <section class="section">
+    <div class="container">
+      <h2 class="section-heading">What PJM Beta covers</h2>
+      <div class="bullets-list">
+
+        <div class="bullet-row">
+          <div class="bullet-icon" aria-hidden="true">
+            <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M2 14l4-5 3 3 3-5 4 7H2Z" stroke="#6366F1" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <div>
+            <h3 class="bullet-title">The capacity/data-center fight, structured.</h3>
+            <p class="bullet-body">RPM auction parameters — caps, floors, $/MW-day by Delivery Year — captured as structured data you can compare and chart, with unit-validated numeric sub-schema so a UCAP/ICAP mix-up can't corrupt the number. Dec 2025 BRA cleared at ~$329–333/MW-day cap (PJM/IMM).</p>
+          </div>
+        </div>
+
+        <div class="bullet-row">
+          <div class="bullet-icon" aria-hidden="true">
+            <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><rect x="2" y="2" width="14" height="14" rx="2" stroke="#6366F1" stroke-width="1.5"/><path d="M6 9h6M9 6v6" stroke="#6366F1" stroke-width="1.5" stroke-linecap="round"/></svg>
+          </div>
+          <div>
+            <h3 class="bullet-title">FERC-primary + the Market Monitor.</h3>
+            <p class="bullet-body">PJM's substance lives in FERC eLibrary and the Independent Market Monitor's filings (the IMM filed the data-center interconnection complaint) — both crawled daily. PJM's own JS-walled library is used as enrichment, not a dependency.</p>
+          </div>
+        </div>
+
+        <div class="bullet-row">
+          <div class="bullet-icon" aria-hidden="true">
+            <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="9" r="7.5" stroke="#6366F1" stroke-width="1.5"/><path d="M9 5v4l2.5 2.5" stroke="#6366F1" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <div>
+            <h3 class="bullet-title">One of the cleanest deadline surfaces in US power.</h3>
+            <p class="bullet-body">PJM's stakeholder vote/comment and auction calendar gives confirmed dates, not estimates — extracted directly. FERC protest windows still shown as labeled estimates with a verify link.</p>
+          </div>
+        </div>
+
+        <div class="bullet-row">
+          <div class="bullet-icon" aria-hidden="true">
+            <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M3 4h12M3 8h9M3 12h6" stroke="#6366F1" stroke-width="1.5" stroke-linecap="round"/></svg>
+          </div>
+          <div>
+            <h3 class="bullet-title">RTEP cost allocation, by zone.</h3>
+            <p class="bullet-body">Schedule 12 zone-by-zone dollar responsibility extracted so you see your exposure without parsing the tables. Know your transmission cost obligation before the bills arrive.</p>
+          </div>
+        </div>
+
+        <div class="bullet-row">
+          <div class="bullet-icon" aria-hidden="true">
+            <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M9 2C5.13 2 2 5.13 2 9s3.13 7 7 7 7-3.13 7-7-3.13-7-7-7Z" stroke="#6366F1" stroke-width="1.5"/><path d="M6 9h6" stroke="#6366F1" stroke-width="1.5" stroke-linecap="round"/></svg>
+          </div>
+          <div>
+            <h3 class="bullet-title">State echoes, badged honestly.</h3>
+            <p class="bullet-body">A PJM matter ripples across up to 13 states and DC. We launch complete on the FERC + Market Monitor + stakeholder surface and roll out state commissions in waves — <strong>PA/NJ/MD/VA → OH/IL → the rest</strong> — each with a live per-state coverage badge. See the coverage map below.</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Per-state coverage badges ── -->
+  <section class="states-section section">
+    <div class="container">
+      <h2 class="section-heading">State coverage map</h2>
+      <p class="section-sub">
+        Launch is complete on FERC + Market Monitor + stakeholder. State commissions roll out in waves. Each state shows its own status — never a blanket claim.
+      </p>
+
+      <div class="states-grid">
+        {pjmStates.map(state => (
+          <div class:list={['state-card', `state-card--${state.status}`]} title={state.note}>
+            <span class="state-label">{state.label}</span>
+            <span class:list={['state-badge', `state-badge--${state.status}`]}>
+              {state.status === 'beta' ? 'Beta' : state.status === 'wave1' ? 'Wave 1' : state.status === 'wave2' ? 'Wave 2' : 'Wave 3'}
+            </span>
+          </div>
+        ))}
+      </div>
+
+      <div class="states-legend">
+        <span class="legend-item"><span class="legend-dot legend-dot--beta"></span> Beta (live at launch)</span>
+        <span class="legend-item"><span class="legend-dot legend-dot--wave1"></span> Wave 1 — Roadmap (PA/NJ/MD/VA)</span>
+        <span class="legend-item"><span class="legend-dot legend-dot--wave2"></span> Wave 2 — Roadmap (OH/IL)</span>
+        <span class="legend-item"><span class="legend-dot legend-dot--wave3"></span> Wave 3 — Roadmap (remaining states)</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Pricing ladder (1D — PJM) ── -->
+  <section class="pricing-section section">
+    <div class="container">
+      <h2 class="section-heading">Simple, transparent pricing</h2>
+      <p class="section-sub">PJM Beta included at no extra cost. One region, one plan. Additional regions added in-app after signup.</p>
+
+      <div class="tier-row">
+        {tiers.map(tier => (
+          <div class:list={['tier-card', { 'tier-card--highlight': tier.highlight }]}>
+            {tier.highlight && <div class="tier-badge">Most popular</div>}
+            <div class="tier-name">{tier.name}</div>
+            <div class="tier-price">
+              <span class="tier-amount">{tier.price}</span>
+              <span class="tier-period">{tier.period}</span>
+            </div>
+            <ul class="tier-features">
+              <li>{tier.dockets} tracked dockets</li>
+              <li>{tier.history} brief history</li>
+              <li>{tier.qa} Ask the Record</li>
+              <li>{tier.seats} seat{tier.seats !== '1' ? 's' : ''}</li>
+            </ul>
+            {tier.contactOnly ? (
+              <a href="mailto:hello@nodalpulse.com" class:list={['tier-cta', 'btn-secondary']}>Contact us</a>
+            ) : (
+              <a href={`https://app.nodalpulse.com/login?callbackURL=%2Fpricing%3Ftier%3D${tier.name.toLowerCase()}`} class:list={['tier-cta', tier.highlight ? 'btn-primary' : 'btn-secondary']}>
+                Join Beta free
+              </a>
+            )}
+          </div>
+        ))}
+      </div>
+
+      <p class="pricing-note">
+        14-day free trial of Pro · No card required · PJM Beta included at no extra cost · Additional regions +$49/mo (Starter/Pro), +$99/mo (Team), included (Org)
+      </p>
+    </div>
+  </section>
+
+  <!-- ── FAQ ── -->
+  <section class="section-sm">
+    <div class="container">
+      <div class="faq-block">
+        <h2 class="faq-heading">Common questions</h2>
+        <div class="faq-list">
+          {faqItems.map(item => (
+            <details class="faq-item">
+              <summary class="faq-question">{item.q}</summary>
+              <div class="faq-answer">{item.a}</div>
+            </details>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+
+</Base>
+
+<style>
+  .hero { border-bottom: 1px solid var(--np-border); }
+  .hero-content { max-width: 760px; }
+
+  .status-flag {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 16px;
+    flex-wrap: wrap;
+  }
+
+  .status-badge {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 4px;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  .status-badge--beta {
+    background: #FEF3C7;
+    color: #92400E;
+  }
+
+  .status-note { font-size: 12px; color: var(--np-text-muted); }
+
+  .hero-headline {
+    font-size: clamp(24px, 3.2vw, 38px);
+    font-weight: 600;
+    letter-spacing: -0.03em;
+    line-height: 1.2;
+    color: var(--np-text-primary);
+    margin-bottom: 18px;
+  }
+
+  .beta-inline {
+    display: inline-block;
+    font-size: 0.5em;
+    font-weight: 700;
+    background: #FEF3C7;
+    color: #92400E;
+    padding: 2px 8px;
+    border-radius: 4px;
+    vertical-align: middle;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  .hero-sub {
+    font-size: 16px;
+    color: var(--np-text-muted);
+    line-height: 1.7;
+    max-width: 680px;
+    margin-bottom: 28px;
+  }
+
+  .cite {
+    font-size: 13px;
+    color: var(--np-text-muted);
+    font-style: italic;
+  }
+
+  .hero-actions { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 12px; }
+  .btn-lg { padding: 11px 22px; font-size: 15px; }
+  .hero-trust { font-size: 12px; color: var(--np-text-muted); }
+
+  /* Bullets */
+  .section-heading {
+    font-size: 24px;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    color: var(--np-text-primary);
+    margin-bottom: 24px;
+  }
+
+  .section-sub {
+    font-size: 15px;
+    color: var(--np-text-muted);
+    margin-bottom: 28px;
+    margin-top: -16px;
+  }
+
+  .bullets-list {
+    max-width: 780px;
+    border: 1px solid var(--np-border);
+    border-radius: var(--np-radius-lg);
+    overflow: hidden;
+  }
+
+  .bullet-row {
+    display: flex;
+    gap: 16px;
+    padding: 20px 24px;
+    border-bottom: 1px solid var(--np-border);
+    align-items: flex-start;
+  }
+
+  .bullet-row:last-child { border-bottom: none; }
+
+  .bullet-icon {
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--np-indigo-50);
+    border-radius: var(--np-radius-md);
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  .bullet-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--np-text-primary);
+    margin-bottom: 4px;
+  }
+
+  .bullet-body {
+    font-size: 14px;
+    color: var(--np-text-muted);
+    line-height: 1.65;
+  }
+
+  /* State coverage map */
+  .states-section { border-top: 1px solid var(--np-border); }
+
+  .states-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 20px;
+    max-width: 700px;
+  }
+
+  .state-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    padding: 10px 14px;
+    border-radius: var(--np-radius-md);
+    border: 1px solid var(--np-border);
+    min-width: 90px;
+    background: var(--np-surface);
+  }
+
+  .state-card--beta { border-color: #A7F3D0; background: #F0FDF4; }
+
+  .state-label {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--np-text-strong);
+  }
+
+  .state-badge {
+    font-size: 10px;
+    font-weight: 600;
+    padding: 1px 6px;
+    border-radius: 3px;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+  }
+
+  .state-badge--beta { background: #D1FAE5; color: #065F46; }
+  .state-badge--wave1 { background: #EDE9FE; color: #4C1D95; }
+  .state-badge--wave2 { background: #E0E7FF; color: #312E81; }
+  .state-badge--wave3 { background: var(--np-surface-deep); color: var(--np-text-muted); }
+
+  .states-legend {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    font-size: 12px;
+    color: var(--np-text-muted);
+  }
+
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .legend-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .legend-dot--beta { background: #059669; }
+  .legend-dot--wave1 { background: #7C3AED; }
+  .legend-dot--wave2 { background: #4338CA; }
+  .legend-dot--wave3 { background: var(--np-border-strong); }
+
+  /* Pricing */
+  .pricing-section { border-top: 1px solid var(--np-border); }
+
+  .tier-row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1px;
+    background: var(--np-border);
+    border: 1px solid var(--np-border);
+    border-radius: var(--np-radius-lg);
+    overflow: hidden;
+    margin-bottom: 16px;
+  }
+
+  .tier-card {
+    background: var(--np-surface);
+    padding: 24px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    position: relative;
+  }
+
+  .tier-card--highlight { background: var(--np-indigo-50); }
+
+  .tier-badge {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--np-indigo-600);
+    color: #fff;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    padding: 3px 10px;
+    border-radius: 0 0 var(--np-radius-sm) var(--np-radius-sm);
+  }
+
+  .tier-name {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--np-text-strong);
+    letter-spacing: 0.02em;
+    margin-top: 12px;
+  }
+
+  .tier-price { display: flex; align-items: baseline; gap: 2px; }
+
+  .tier-amount {
+    font-size: 22px;
+    font-weight: 600;
+    color: var(--np-text-primary);
+    font-variant-numeric: tabular-nums;
+    letter-spacing: -0.02em;
+  }
+
+  .tier-period { font-size: 13px; color: var(--np-text-muted); }
+
+  .tier-features {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    flex: 1;
+    list-style: none;
+    padding: 0;
+  }
+
+  .tier-features li { font-size: 13px; color: var(--np-text-body); }
+
+  .tier-cta {
+    display: block;
+    text-align: center;
+    font-size: 13px;
+    padding: 8px 12px;
+    border-radius: var(--np-radius-md);
+  }
+
+  .pricing-note { font-size: 13px; color: var(--np-text-muted); line-height: 1.6; }
+
+  /* FAQ */
+  .faq-block { max-width: 680px; }
+
+  .faq-heading {
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--np-text-primary);
+    letter-spacing: -0.01em;
+    margin-bottom: 20px;
+  }
+
+  .faq-list {
+    border: 1px solid var(--np-border);
+    border-radius: var(--np-radius-lg);
+    overflow: hidden;
+  }
+
+  .faq-item { border-bottom: 1px solid var(--np-border); }
+  .faq-item:last-child { border-bottom: none; }
+
+  .faq-question {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 20px;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--np-text-primary);
+    cursor: pointer;
+    list-style: none;
+    user-select: none;
+  }
+
+  .faq-question::-webkit-details-marker { display: none; }
+
+  .faq-question::after {
+    content: '+';
+    font-size: 18px;
+    font-weight: 400;
+    color: var(--np-text-muted);
+    flex-shrink: 0;
+    margin-left: 16px;
+  }
+
+  details[open] .faq-question::after { content: '−'; }
+  .faq-question:hover { background: var(--np-surface-elevated); }
+
+  .faq-answer {
+    padding: 0 20px 16px;
+    font-size: 14px;
+    color: var(--np-text-muted);
+    line-height: 1.7;
+  }
+
+  @media (max-width: 768px) {
+    .tier-row { grid-template-columns: 1fr 1fr; }
+    .states-grid { gap: 6px; }
+    .state-card { min-width: 70px; padding: 8px 10px; }
+  }
+
+  @media (max-width: 480px) {
+    .tier-row { grid-template-columns: 1fr; }
+  }
+</style>

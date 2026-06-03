@@ -1,0 +1,461 @@
+---
+import Base from '../layouts/Base.astro';
+
+const tiers = [
+  { name: 'Starter', price: '$99',   period: '/mo', dockets: '5',         history: '30 days',   qa: '10/day',  seats: '1',  highlight: false, contactOnly: false },
+  { name: 'Pro',     price: '$249',  period: '/mo', dockets: '25',        history: '1 year',    qa: '30/day',  seats: '1',  highlight: true,  contactOnly: false },
+  { name: 'Team',    price: '$749',  period: '/mo', dockets: '100',       history: '3 years',   qa: '100/day', seats: '5',  highlight: false, contactOnly: false },
+  { name: 'Org',     price: '$1,999',period: '/mo', dockets: 'Unlimited', history: 'Unlimited', qa: '300/day', seats: '25', highlight: false, contactOnly: true  },
+];
+
+const faqItems = [
+  {
+    q: 'Does Texas coverage include FERC?',
+    a: 'Texas (ERCOT) is not a FERC-jurisdictional market, so there is no federal layer to cover. NodalPulse covers PUCT proceedings and ERCOT stakeholder processes — the regulatory layer that actually governs Texas power. If you work national markets with a Texas component, the California and PJM regions include their FERC layers.'
+  },
+  {
+    q: 'What exactly is tracked under Texas?',
+    a: 'PUCT Interchange filings (all open dockets), ERCOT stakeholder pages (NPRRs, protocol revisions, market notices, RFPs), and FERC dockets tagged to ERCOT-related matters. Each filing is extracted into parties, positions, dollar impacts, and deadlines.'
+  },
+  {
+    q: 'How does Ask the Record work?',
+    a: 'Ask a plain-English question about any docket or topic in your tracked corpus. The answer comes from the actual extracted filing text, with citations back to the specific document and paragraph. Not a general web search — grounded in what was filed.'
+  },
+];
+---
+
+<Base
+  title="Texas PUCT/ERCOT Regulatory Intelligence — NodalPulse"
+  description="Daily cited brief for PUCT dockets, NPRRs, and ERCOT rate-case activity — extracted with deadlines and party positions, on your desk by 6:00 AM CT. Live and in general availability."
+  extraSchema={[{
+    "@type": "FAQPage",
+    "mainEntity": faqItems.map(f => ({
+      "@type": "Question",
+      "name": f.q,
+      "acceptedAnswer": { "@type": "Answer", "text": f.a }
+    }))
+  }]}
+>
+
+  <!-- ── Hero ── -->
+  <section class="hero section">
+    <div class="container">
+      <div class="hero-content">
+        <div class="status-flag">
+          <span class="status-badge status-badge--live">Live · General Availability</span>
+          <span class="status-note">PUCT + ERCOT bundled · No FERC layer (Texas is FERC-non-jurisdictional)</span>
+        </div>
+        <h1 class="hero-headline">
+          The ERCOT regulatory record, read for you by 6&nbsp;AM.
+        </h1>
+        <p class="hero-sub">
+          PUCT dockets, NPRRs, and rate-case activity — extracted into a cited daily brief with the deadlines and party positions that matter, so a rule change or a contested filing never reaches you a week late. Live and in general availability.
+        </p>
+        <div class="hero-actions">
+          <a href="https://app.nodalpulse.com/login" class="btn-primary btn-lg">Start tracking ERCOT →</a>
+          <a href="/coverage" class="btn-secondary btn-lg">See full coverage →</a>
+        </div>
+        <p class="hero-trust">14-day free trial &middot; No card required &middot; Cancel anytime</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Value bullets ── -->
+  <section class="section">
+    <div class="container">
+      <h2 class="section-heading">What you get, every weekday morning</h2>
+      <div class="bullets-list">
+
+        <div class="bullet-row">
+          <div class="bullet-icon" aria-hidden="true">
+            <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><rect x="2" y="2" width="14" height="14" rx="2" stroke="#6366F1" stroke-width="1.5"/><path d="M6 9h6M9 6v6" stroke="#6366F1" stroke-width="1.5" stroke-linecap="round"/></svg>
+          </div>
+          <div>
+            <h3 class="bullet-title">Daily PUCT/ERCOT docket monitoring.</h3>
+            <p class="bullet-body">New filings on the matters you track, summarized and cited every morning. Never check PUCT Interchange manually again.</p>
+          </div>
+        </div>
+
+        <div class="bullet-row">
+          <div class="bullet-icon" aria-hidden="true">
+            <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="9" r="7.5" stroke="#6366F1" stroke-width="1.5"/><path d="M9 5v4l2.5 2.5" stroke="#6366F1" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <div>
+            <h3 class="bullet-title">Deadline extraction is the point.</h3>
+            <p class="bullet-body">ERCOT deadlines mostly live inside the filings themselves — we pull them and put them on your radar before they're due. Comment periods, effective dates, reply deadlines.</p>
+          </div>
+        </div>
+
+        <div class="bullet-row">
+          <div class="bullet-icon" aria-hidden="true">
+            <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M3 4h12M3 8h9M3 12h6" stroke="#6366F1" stroke-width="1.5" stroke-linecap="round"/></svg>
+          </div>
+          <div>
+            <h3 class="bullet-title">NPRR and rate-case tracking.</h3>
+            <p class="bullet-body">Follow protocol revisions and rate proceedings with party positions and dollar impacts surfaced, not buried in a PDF. Support, oppose, conditional — structured, not paraphrased.</p>
+          </div>
+        </div>
+
+        <div class="bullet-row">
+          <div class="bullet-icon" aria-hidden="true">
+            <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M3 15l4-4m0 0l2-6 6-2-2 6-6 2Z" stroke="#6366F1" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <div>
+            <h3 class="bullet-title">Ask the Record.</h3>
+            <p class="bullet-body">"What's the latest position in this docket?" — answered from the record, with citations back to the filing. Not a web search. Not a guess.</p>
+          </div>
+        </div>
+
+        <div class="bullet-row">
+          <div class="bullet-icon" aria-hidden="true">
+            <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><rect x="2" y="3" width="14" height="12" rx="2" stroke="#6366F1" stroke-width="1.5"/><path d="M6 8h6M6 11h4" stroke="#6366F1" stroke-width="1.5" stroke-linecap="round"/></svg>
+          </div>
+          <div>
+            <h3 class="bullet-title">Built for the desk without a monitoring team.</h3>
+            <p class="bullet-body">If you're outside counsel or a market participant without an in-house clipping service, this is the desk. One subscription, one brief, the ERCOT record covered.</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Pricing ladder (1D — Texas) ── -->
+  <section class="pricing-section section">
+    <div class="container">
+      <h2 class="section-heading">Simple, transparent pricing</h2>
+      <p class="section-sub">One region, one plan. Additional regions added in-app after signup.</p>
+
+      <div class="tier-row">
+        {tiers.map(tier => (
+          <div class:list={['tier-card', { 'tier-card--highlight': tier.highlight }]}>
+            {tier.highlight && <div class="tier-badge">Most popular</div>}
+            <div class="tier-name">{tier.name}</div>
+            <div class="tier-price">
+              <span class="tier-amount">{tier.price}</span>
+              <span class="tier-period">{tier.period}</span>
+            </div>
+            <ul class="tier-features">
+              <li>{tier.dockets} tracked dockets</li>
+              <li>{tier.history} brief history</li>
+              <li>{tier.qa} Ask the Record</li>
+              <li>{tier.seats} seat{tier.seats !== '1' ? 's' : ''}</li>
+            </ul>
+            {tier.contactOnly ? (
+              <a href="mailto:hello@nodalpulse.com" class:list={['tier-cta', 'btn-secondary']}>Contact us</a>
+            ) : (
+              <a href={`https://app.nodalpulse.com/login?callbackURL=%2Fpricing%3Ftier%3D${tier.name.toLowerCase()}`} class:list={['tier-cta', tier.highlight ? 'btn-primary' : 'btn-secondary']}>
+                Start free trial
+              </a>
+            )}
+          </div>
+        ))}
+      </div>
+
+      <p class="pricing-note">
+        14-day free trial of Pro · No card required · Additional regions +$49/mo (Starter/Pro), +$99/mo (Team), included (Org). Added in-app after signup.
+      </p>
+    </div>
+  </section>
+
+  <!-- ── FAQ ── -->
+  <section class="section-sm">
+    <div class="container">
+      <div class="faq-block">
+        <h2 class="faq-heading">Common questions</h2>
+        <div class="faq-list">
+          {faqItems.map(item => (
+            <details class="faq-item">
+              <summary class="faq-question">{item.q}</summary>
+              <div class="faq-answer">{item.a}</div>
+            </details>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+
+</Base>
+
+<style>
+  .hero { border-bottom: 1px solid var(--np-border); }
+  .hero-content { max-width: 720px; }
+
+  .status-flag {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 16px;
+    flex-wrap: wrap;
+  }
+
+  .status-badge {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 4px;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  .status-badge--live {
+    background: #D1FAE5;
+    color: #065F46;
+  }
+
+  .status-note {
+    font-size: 12px;
+    color: var(--np-text-muted);
+  }
+
+  .hero-headline {
+    font-size: clamp(26px, 3.5vw, 40px);
+    font-weight: 600;
+    letter-spacing: -0.03em;
+    line-height: 1.2;
+    color: var(--np-text-primary);
+    margin-bottom: 18px;
+  }
+
+  .hero-sub {
+    font-size: 16px;
+    color: var(--np-text-muted);
+    line-height: 1.7;
+    max-width: 620px;
+    margin-bottom: 28px;
+  }
+
+  .hero-actions {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 12px;
+  }
+
+  .btn-lg { padding: 11px 22px; font-size: 15px; }
+
+  .hero-trust {
+    font-size: 12px;
+    color: var(--np-text-muted);
+  }
+
+  /* Bullets */
+  .section-heading {
+    font-size: 24px;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    color: var(--np-text-primary);
+    margin-bottom: 24px;
+  }
+
+  .section-sub {
+    font-size: 15px;
+    color: var(--np-text-muted);
+    margin-bottom: 28px;
+    margin-top: -16px;
+  }
+
+  .bullets-list {
+    max-width: 780px;
+    border: 1px solid var(--np-border);
+    border-radius: var(--np-radius-lg);
+    overflow: hidden;
+  }
+
+  .bullet-row {
+    display: flex;
+    gap: 16px;
+    padding: 20px 24px;
+    border-bottom: 1px solid var(--np-border);
+    align-items: flex-start;
+  }
+
+  .bullet-row:last-child { border-bottom: none; }
+
+  .bullet-icon {
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--np-indigo-50);
+    border-radius: var(--np-radius-md);
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  .bullet-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--np-text-primary);
+    margin-bottom: 4px;
+  }
+
+  .bullet-body {
+    font-size: 14px;
+    color: var(--np-text-muted);
+    line-height: 1.65;
+  }
+
+  /* Pricing */
+  .pricing-section { border-top: 1px solid var(--np-border); }
+
+  .tier-row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1px;
+    background: var(--np-border);
+    border: 1px solid var(--np-border);
+    border-radius: var(--np-radius-lg);
+    overflow: hidden;
+    margin-bottom: 16px;
+  }
+
+  .tier-card {
+    background: var(--np-surface);
+    padding: 24px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    position: relative;
+  }
+
+  .tier-card--highlight { background: var(--np-indigo-50); }
+
+  .tier-badge {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--np-indigo-600);
+    color: #fff;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    padding: 3px 10px;
+    border-radius: 0 0 var(--np-radius-sm) var(--np-radius-sm);
+  }
+
+  .tier-name {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--np-text-strong);
+    letter-spacing: 0.02em;
+    margin-top: 12px;
+  }
+
+  .tier-price {
+    display: flex;
+    align-items: baseline;
+    gap: 2px;
+  }
+
+  .tier-amount {
+    font-size: 22px;
+    font-weight: 600;
+    color: var(--np-text-primary);
+    font-variant-numeric: tabular-nums;
+    letter-spacing: -0.02em;
+  }
+
+  .tier-period {
+    font-size: 13px;
+    color: var(--np-text-muted);
+  }
+
+  .tier-features {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    flex: 1;
+    padding: 0;
+    list-style: none;
+  }
+
+  .tier-features li {
+    font-size: 13px;
+    color: var(--np-text-body);
+    line-height: 1.4;
+  }
+
+  .tier-cta {
+    display: block;
+    text-align: center;
+    font-size: 13px;
+    padding: 8px 12px;
+    border-radius: var(--np-radius-md);
+  }
+
+  .pricing-note {
+    font-size: 13px;
+    color: var(--np-text-muted);
+    line-height: 1.6;
+  }
+
+  /* FAQ */
+  .faq-block { max-width: 680px; }
+
+  .faq-heading {
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--np-text-primary);
+    letter-spacing: -0.01em;
+    margin-bottom: 20px;
+  }
+
+  .faq-list {
+    border: 1px solid var(--np-border);
+    border-radius: var(--np-radius-lg);
+    overflow: hidden;
+  }
+
+  .faq-item {
+    border-bottom: 1px solid var(--np-border);
+  }
+
+  .faq-item:last-child { border-bottom: none; }
+
+  .faq-question {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 20px;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--np-text-primary);
+    cursor: pointer;
+    list-style: none;
+    user-select: none;
+  }
+
+  .faq-question::-webkit-details-marker { display: none; }
+
+  .faq-question::after {
+    content: '+';
+    font-size: 18px;
+    font-weight: 400;
+    color: var(--np-text-muted);
+    flex-shrink: 0;
+    margin-left: 16px;
+  }
+
+  details[open] .faq-question::after { content: '−'; }
+  .faq-question:hover { background: var(--np-surface-elevated); }
+
+  .faq-answer {
+    padding: 0 20px 16px;
+    font-size: 14px;
+    color: var(--np-text-muted);
+    line-height: 1.7;
+  }
+
+  @media (max-width: 768px) {
+    .tier-row { grid-template-columns: 1fr 1fr; }
+  }
+
+  @media (max-width: 480px) {
+    .tier-row { grid-template-columns: 1fr; }
+  }
+</style>

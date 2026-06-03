@@ -1,0 +1,379 @@
+---
+import Base from '../layouts/Base.astro';
+---
+
+<Base
+  title="Methodology — How NodalPulse Builds a Brief You Can Trust"
+  description="How NodalPulse turns a regulatory record into a cited daily brief: crawl, extract, ground, compose. Deadline methodology: what's certain vs estimated, why the protest date isn't in the filing."
+>
+
+  <!-- ── Hero ── -->
+  <section class="hero section">
+    <div class="container">
+      <div class="hero-content">
+        <h1 class="hero-headline">How we turn a regulatory record into a brief you can trust.</h1>
+        <p class="hero-sub">
+          A daily crawl, structured extraction, and a deadline methodology built so a lawyer never sees a wrong date presented as a right one.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Pipeline ── -->
+  <section class="section">
+    <div class="container">
+      <h2 class="section-heading">The pipeline</h2>
+
+      <div class="steps">
+
+        <div class="step">
+          <div class="step-num" aria-hidden="true">1</div>
+          <div class="step-body">
+            <h3 class="step-title">Crawl</h3>
+            <p class="step-desc">
+              Daily crawl over the primary source for each market:
+            </p>
+            <ul class="step-list">
+              <li><strong>Texas:</strong> PUCT Interchange (all filings) and ERCOT stakeholder pages (NPRRs, protocol revisions, market notices). <span class="now-chip">Live</span></li>
+              <li><strong>California:</strong> The CAISO filings index plus referenced FERC <code>ER</code>/<code>EL</code> dockets. <span class="beta-chip">Beta</span></li>
+              <li><strong>PJM:</strong> FERC eLibrary (primary), the Independent Market Monitor's filings, and PJM's published stakeholder/auction calendar. PJM's own JS-walled library is used as enrichment, not a dependency. <span class="beta-chip">Beta</span></li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-num" aria-hidden="true">2</div>
+          <div class="step-body">
+            <h3 class="step-title">Extract</h3>
+            <p class="step-desc">
+              Each filing is read in full — attachments included, not just the cover letter — and structured into:
+            </p>
+            <ul class="step-list">
+              <li><strong>Parties</strong> — filer, intervener, respondent</li>
+              <li><strong>Positions</strong> — support / oppose / conditional with the specific ask</li>
+              <li><strong>Dollar impacts</strong> — where stated in the filing</li>
+              <li><strong>Deadlines</strong> — effective dates, hearing dates, comment periods</li>
+              <li><strong>Cross-references</strong> — related dockets, CAISO initiatives, CPUC proceeding numbers where cited</li>
+            </ul>
+            <p class="step-note">PJM adds a numeric sub-schema for RPM/RTEP parameters with unit validation, so UCAP/ICAP distinctions can't silently corrupt a number.</p>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-num" aria-hidden="true">3</div>
+          <div class="step-body">
+            <h3 class="step-title">Ground</h3>
+            <p class="step-desc">
+              Answers and summaries are grounded in the extracted corpus with citations back to the source filing. Claims that cannot be sourced to a specific document are dropped before delivery. No citation, no claim.
+            </p>
+          </div>
+        </div>
+
+        <div class="step step--last">
+          <div class="step-num" aria-hidden="true">4</div>
+          <div class="step-body">
+            <h3 class="step-title">Compose</h3>
+            <p class="step-desc">
+              A daily brief at 6:00&nbsp;AM&nbsp;CT, scoped to the dockets and topics you track, with urgency driven by real deadlines — not by filing volume or recency alone. The brief is personalized: only the proceedings you follow, summarized for your market.
+            </p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Deadline methodology ── TRUST ARGUMENT, render prominently ── -->
+  <section class="deadline-section section">
+    <div class="container">
+      <div class="deadline-box">
+        <div class="deadline-header">
+          <h2 class="deadline-heading">Deadline methodology — why this matters</h2>
+          <p class="deadline-intro">
+            A wrong deadline shown confidently is worse than an honest "we don't know yet." Here is exactly how we handle dates.
+          </p>
+        </div>
+
+        <div class="deadline-rules">
+
+          <div class="rule rule--confirmed">
+            <div class="rule-marker confirmed-marker" aria-hidden="true">✓</div>
+            <div class="rule-body">
+              <h3 class="rule-title">Certain deadlines — shown directly</h3>
+              <ul class="rule-list">
+                <li><strong>FERC rehearing windows</strong> — 30 days from the order date, by statute. We compute this directly from the order.</li>
+                <li><strong>Requested/confirmed effective dates</strong> — stated in the filing, extracted as-is.</li>
+                <li><strong>Published stakeholder and auction dates</strong> — from PJM's calendar and CAISO's published schedules. PJM has unusually clean confirmed dates; a large share of PJM deadlines shown are confirmed, not estimated.</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="rule rule--estimated">
+            <div class="rule-marker estimated-marker" aria-hidden="true">~</div>
+            <div class="rule-body">
+              <h3 class="rule-title">Estimated deadlines — always labeled</h3>
+              <p class="rule-desc">
+                Any date inferred by the model from filing language — not extracted from a primary-source calendar or a statutory formula — carries an <span class="estimated-label">estimated</span> badge and a verify link. We never present a computed deadline as confirmed.
+              </p>
+            </div>
+          </div>
+
+          <div class="rule rule--notice">
+            <div class="rule-marker notice-marker" aria-hidden="true">!</div>
+            <div class="rule-body">
+              <h3 class="rule-title">FERC protest/comment window — we don't guess it</h3>
+              <p class="rule-desc">
+                The FERC comment and protest window lives in the <strong>FERC Notice</strong> — a separate document issued by FERC days after a filing posts — <em>not in the filing itself</em>. We do not compute or estimate the protest deadline from the filing date. Instead, we link you directly to the FERC Notice so you can confirm the window yourself. This is the right behavior, not a limitation.
+              </p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── CTA ── -->
+  <section class="section-sm">
+    <div class="container">
+      <div class="cta-row">
+        <a href="/limitations" class="btn-secondary">See the known limitations →</a>
+        <a href="/coverage" class="btn-secondary">See what we cover →</a>
+        <a href="https://app.nodalpulse.com/login" class="btn-primary">Start free trial →</a>
+      </div>
+    </div>
+  </section>
+
+</Base>
+
+<style>
+  .hero { border-bottom: 1px solid var(--np-border); }
+  .hero-content { max-width: 680px; }
+
+  .hero-headline {
+    font-size: clamp(26px, 3.5vw, 40px);
+    font-weight: 600;
+    letter-spacing: -0.03em;
+    line-height: 1.2;
+    color: var(--np-text-primary);
+    margin-bottom: 18px;
+  }
+
+  .hero-sub {
+    font-size: 16px;
+    color: var(--np-text-muted);
+    line-height: 1.7;
+  }
+
+  /* Pipeline steps */
+  .section-heading {
+    font-size: 22px;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    color: var(--np-text-primary);
+    margin-bottom: 28px;
+  }
+
+  .steps {
+    max-width: 760px;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    border: 1px solid var(--np-border);
+    border-radius: var(--np-radius-lg);
+    overflow: hidden;
+  }
+
+  .step {
+    display: flex;
+    gap: 20px;
+    padding: 24px 28px;
+    border-bottom: 1px solid var(--np-border);
+    align-items: flex-start;
+  }
+
+  .step--last { border-bottom: none; }
+
+  .step-num {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: var(--np-indigo-600);
+    color: #fff;
+    font-size: 13px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+
+  .step-title {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--np-text-primary);
+    margin-bottom: 8px;
+  }
+
+  .step-desc {
+    font-size: 14px;
+    color: var(--np-text-body);
+    line-height: 1.7;
+    margin-bottom: 10px;
+  }
+
+  .step-list {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding-left: 16px;
+    list-style: disc;
+  }
+
+  .step-list li {
+    font-size: 14px;
+    color: var(--np-text-muted);
+    line-height: 1.65;
+  }
+
+  .step-note {
+    margin-top: 10px;
+    font-size: 13px;
+    color: var(--np-text-muted);
+    line-height: 1.6;
+    padding: 10px 14px;
+    background: var(--np-surface-elevated);
+    border-left: 3px solid var(--np-border-strong);
+    border-radius: 0 var(--np-radius-sm) var(--np-radius-sm) 0;
+  }
+
+  code {
+    font-family: var(--np-font-mono);
+    font-size: 12px;
+    background: var(--np-surface-deep);
+    padding: 1px 5px;
+    border-radius: 3px;
+    color: var(--np-text-body);
+  }
+
+  .now-chip, .beta-chip {
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 600;
+    padding: 1px 6px;
+    border-radius: 3px;
+    letter-spacing: 0.03em;
+  }
+
+  .now-chip { background: #D1FAE5; color: #065F46; }
+  .beta-chip { background: #FEF3C7; color: #92400E; }
+
+  /* Deadline section */
+  .deadline-section {
+    background: var(--np-surface-elevated);
+    border-top: 1px solid var(--np-border);
+    border-bottom: 1px solid var(--np-border);
+  }
+
+  .deadline-box { max-width: 820px; }
+
+  .deadline-header { margin-bottom: 28px; }
+
+  .deadline-heading {
+    font-size: 22px;
+    font-weight: 600;
+    color: var(--np-text-primary);
+    letter-spacing: -0.02em;
+    margin-bottom: 10px;
+  }
+
+  .deadline-intro {
+    font-size: 15px;
+    color: var(--np-text-muted);
+    line-height: 1.7;
+  }
+
+  .deadline-rules {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+    border: 1px solid var(--np-border);
+    border-radius: var(--np-radius-lg);
+    overflow: hidden;
+  }
+
+  .rule {
+    display: flex;
+    gap: 20px;
+    padding: 22px 24px;
+    background: var(--np-surface);
+    border-bottom: 1px solid var(--np-border);
+    align-items: flex-start;
+  }
+
+  .rule:last-child { border-bottom: none; }
+
+  .rule-marker {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    font-weight: 700;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+
+  .confirmed-marker { background: #D1FAE5; color: #065F46; }
+  .estimated-marker { background: #FEF3C7; color: #92400E; }
+  .notice-marker { background: #EDE9FE; color: #4C1D95; }
+
+  .rule-title {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--np-text-primary);
+    margin-bottom: 8px;
+  }
+
+  .rule-list {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding-left: 16px;
+    list-style: disc;
+  }
+
+  .rule-list li {
+    font-size: 14px;
+    color: var(--np-text-muted);
+    line-height: 1.65;
+  }
+
+  .rule-desc {
+    font-size: 14px;
+    color: var(--np-text-muted);
+    line-height: 1.7;
+  }
+
+  .estimated-label {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 600;
+    background: #FEF3C7;
+    color: #92400E;
+    padding: 1px 6px;
+    border-radius: 3px;
+  }
+
+  /* CTA */
+  .cta-row {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    align-items: center;
+    padding-top: 16px;
+  }
+</style>

@@ -1,0 +1,316 @@
+---
+import Base from '../layouts/Base.astro';
+
+const coverageRows = [
+  {
+    market: 'Texas — PUCT/ERCOT',
+    status: 'live',
+    statusLabel: 'Live',
+    covered: 'Dockets, NPRRs, rate cases; cited 6 AM CT brief; Ask the Record',
+    roadmap: '— (no FERC layer in Texas)',
+  },
+  {
+    market: 'California — CAISO',
+    status: 'beta',
+    statusLabel: 'Beta',
+    covered: 'CAISO filings index + referenced FERC ER/EL dockets; structured extraction; initiative-linking; certain deadlines + estimated-badged protest windows',
+    roadmap: 'CPUC proceedings (Phase 2); full stakeholder-initiative extraction; Notice-confirmed deadlines',
+  },
+  {
+    market: 'PJM — Mid-Atlantic/Midwest',
+    status: 'beta',
+    statusLabel: 'Beta',
+    covered: 'FERC-primary + Independent Market Monitor + stakeholder/auction calendar; RPM/RTEP structured fields; per-state coverage badges',
+    roadmap: 'State commissions in waves (PA/NJ/MD/VA → OH/IL → rest); PJM library integration; Notice-confirmed deadlines',
+  },
+  {
+    market: 'Cross-jurisdictional',
+    status: 'beta',
+    statusLabel: 'Beta',
+    covered: 'Aggregation across the markets you subscribe to; matters threaded across systems',
+    roadmap: 'Deeper auto-linking as extraction matures',
+  },
+  {
+    market: 'NERC reliability',
+    status: 'roadmap',
+    statusLabel: 'Roadmap',
+    covered: 'The NERC-in-FERC slice already arrives via the FERC adapter',
+    roadmap: 'nerc.net + regional-entity coverage as a tracked intelligence domain',
+  },
+];
+---
+
+<Base
+  title="Coverage — What NodalPulse Covers (and What It Doesn't, Yet)"
+  description="Honest coverage map: Texas live, California and PJM in Beta, state commissions rolling out in waves. Per-market and per-state status badges. No over-claims."
+>
+
+  <!-- ── Hero ── -->
+  <section class="hero section">
+    <div class="container">
+      <div class="hero-content">
+        <h1 class="hero-headline">Exactly what we cover — and what we don't, yet.</h1>
+        <p class="hero-sub">
+          We publish our coverage map and keep it current. Where a surface is live, we say live. Where it's Beta, estimated, enrichment, or phased, the product says so — including a live coverage badge for every PJM state.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Coverage table ── -->
+  <section class="section">
+    <div class="container">
+      <div class="table-wrapper">
+        <table class="coverage-table">
+          <thead>
+            <tr>
+              <th class="col-market">Market</th>
+              <th class="col-status">Status</th>
+              <th class="col-covered">Covered now</th>
+              <th class="col-roadmap">Roadmap</th>
+            </tr>
+          </thead>
+          <tbody>
+            {coverageRows.map(row => (
+              <tr>
+                <td class="cell-market">
+                  <a href={row.status !== 'roadmap' ? `/${row.market.toLowerCase().split(' ')[0]}` : '#'} class:list={['market-link', { 'market-link--plain': row.status === 'roadmap' }]}>
+                    {row.market}
+                  </a>
+                </td>
+                <td class="cell-status">
+                  <span class:list={['status-badge', `status-badge--${row.status}`]}>{row.statusLabel}</span>
+                </td>
+                <td class="cell-covered">{row.covered}</td>
+                <td class="cell-roadmap">{row.roadmap}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Value notes ── -->
+  <section class="notes-section section">
+    <div class="container">
+      <div class="notes-grid">
+
+        <div class="note-card">
+          <h3 class="note-heading">Per-state PJM badges</h3>
+          <p class="note-body">
+            Every PJM state shows its own status badge on the <a href="/pjm" class="inline-link">PJM page</a>. We'd rather show an honest badge than imply uniform coverage. Launch is complete on FERC + Market Monitor + stakeholder. State commissions ship by ICP concentration: <strong>PA/NJ/MD/VA first → OH/IL → the rest.</strong>
+          </p>
+        </div>
+
+        <div class="note-card">
+          <h3 class="note-heading">NERC reliability as intelligence</h3>
+          <p class="note-body">
+            The NERC-in-FERC slice (NERC filings in FERC eLibrary) already arrives via the shared FERC adapter. The full NERC coverage domain — nerc.net, regional entities — is roadmap, not current. We track reliability as a regulatory intelligence domain, not as a management or reporting system.
+          </p>
+        </div>
+
+        <div class="note-card">
+          <h3 class="note-heading">Beta commitment</h3>
+          <p class="note-body">
+            While a market is in Beta, if a committed coverage date slips, we extend your subscription — you don't pay for a promise we missed. Beta regions are included at no extra cost with any paid plan during the Beta period.
+          </p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ── CTA ── -->
+  <section class="section-sm">
+    <div class="container">
+      <div class="cta-row">
+        <div>
+          <h2 class="cta-heading">See the methodology</h2>
+          <p class="cta-sub">How the pipeline works, how deadlines are computed, and what "estimated" means in practice.</p>
+          <a href="/methodology" class="btn-secondary">Read the methodology →</a>
+        </div>
+        <div class="cta-divider"></div>
+        <div>
+          <h2 class="cta-heading">Questions about coverage?</h2>
+          <p class="cta-sub">Talk to us — we'd rather you know the gaps up front than find out after you sign up.</p>
+          <a href="mailto:hello@nodalpulse.com" class="btn-secondary">Talk to us →</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</Base>
+
+<style>
+  .hero { border-bottom: 1px solid var(--np-border); }
+  .hero-content { max-width: 680px; }
+
+  .hero-headline {
+    font-size: clamp(26px, 3.5vw, 40px);
+    font-weight: 600;
+    letter-spacing: -0.03em;
+    line-height: 1.2;
+    color: var(--np-text-primary);
+    margin-bottom: 18px;
+  }
+
+  .hero-sub {
+    font-size: 16px;
+    color: var(--np-text-muted);
+    line-height: 1.7;
+  }
+
+  /* Coverage table */
+  .table-wrapper {
+    overflow-x: auto;
+    border: 1px solid var(--np-border);
+    border-radius: var(--np-radius-lg);
+  }
+
+  .coverage-table {
+    width: 100%;
+    min-width: 700px;
+    border-collapse: collapse;
+    font-size: 13px;
+  }
+
+  .coverage-table thead tr {
+    background: var(--np-surface-elevated);
+    border-bottom: 1px solid var(--np-border-strong);
+  }
+
+  .coverage-table th {
+    text-align: left;
+    padding: 12px 16px;
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--np-text-strong);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  .col-market { width: 180px; }
+  .col-status { width: 90px; }
+  .col-covered { width: 280px; }
+  .col-roadmap { }
+
+  .coverage-table tbody tr {
+    border-bottom: 1px solid var(--np-border);
+  }
+
+  .coverage-table tbody tr:last-child { border-bottom: none; }
+  .coverage-table tbody tr:hover { background: var(--np-surface-elevated); }
+
+  .cell-market, .cell-status, .cell-covered, .cell-roadmap {
+    padding: 14px 16px;
+    vertical-align: top;
+  }
+
+  .market-link {
+    font-weight: 600;
+    color: var(--np-text-primary);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+    text-decoration-color: var(--np-border-strong);
+  }
+
+  .market-link:hover { color: var(--np-accent); text-decoration-color: var(--np-accent); }
+  .market-link--plain { text-decoration: none; cursor: default; color: var(--np-text-body); font-weight: 600; }
+
+  .status-badge {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 3px 8px;
+    border-radius: 4px;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+  }
+
+  .status-badge--live { background: #D1FAE5; color: #065F46; }
+  .status-badge--beta { background: #FEF3C7; color: #92400E; }
+  .status-badge--roadmap { background: var(--np-surface-deep); color: var(--np-text-muted); }
+
+  .cell-covered, .cell-roadmap {
+    font-size: 13px;
+    color: var(--np-text-body);
+    line-height: 1.6;
+  }
+
+  .cell-roadmap { color: var(--np-text-muted); }
+
+  /* Notes grid */
+  .notes-section { border-top: 1px solid var(--np-border); }
+
+  .notes-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: var(--np-border);
+    border: 1px solid var(--np-border);
+    border-radius: var(--np-radius-lg);
+    overflow: hidden;
+  }
+
+  .note-card {
+    background: var(--np-surface);
+    padding: 24px;
+  }
+
+  .note-heading {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--np-text-primary);
+    margin-bottom: 10px;
+  }
+
+  .note-body {
+    font-size: 14px;
+    color: var(--np-text-muted);
+    line-height: 1.7;
+  }
+
+  .inline-link {
+    color: var(--np-accent);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+
+  /* CTA row */
+  .cta-row {
+    display: flex;
+    gap: 48px;
+    align-items: flex-start;
+    padding: 32px 0;
+    border-top: 1px solid var(--np-border);
+  }
+
+  .cta-divider {
+    width: 1px;
+    height: 80px;
+    background: var(--np-border);
+    align-self: center;
+    flex-shrink: 0;
+  }
+
+  .cta-heading {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--np-text-primary);
+    margin-bottom: 6px;
+  }
+
+  .cta-sub {
+    font-size: 14px;
+    color: var(--np-text-muted);
+    line-height: 1.6;
+    margin-bottom: 16px;
+  }
+
+  @media (max-width: 768px) {
+    .notes-grid { grid-template-columns: 1fr; }
+    .cta-row { flex-direction: column; gap: 32px; }
+    .cta-divider { display: none; }
+  }
+</style>
