@@ -11,7 +11,7 @@ const tiers = [
 const faqItems = [
   {
     q: 'Is CPUC covered?',
-    a: "CPUC is roadmap Phase 2. CPUC's legacy system has no public API — until a dedicated adapter ships, a matter's CPUC leg is referenced (from filing text) but not fully crawled. We say so plainly in the product. You will see CPUC proceeding references extracted from filings, but not independent CPUC docket monitoring."
+    a: "CPUC is roadmap Phase 2. CPUC's legacy system has no public API — until a dedicated adapter ships, a matter's CPUC leg is referenced (from filing text) but not fully crawled. You will see CPUC proceeding references extracted from filings, but not independent CPUC docket monitoring."
   },
   {
     q: 'What does "initiative-linking" mean?',
@@ -23,14 +23,14 @@ const faqItems = [
   },
   {
     q: 'What does Beta mean in practice?',
-    a: "We're in a 5-day reliability window as of early June 2026. High-value filings that reference orders or tariff sections outside the document may produce less complete summaries — we label confidence and validate continuously. Beta is included at no extra cost with any paid plan."
+    a: "We're in a reliability window as of early June 2026. High-value filings that reference orders or tariff sections outside the document may produce less complete summaries — we label confidence and validate continuously. California is free during Beta — no credit card required."
   },
 ];
 ---
 
 <Base
-  title="California CAISO Regulatory Intelligence — NodalPulse (Beta)"
-  description="CAISO filings, FERC ER/EL dockets, and cross-system initiative-linking in a daily cited brief. California is in Beta — included at no extra cost with any paid plan."
+  title="California CAISO Regulatory Intelligence — NodalPulse (Beta · Free)"
+  description="CAISO filings, FERC ER/EL dockets, and cross-system initiative-linking in a daily cited brief. California is in Beta and free — no card required. GA price disclosed on-page."
   extraSchema={[{
     "@type": "FAQPage",
     "mainEntity": faqItems.map(f => ({
@@ -47,19 +47,19 @@ const faqItems = [
       <div class="hero-content">
         <div class="status-flag">
           <span class="status-badge status-badge--beta">Beta</span>
-          <span class="status-note">Included at no extra cost with any paid plan during Beta</span>
+          <span class="status-free">Free during Beta — no card required</span>
         </div>
         <h1 class="hero-headline">
           Three California forums. One thread. <span class="beta-inline">Beta</span>
         </h1>
         <p class="hero-sub">
-          A California matter rarely lives in one place — a CAISO stakeholder initiative becomes a FERC docket and runs alongside a CPUC proceeding, with no shared ID. NodalPulse crawls the CAISO filings index and the FERC dockets it references daily, extracts the substance, and threads the legs together. Launching in Beta — we label what's certain and what's estimated.
+          A California matter rarely lives in one place — a CAISO stakeholder initiative becomes a FERC docket and runs alongside a CPUC proceeding, with no shared ID. NodalPulse crawls the CAISO filings index and the FERC dockets it references daily, extracts the substance, and threads the legs together. Free during Beta — we label what's certain and what's estimated.
         </p>
         <div class="hero-actions">
-          <a href="https://app.nodalpulse.com/login" class="btn-primary btn-lg">Join the California Beta →</a>
+          <a href="https://app.nodalpulse.com/login" class="btn-primary btn-lg">Try free during Beta →</a>
           <a href="/coverage" class="btn-secondary btn-lg">See full coverage →</a>
         </div>
-        <p class="hero-trust">14-day free trial &middot; No card required &middot; California Beta included at no extra cost</p>
+        <p class="hero-trust">No card required during Beta &middot; $249/mo at general availability — we'll give notice before it applies</p>
       </div>
     </div>
   </section>
@@ -139,41 +139,55 @@ const faqItems = [
     </div>
   </section>
 
-  <!-- ── Pricing ladder (1D — California) ── -->
+  <!-- ── Pricing (Beta: struck prices + Free during Beta treatment) ── -->
   <section class="pricing-section section">
     <div class="container">
-      <h2 class="section-heading">Simple, transparent pricing</h2>
-      <p class="section-sub">California Beta included at no extra cost. One region, one plan. Additional regions added in-app after signup.</p>
+      <h2 class="section-heading">Free during Beta</h2>
+      <p class="section-sub">
+        California access is free while in Beta — no card required, no time limit. Prices below show what each plan costs at general availability.
+      </p>
 
       <div class="tier-row">
         {tiers.map(tier => (
           <div class:list={['tier-card', { 'tier-card--highlight': tier.highlight }]}>
             {tier.highlight && <div class="tier-badge">Most popular</div>}
             <div class="tier-name">{tier.name}</div>
-            <div class="tier-price">
-              <span class="tier-amount">{tier.price}</span>
-              <span class="tier-period">{tier.period}</span>
-            </div>
+
+            {tier.contactOnly ? (
+              <div class="tier-price">
+                <span class="tier-amount">{tier.price}</span>
+                <span class="tier-period">{tier.period}</span>
+              </div>
+            ) : (
+              <div class="tier-price-beta">
+                <span class="beta-free-chip">Free during Beta</span>
+                <div class="tier-price-struck">
+                  <del><span class="tier-amount-muted">{tier.price}</span><span class="tier-period-muted">{tier.period} at GA</span></del>
+                </div>
+              </div>
+            )}
+
             <ul class="tier-features">
               <li>{tier.dockets} tracked dockets</li>
               <li>{tier.history} brief history</li>
               <li>{tier.qa} Ask the Record</li>
               <li>{tier.seats} seat{tier.seats !== '1' ? 's' : ''}</li>
             </ul>
+
             {tier.contactOnly ? (
-              <a href="mailto:hello@nodalpulse.com" class:list={['tier-cta', 'btn-secondary']}>Contact us</a>
+              <a href="mailto:hello@nodalpulse.com" class="tier-cta btn-secondary">Contact us</a>
             ) : (
-              <a href={`https://app.nodalpulse.com/login?callbackURL=%2Fpricing%3Ftier%3D${tier.name.toLowerCase()}`} class:list={['tier-cta', tier.highlight ? 'btn-primary' : 'btn-secondary']}>
-                Join Beta free
-              </a>
+              <a href="https://app.nodalpulse.com/login" class="tier-cta btn-primary">Try free during Beta</a>
             )}
           </div>
         ))}
       </div>
 
-      <p class="pricing-note">
-        14-day free trial of Pro · No card required · California Beta included at no extra cost · Additional regions +$49/mo (Starter/Pro), +$99/mo (Team), included (Org)
+      <p class="ga-disclosure">
+        At general availability, California access is <strong>$249/mo</strong> (Pro) or <strong>+$49/mo</strong> added to an existing Texas plan. We'll give you notice before any charge applies — no surprise billing.
       </p>
+
+      <p class="pricing-note">No card required during Beta · Texas pricing unchanged ($99/$249/$749/$1,999/mo) · Additional regions added in-app after signup</p>
     </div>
   </section>
 
@@ -218,14 +232,12 @@ const faqItems = [
     text-transform: uppercase;
   }
 
-  .status-badge--beta {
-    background: #FEF3C7;
-    color: #92400E;
-  }
+  .status-badge--beta { background: #FEF3C7; color: #92400E; }
 
-  .status-note {
-    font-size: 12px;
-    color: var(--np-text-muted);
+  .status-free {
+    font-size: 13px;
+    font-weight: 600;
+    color: #059669;
   }
 
   .hero-headline {
@@ -258,14 +270,9 @@ const faqItems = [
     margin-bottom: 28px;
   }
 
-  .hero-actions {
-    display: flex;
-    gap: 10px;
-    flex-wrap: wrap;
-    margin-bottom: 12px;
-  }
-
+  .hero-actions { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 12px; }
   .btn-lg { padding: 11px 22px; font-size: 15px; }
+
   .hero-trust { font-size: 12px; color: var(--np-text-muted); }
 
   /* Bullets */
@@ -282,6 +289,7 @@ const faqItems = [
     color: var(--np-text-muted);
     margin-bottom: 28px;
     margin-top: -16px;
+    max-width: 580px;
   }
 
   .bullets-list {
@@ -313,18 +321,8 @@ const faqItems = [
     margin-top: 1px;
   }
 
-  .bullet-title {
-    font-size: 14px;
-    font-weight: 600;
-    color: var(--np-text-primary);
-    margin-bottom: 4px;
-  }
-
-  .bullet-body {
-    font-size: 14px;
-    color: var(--np-text-muted);
-    line-height: 1.65;
-  }
+  .bullet-title { font-size: 14px; font-weight: 600; color: var(--np-text-primary); margin-bottom: 4px; }
+  .bullet-body { font-size: 14px; color: var(--np-text-muted); line-height: 1.65; }
 
   code {
     font-family: var(--np-font-mono);
@@ -343,22 +341,10 @@ const faqItems = [
   }
 
   .cpuc-box { max-width: 680px; }
+  .cpuc-heading { font-size: 15px; font-weight: 600; color: var(--np-text-strong); margin-bottom: 10px; }
+  .cpuc-body { font-size: 14px; color: var(--np-text-muted); line-height: 1.7; margin-bottom: 8px; }
 
-  .cpuc-heading {
-    font-size: 15px;
-    font-weight: 600;
-    color: var(--np-text-strong);
-    margin-bottom: 10px;
-  }
-
-  .cpuc-body {
-    font-size: 14px;
-    color: var(--np-text-muted);
-    line-height: 1.7;
-    margin-bottom: 8px;
-  }
-
-  /* Pricing */
+  /* Pricing — Beta free treatment */
   .pricing-section { border-top: 1px solid var(--np-border); }
 
   .tier-row {
@@ -377,7 +363,7 @@ const faqItems = [
     padding: 24px 20px;
     display: flex;
     flex-direction: column;
-    gap: 16px;
+    gap: 14px;
     position: relative;
   }
 
@@ -406,17 +392,46 @@ const faqItems = [
     margin-top: 12px;
   }
 
+  /* Normal price (Org contact tier) */
   .tier-price { display: flex; align-items: baseline; gap: 2px; }
+  .tier-amount { font-size: 22px; font-weight: 600; color: var(--np-text-primary); font-variant-numeric: tabular-nums; letter-spacing: -0.02em; }
+  .tier-period { font-size: 13px; color: var(--np-text-muted); }
 
-  .tier-amount {
-    font-size: 22px;
-    font-weight: 600;
-    color: var(--np-text-primary);
-    font-variant-numeric: tabular-nums;
-    letter-spacing: -0.02em;
+  /* Beta free price treatment */
+  .tier-price-beta {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
   }
 
-  .tier-period { font-size: 13px; color: var(--np-text-muted); }
+  .beta-free-chip {
+    display: inline-block;
+    background: #D1FAE5;
+    color: #065F46;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 3px 8px;
+    border-radius: 3px;
+    letter-spacing: 0.04em;
+    align-self: flex-start;
+  }
+
+  .tier-price-struck {
+    display: flex;
+    align-items: baseline;
+    gap: 2px;
+  }
+
+  .tier-price-struck del {
+    display: flex;
+    align-items: baseline;
+    gap: 2px;
+    text-decoration: line-through;
+    text-decoration-color: var(--np-text-muted);
+  }
+
+  .tier-amount-muted { font-size: 20px; font-weight: 500; color: var(--np-text-muted); font-variant-numeric: tabular-nums; }
+  .tier-period-muted { font-size: 12px; color: var(--np-text-muted); }
 
   .tier-features {
     display: flex;
@@ -437,25 +452,25 @@ const faqItems = [
     border-radius: var(--np-radius-md);
   }
 
+  /* GA disclosure */
+  .ga-disclosure {
+    font-size: 13px;
+    color: var(--np-text-muted);
+    line-height: 1.7;
+    padding: 12px 16px;
+    background: var(--np-surface-elevated);
+    border: 1px solid var(--np-border);
+    border-top: none;
+    border-radius: 0 0 var(--np-radius-lg) var(--np-radius-lg);
+    margin-bottom: 12px;
+  }
+
   .pricing-note { font-size: 13px; color: var(--np-text-muted); line-height: 1.6; }
 
   /* FAQ */
   .faq-block { max-width: 680px; }
-
-  .faq-heading {
-    font-size: 20px;
-    font-weight: 600;
-    color: var(--np-text-primary);
-    letter-spacing: -0.01em;
-    margin-bottom: 20px;
-  }
-
-  .faq-list {
-    border: 1px solid var(--np-border);
-    border-radius: var(--np-radius-lg);
-    overflow: hidden;
-  }
-
+  .faq-heading { font-size: 20px; font-weight: 600; color: var(--np-text-primary); letter-spacing: -0.01em; margin-bottom: 20px; }
+  .faq-list { border: 1px solid var(--np-border); border-radius: var(--np-radius-lg); overflow: hidden; }
   .faq-item { border-bottom: 1px solid var(--np-border); }
   .faq-item:last-child { border-bottom: none; }
 
@@ -473,30 +488,11 @@ const faqItems = [
   }
 
   .faq-question::-webkit-details-marker { display: none; }
-
-  .faq-question::after {
-    content: '+';
-    font-size: 18px;
-    font-weight: 400;
-    color: var(--np-text-muted);
-    flex-shrink: 0;
-    margin-left: 16px;
-  }
-
+  .faq-question::after { content: '+'; font-size: 18px; font-weight: 400; color: var(--np-text-muted); flex-shrink: 0; margin-left: 16px; }
   details[open] .faq-question::after { content: '−'; }
   .faq-question:hover { background: var(--np-surface-elevated); }
+  .faq-answer { padding: 0 20px 16px; font-size: 14px; color: var(--np-text-muted); line-height: 1.7; }
 
-  .faq-answer {
-    padding: 0 20px 16px;
-    font-size: 14px;
-    color: var(--np-text-muted);
-    line-height: 1.7;
-  }
-
-  @media (max-width: 768px) {
-    .tier-row { grid-template-columns: 1fr 1fr; }
-  }
-  @media (max-width: 480px) {
-    .tier-row { grid-template-columns: 1fr; }
-  }
+  @media (max-width: 768px) { .tier-row { grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 480px) { .tier-row { grid-template-columns: 1fr; } }
 </style>

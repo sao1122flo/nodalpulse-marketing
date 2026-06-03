@@ -2,20 +2,20 @@
 import Base from '../layouts/Base.astro';
 
 const tiers = [
-  { name: 'Starter', price: '$99',   period: '/mo', highlight: false, contactOnly: false, href: 'https://app.nodalpulse.com/login?callbackURL=%2Fpricing%3Ftier%3Dstarter' },
-  { name: 'Pro',     price: '$249',  period: '/mo', highlight: true,  contactOnly: false, href: 'https://app.nodalpulse.com/login?callbackURL=%2Fpricing%3Ftier%3Dpro'     },
-  { name: 'Team',    price: '$749',  period: '/mo', highlight: false, contactOnly: false, href: 'https://app.nodalpulse.com/login?callbackURL=%2Fpricing%3Ftier%3Dteam'    },
-  { name: 'Org',     price: '$1,999',period: '/mo', highlight: false, contactOnly: true,  href: 'mailto:hello@nodalpulse.com'                                              },
+  { name: 'Starter', price: '$99',   period: '/mo', dockets: '5',         history: '30 days',   qa: '10/day',  seats: '1',  highlight: false, contactOnly: false },
+  { name: 'Pro',     price: '$249',  period: '/mo', dockets: '25',        history: '1 year',    qa: '30/day',  seats: '1',  highlight: true,  contactOnly: false },
+  { name: 'Team',    price: '$749',  period: '/mo', dockets: '100',       history: '3 years',   qa: '100/day', seats: '5',  highlight: false, contactOnly: false },
+  { name: 'Org',     price: '$1,999',period: '/mo', dockets: 'Unlimited', history: 'Unlimited', qa: '300/day', seats: '25', highlight: false, contactOnly: true  },
 ];
 
 const rows = [
-  { label: 'Tracked dockets',     values: ['5', '25', '100', 'Unlimited'] },
-  { label: 'Brief history',       values: ['30 days', '1 year', '3 years', 'Unlimited'] },
-  { label: 'Ask the Record',      values: ['10 q/day', '30 q/day', '100 q/day', '300 q/day'] },
-  { label: 'Team seats',          values: ['1', '1', '5', '25'] },
-  { label: 'Regions included',    values: ['1', '1', '1', 'All'] },
-  { label: 'SLA',                 values: ['—', '—', '99.5%', '99.9%'] },
-  { label: 'API access',          values: ['—', '—', '—', '✓'] },
+  { label: 'Tracked dockets',  values: ['5', '25', '100', 'Unlimited'] },
+  { label: 'Brief history',    values: ['30 days', '1 year', '3 years', 'Unlimited'] },
+  { label: 'Ask the Record',   values: ['10 q/day', '30 q/day', '100 q/day', '300 q/day'] },
+  { label: 'Team seats',       values: ['1', '1', '5', '25'] },
+  { label: 'Regions included', values: ['1', '1', '1', 'All'] },
+  { label: 'SLA',              values: ['—', '—', '99.5%', '99.9%'] },
+  { label: 'API access',       values: ['—', '—', '—', '✓'] },
 ];
 
 const faqs = [
@@ -25,15 +25,15 @@ const faqs = [
   },
   {
     q: 'Is there a free trial?',
-    a: 'Yes. 14 days free on the Pro plan with one region of your choice. No credit card required to start.',
+    a: '14 days free on the Pro plan with one region of your choice. No credit card required to start. California and PJM are free during their Beta period — no trial limit, just free.',
   },
   {
-    q: 'Are CAISO (California) and PJM included during Beta?',
-    a: 'Yes. Both Beta regions are included at no additional cost with any paid plan during the Beta period. When Beta ends and they become generally available, you\'ll have the option to add them at the standard region add-on price.',
+    q: 'Are California and PJM really free during Beta?',
+    a: 'Yes. Both Beta regions are free during their Beta period — no credit card required. At general availability, access to each Beta region is $249/mo (Pro) or +$49/mo added to an existing plan. We will notify you before any charge applies.',
   },
   {
     q: 'How is this different from asking Claude or ChatGPT?',
-    a: 'General-purpose AI relies on web search indexes that capture 30–40% of PUCT Interchange and FERC filings at best. NodalPulse runs purpose-built crawlers that hit the source systems directly on submission. Every answer is grounded in extracted filing text with source citations. Claims that cannot be sourced are dropped before delivery. You also get a persistent docket history, deadline extraction, and scheduled 06:00 CT delivery — none of which a chat session provides.',
+    a: 'General-purpose AI relies on web search indexes that capture 30–40% of PUCT Interchange and FERC filings at best. NodalPulse runs purpose-built crawlers that hit the source systems directly on submission. Every answer is grounded in extracted filing text with source citations. Claims that cannot be sourced are dropped before delivery.',
   },
   {
     q: 'Can I cancel anytime?',
@@ -48,7 +48,7 @@ const faqs = [
 
 <Base
   title="Pricing — NodalPulse"
-  description="NodalPulse pricing: Starter $99/mo, Pro $249/mo, Team $749/mo, Org $1,999/mo. One region per plan. 14-day free trial, no card required. CAISO and PJM Beta included at no extra cost."
+  description="NodalPulse pricing: Starter $99/mo, Pro $249/mo, Team $749/mo, Org $1,999/mo. California and PJM free during Beta. 14-day free trial on Texas, no card required."
   extraSchema={[{
     "@type": "FAQPage",
     "mainEntity": faqs.map(f => ({
@@ -65,41 +65,139 @@ const faqs = [
       <div class="pricing-header">
         <h1 class="page-title">Simple, transparent pricing</h1>
         <p class="page-sub">
-          One region per plan. 14-day free trial on Pro — no card required. CAISO and PJM Beta included at no extra cost.
+          Texas: 14-day free trial, no card required. California and PJM: free during Beta — no card, no time limit.
         </p>
       </div>
 
-      <!-- Tier cards row -->
-      <div class="tier-cards">
-        {tiers.map(tier => (
-          <div class:list={['tier-card', { 'tier-card--highlight': tier.highlight }]}>
-            {tier.highlight && <div class="tier-badge">Most popular</div>}
-            <div class="tier-name">{tier.name}</div>
-            <div class="tier-price">
-              <span class="tier-amount">{tier.price}</span>
-              {tier.period && <span class="tier-period">{tier.period}</span>}
+      <!-- ── Region toggle (CSS-only) ── -->
+      <!-- All three panels are in HTML — AI crawlers see all prices -->
+      <div class="region-toggle">
+        <input type="radio" name="pricing-region" id="price-tx"  class="region-radio" checked>
+        <input type="radio" name="pricing-region" id="price-ca"  class="region-radio">
+        <input type="radio" name="pricing-region" id="price-pjm" class="region-radio">
+
+        <div class="region-tab-bar">
+          <label for="price-tx"  class="region-tab-label">Texas  <span class="tab-chip tab-chip--live">Live</span></label>
+          <label for="price-ca"  class="region-tab-label">California <span class="tab-chip tab-chip--free">Free during Beta</span></label>
+          <label for="price-pjm" class="region-tab-label">PJM <span class="tab-chip tab-chip--free">Free during Beta</span></label>
+        </div>
+
+        <div class="region-panels">
+
+          <!-- Texas panel — normal pricing -->
+          <div class="region-panel" id="price-panel-tx">
+            <div class="tier-cards">
+              {tiers.map(tier => (
+                <div class:list={['tier-card', { 'tier-card--highlight': tier.highlight }]}>
+                  {tier.highlight && <div class="tier-badge">Most popular</div>}
+                  <div class="tier-name">{tier.name}</div>
+                  <div class="tier-price">
+                    <span class="tier-amount">{tier.price}</span>
+                    {tier.period && <span class="tier-period">{tier.period}</span>}
+                  </div>
+                  <a
+                    href={tier.contactOnly ? 'mailto:hello@nodalpulse.com' : `https://app.nodalpulse.com/login?callbackURL=%2Fpricing%3Ftier%3D${tier.name.toLowerCase()}`}
+                    class:list={[tier.highlight ? 'btn-primary' : 'btn-secondary', 'tier-cta']}
+                  >
+                    {tier.contactOnly ? 'Contact us' : 'Start free trial'}
+                  </a>
+                </div>
+              ))}
             </div>
-            <a
-              href={tier.href}
-              class:list={[tier.highlight ? 'btn-primary' : 'btn-secondary', 'tier-cta']}
-            >
-              {tier.contactOnly ? 'Contact us' : 'Start free trial'}
-            </a>
+            <div class="addon-note">
+              <span class="addon-icon" aria-hidden="true">+</span>
+              <span>
+                Additional regions: <strong>+$49/mo</strong> (Starter &amp; Pro) · <strong>+$99/mo</strong> (Team) · <strong>Included</strong> (Org).
+                California and PJM are free during Beta.
+                Added in-app after signup.
+              </span>
+            </div>
           </div>
-        ))}
-      </div>
 
-      <!-- Region add-on note -->
-      <div class="addon-note">
-        <span class="addon-icon" aria-hidden="true">+</span>
-        <span>
-          Additional regions: <strong>+$49/mo</strong> (Starter &amp; Pro) · <strong>+$99/mo</strong> (Team) · <strong>Included</strong> (Org).
-          Added in-app after signup — cross-sell happens in the product, not here.
-          California (Beta) and PJM (Beta) are included at no extra cost during Beta.
-        </span>
-      </div>
+          <!-- California panel — Beta free (struck prices) -->
+          <div class="region-panel" id="price-panel-ca">
+            <div class="beta-region-notice">
+              <span class="beta-free-badge-lg">Free during Beta</span>
+              <span class="beta-region-note">No card required. $249/mo at general availability — we'll give you notice before any charge applies.</span>
+            </div>
+            <div class="tier-cards">
+              {tiers.map(tier => (
+                <div class:list={['tier-card', { 'tier-card--highlight': tier.highlight }]}>
+                  {tier.highlight && <div class="tier-badge">Most popular</div>}
+                  <div class="tier-name">{tier.name}</div>
 
-      <!-- Comparison table -->
+                  {tier.contactOnly ? (
+                    <div class="tier-price">
+                      <span class="tier-amount">{tier.price}</span>
+                      <span class="tier-period">{tier.period}</span>
+                    </div>
+                  ) : (
+                    <div class="tier-price-beta">
+                      <span class="beta-free-chip">Free during Beta</span>
+                      <div class="tier-price-struck">
+                        <del><span class="tier-amount-muted">{tier.price}</span><span class="tier-period-muted">{tier.period} at GA</span></del>
+                      </div>
+                    </div>
+                  )}
+
+                  <a
+                    href={tier.contactOnly ? 'mailto:hello@nodalpulse.com' : 'https://app.nodalpulse.com/login'}
+                    class:list={[tier.highlight ? 'btn-primary' : 'btn-secondary', 'tier-cta']}
+                  >
+                    {tier.contactOnly ? 'Contact us' : 'Try free during Beta'}
+                  </a>
+                </div>
+              ))}
+            </div>
+            <p class="ga-disclosure">
+              At general availability, California access is <strong>$249/mo</strong> (Pro) or <strong>+$49/mo</strong> added to an existing Texas plan. We'll notify you before any charge applies.
+            </p>
+          </div>
+
+          <!-- PJM panel — Beta free (struck prices) -->
+          <div class="region-panel" id="price-panel-pjm">
+            <div class="beta-region-notice">
+              <span class="beta-free-badge-lg">Free during Beta</span>
+              <span class="beta-region-note">No card required. $249/mo at general availability — we'll give you notice before any charge applies.</span>
+            </div>
+            <div class="tier-cards">
+              {tiers.map(tier => (
+                <div class:list={['tier-card', { 'tier-card--highlight': tier.highlight }]}>
+                  {tier.highlight && <div class="tier-badge">Most popular</div>}
+                  <div class="tier-name">{tier.name}</div>
+
+                  {tier.contactOnly ? (
+                    <div class="tier-price">
+                      <span class="tier-amount">{tier.price}</span>
+                      <span class="tier-period">{tier.period}</span>
+                    </div>
+                  ) : (
+                    <div class="tier-price-beta">
+                      <span class="beta-free-chip">Free during Beta</span>
+                      <div class="tier-price-struck">
+                        <del><span class="tier-amount-muted">{tier.price}</span><span class="tier-period-muted">{tier.period} at GA</span></del>
+                      </div>
+                    </div>
+                  )}
+
+                  <a
+                    href={tier.contactOnly ? 'mailto:hello@nodalpulse.com' : 'https://app.nodalpulse.com/login'}
+                    class:list={[tier.highlight ? 'btn-primary' : 'btn-secondary', 'tier-cta']}
+                  >
+                    {tier.contactOnly ? 'Contact us' : 'Try free during Beta'}
+                  </a>
+                </div>
+              ))}
+            </div>
+            <p class="ga-disclosure">
+              At general availability, PJM access is <strong>$249/mo</strong> (Pro) or <strong>+$49/mo</strong> added to an existing Texas plan. We'll notify you before any charge applies.
+            </p>
+          </div>
+
+        </div><!-- /region-panels -->
+      </div><!-- /region-toggle -->
+
+      <!-- Comparison table (tier features — region-agnostic) -->
       <div class="table-wrapper">
         <table class="compare-table">
           <thead>
@@ -143,9 +241,9 @@ const faqs = [
       <!-- Bottom CTA -->
       <div class="pricing-cta">
         <a href="https://app.nodalpulse.com/pricing" class="btn-primary btn-lg">
-          Start your 14-day free trial &rarr;
+          Start free &rarr;
         </a>
-        <p class="pricing-cta-note">No card required. Pro plan + 1 region of your choice.</p>
+        <p class="pricing-cta-note">Texas: 14-day free trial, no card. California &amp; PJM: free during Beta.</p>
       </div>
 
     </div>
@@ -154,10 +252,7 @@ const faqs = [
 </Base>
 
 <style>
-  .pricing-header {
-    text-align: center;
-    margin-bottom: 40px;
-  }
+  .pricing-header { text-align: center; margin-bottom: 32px; }
 
   .page-title {
     font-size: 32px;
@@ -167,13 +262,85 @@ const faqs = [
     margin-bottom: 10px;
   }
 
-  .page-sub {
-    font-size: 16px;
-    color: var(--np-text-muted);
-    max-width: 540px;
-    margin: 0 auto;
-    line-height: 1.6;
+  .page-sub { font-size: 16px; color: var(--np-text-muted); max-width: 540px; margin: 0 auto; line-height: 1.6; }
+
+  /* ── Region toggle (CSS-only) ── */
+  .region-radio { position: absolute; opacity: 0; pointer-events: none; width: 0; height: 0; }
+
+  .region-tab-bar {
+    display: flex;
+    gap: 4px;
+    border-bottom: 1px solid var(--np-border);
+    margin-bottom: 0;
   }
+
+  .region-tab-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 10px 16px;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--np-text-muted);
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    margin-bottom: -1px;
+    transition: color 0.12s, border-color 0.12s;
+    user-select: none;
+  }
+
+  .region-tab-label:hover { color: var(--np-text-primary); }
+
+  .tab-chip {
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 700;
+    padding: 2px 6px;
+    border-radius: 3px;
+    letter-spacing: 0.03em;
+  }
+
+  .tab-chip--live { background: #D1FAE5; color: #065F46; }
+  .tab-chip--free { background: #D1FAE5; color: #065F46; }
+
+  /* Active tab via CSS sibling selectors */
+  #price-tx:checked  ~ .region-tab-bar label[for="price-tx"],
+  #price-ca:checked  ~ .region-tab-bar label[for="price-ca"],
+  #price-pjm:checked ~ .region-tab-bar label[for="price-pjm"] {
+    color: var(--np-text-primary);
+    border-bottom-color: var(--np-accent);
+  }
+
+  /* Hide all panels by default */
+  .region-panel { display: none; padding-top: 24px; }
+
+  /* Show the checked panel */
+  #price-tx:checked  ~ .region-panels #price-panel-tx  { display: block; }
+  #price-ca:checked  ~ .region-panels #price-panel-ca  { display: block; }
+  #price-pjm:checked ~ .region-panels #price-panel-pjm { display: block; }
+
+  /* Beta notice bar */
+  .beta-region-notice {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 16px;
+    flex-wrap: wrap;
+  }
+
+  .beta-free-badge-lg {
+    display: inline-block;
+    background: #D1FAE5;
+    color: #065F46;
+    font-size: 12px;
+    font-weight: 700;
+    padding: 4px 10px;
+    border-radius: 4px;
+    letter-spacing: 0.04em;
+    flex-shrink: 0;
+  }
+
+  .beta-region-note { font-size: 13px; color: var(--np-text-muted); }
 
   /* Tier cards */
   .tier-cards {
@@ -196,9 +363,7 @@ const faqs = [
     position: relative;
   }
 
-  .tier-card--highlight {
-    background: var(--np-indigo-50);
-  }
+  .tier-card--highlight { background: var(--np-indigo-50); }
 
   .tier-badge {
     position: absolute;
@@ -223,24 +388,38 @@ const faqs = [
     margin-top: 10px;
   }
 
-  .tier-price {
+  /* Normal price (Texas + Org) */
+  .tier-price { display: flex; align-items: baseline; gap: 3px; }
+  .tier-amount { font-size: 24px; font-weight: 600; color: var(--np-text-primary); letter-spacing: -0.02em; font-variant-numeric: tabular-nums; }
+  .tier-period { font-size: 13px; color: var(--np-text-muted); }
+
+  /* Beta free (CA + PJM) */
+  .tier-price-beta { display: flex; flex-direction: column; gap: 4px; }
+
+  .beta-free-chip {
+    display: inline-block;
+    background: #D1FAE5;
+    color: #065F46;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 3px 8px;
+    border-radius: 3px;
+    letter-spacing: 0.04em;
+    align-self: flex-start;
+  }
+
+  .tier-price-struck { display: flex; align-items: baseline; }
+
+  .tier-price-struck del {
     display: flex;
     align-items: baseline;
-    gap: 3px;
+    gap: 2px;
+    text-decoration: line-through;
+    text-decoration-color: var(--np-text-muted);
   }
 
-  .tier-amount {
-    font-size: 24px;
-    font-weight: 600;
-    color: var(--np-text-primary);
-    letter-spacing: -0.02em;
-    font-variant-numeric: tabular-nums;
-  }
-
-  .tier-period {
-    font-size: 13px;
-    color: var(--np-text-muted);
-  }
+  .tier-amount-muted { font-size: 20px; font-weight: 500; color: var(--np-text-muted); font-variant-numeric: tabular-nums; }
+  .tier-period-muted { font-size: 12px; color: var(--np-text-muted); }
 
   .tier-cta {
     width: 100%;
@@ -251,7 +430,20 @@ const faqs = [
     display: block;
   }
 
-  /* Region add-on note */
+  /* GA disclosure */
+  .ga-disclosure {
+    font-size: 13px;
+    color: var(--np-text-muted);
+    line-height: 1.7;
+    padding: 12px 16px;
+    background: var(--np-surface-elevated);
+    border: 1px solid var(--np-border);
+    border-top: none;
+    border-radius: 0 0 var(--np-radius-lg) var(--np-radius-lg);
+    margin-top: 0;
+  }
+
+  /* Add-on note (Texas panel) */
   .addon-note {
     display: flex;
     gap: 10px;
@@ -263,31 +455,20 @@ const faqs = [
     border-top: none;
     border-radius: 0 0 var(--np-radius-lg) var(--np-radius-lg);
     padding: 12px 16px;
-    margin-bottom: 32px;
     line-height: 1.6;
   }
 
-  .addon-icon {
-    font-size: 15px;
-    font-weight: 700;
-    color: var(--np-accent);
-    flex-shrink: 0;
-    margin-top: 1px;
-  }
+  .addon-icon { font-size: 15px; font-weight: 700; color: var(--np-accent); flex-shrink: 0; margin-top: 1px; }
 
   /* Comparison table */
   .table-wrapper {
     overflow-x: auto;
-    margin-bottom: 56px;
+    margin: 32px 0 56px;
     border: 1px solid var(--np-border);
     border-radius: var(--np-radius-lg);
   }
 
-  .compare-table {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: 13px;
-  }
+  .compare-table { width: 100%; border-collapse: collapse; font-size: 13px; }
 
   .compare-table thead tr {
     background: var(--np-surface-elevated);
@@ -314,28 +495,13 @@ const faqs = [
     border-left: 1px solid var(--np-border);
   }
 
-  .col-header--highlight {
-    background: var(--np-indigo-50);
-    color: var(--np-indigo-700);
-  }
+  .col-header--highlight { background: var(--np-indigo-50); color: var(--np-indigo-700); }
 
-  .compare-table tbody tr {
-    border-bottom: 1px solid var(--np-border);
-  }
+  .compare-table tbody tr { border-bottom: 1px solid var(--np-border); }
+  .compare-table tbody tr:last-child { border-bottom: none; }
+  .compare-table tbody tr:hover { background: var(--np-surface-elevated); }
 
-  .compare-table tbody tr:last-child {
-    border-bottom: none;
-  }
-
-  .compare-table tbody tr:hover {
-    background: var(--np-surface-elevated);
-  }
-
-  .row-label {
-    padding: 12px 20px;
-    color: var(--np-text-body);
-    font-weight: 500;
-  }
+  .row-label { padding: 12px 20px; color: var(--np-text-body); font-weight: 500; }
 
   .row-val {
     text-align: center;
@@ -345,44 +511,24 @@ const faqs = [
     font-variant-numeric: tabular-nums;
   }
 
-  .row-val--highlight {
-    background: color-mix(in srgb, var(--np-indigo-50) 40%, transparent);
-  }
-
-  .row-val--empty {
-    color: var(--np-text-muted);
-  }
+  .row-val--highlight { background: color-mix(in srgb, var(--np-indigo-50) 40%, transparent); }
+  .row-val--empty { color: var(--np-text-muted); }
 
   /* FAQ */
-  .faq-section {
-    max-width: 680px;
-    margin: 0 auto 56px;
-  }
+  .faq-section { max-width: 680px; margin: 0 auto 56px; }
 
-  .faq-heading {
-    font-size: 20px;
-    font-weight: 600;
-    color: var(--np-text-primary);
-    letter-spacing: -0.01em;
-    margin-bottom: 24px;
-  }
+  .faq-heading { font-size: 20px; font-weight: 600; color: var(--np-text-primary); letter-spacing: -0.01em; margin-bottom: 24px; }
 
   .faq-list {
     display: flex;
     flex-direction: column;
-    gap: 0;
     border: 1px solid var(--np-border);
     border-radius: var(--np-radius-lg);
     overflow: hidden;
   }
 
-  .faq-item {
-    border-bottom: 1px solid var(--np-border);
-  }
-
-  .faq-item:last-child {
-    border-bottom: none;
-  }
+  .faq-item { border-bottom: 1px solid var(--np-border); }
+  .faq-item:last-child { border-bottom: none; }
 
   .faq-question {
     display: flex;
@@ -397,33 +543,11 @@ const faqs = [
     user-select: none;
   }
 
-  .faq-question::-webkit-details-marker {
-    display: none;
-  }
-
-  .faq-question::after {
-    content: '+';
-    font-size: 18px;
-    font-weight: 400;
-    color: var(--np-text-muted);
-    flex-shrink: 0;
-    margin-left: 16px;
-  }
-
-  details[open] .faq-question::after {
-    content: '−';
-  }
-
-  .faq-question:hover {
-    background: var(--np-surface-elevated);
-  }
-
-  .faq-answer {
-    padding: 0 20px 16px;
-    font-size: 14px;
-    color: var(--np-text-muted);
-    line-height: 1.7;
-  }
+  .faq-question::-webkit-details-marker { display: none; }
+  .faq-question::after { content: '+'; font-size: 18px; font-weight: 400; color: var(--np-text-muted); flex-shrink: 0; margin-left: 16px; }
+  details[open] .faq-question::after { content: '−'; }
+  .faq-question:hover { background: var(--np-surface-elevated); }
+  .faq-answer { padding: 0 20px 16px; font-size: 14px; color: var(--np-text-muted); line-height: 1.7; }
 
   /* Bottom CTA */
   .pricing-cta {
@@ -434,20 +558,14 @@ const faqs = [
     gap: 10px;
   }
 
-  .pricing-cta-note {
-    font-size: 13px;
-    color: var(--np-text-muted);
-  }
+  .pricing-cta-note { font-size: 13px; color: var(--np-text-muted); }
 
-  .btn-lg {
-    padding: 11px 22px;
-    font-size: 15px;
-  }
+  .btn-lg { padding: 11px 22px; font-size: 15px; }
 
   @media (max-width: 768px) {
     .tier-cards { grid-template-columns: 1fr 1fr; }
+    .region-tab-label { padding: 10px 10px; font-size: 13px; }
   }
-  @media (max-width: 480px) {
-    .tier-cards { grid-template-columns: 1fr; }
-  }
+
+  @media (max-width: 480px) { .tier-cards { grid-template-columns: 1fr; } }
 </style>

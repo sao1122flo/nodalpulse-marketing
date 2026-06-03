@@ -84,12 +84,12 @@ import Base from '../layouts/Base.astro';
               <div class="panel-copy">
                 <div class="panel-beta-flag">
                   <span class="beta-badge-lg">Beta</span>
-                  <span class="panel-beta-note">Beta regions included at no extra cost with any paid plan.</span>
+                  <span class="panel-free-note">Free during Beta · No card required</span>
                 </div>
                 <h2 class="panel-heading">Three California forums. One thread.</h2>
-                <p class="panel-body">A CAISO matter rarely lives in one place — a stakeholder initiative becomes a FERC docket and runs alongside a CPUC proceeding, with no shared ID. NodalPulse threads the legs together.</p>
+                <p class="panel-body">A CAISO matter rarely lives in one place — a stakeholder initiative becomes a FERC docket and runs alongside a CPUC proceeding, with no shared ID. NodalPulse threads the legs together. Free during Beta; $249/mo at general availability — we'll give you notice before it applies.</p>
                 <div class="panel-actions">
-                  <a href="/california" class="btn-primary">Join the California Beta →</a>
+                  <a href="/california" class="btn-primary">Try free during Beta →</a>
                   <a href="/california" class="panel-learn">Learn more about California coverage</a>
                 </div>
               </div>
@@ -107,12 +107,12 @@ import Base from '../layouts/Base.astro';
               <div class="panel-copy">
                 <div class="panel-beta-flag">
                   <span class="beta-badge-lg">Beta</span>
-                  <span class="panel-beta-note">Beta regions included at no extra cost with any paid plan.</span>
+                  <span class="panel-free-note">Free during Beta · No card required</span>
                 </div>
                 <h2 class="panel-heading">The most contested capacity market in the country — tracked to the dollar.</h2>
-                <p class="panel-body">PJM's December 2025 capacity auction cleared at its cap and drove roughly <strong>$16.4&nbsp;billion</strong> in costs, with the Market Monitor attributing about <strong>40% to data-center load</strong>. NodalPulse extracts the numeric guts — not just the prose.</p>
+                <p class="panel-body">PJM's December 2025 capacity auction cleared at its cap and drove roughly <strong>$16.4&nbsp;billion</strong> in costs, with the Market Monitor attributing about <strong>40% to data-center load</strong>. NodalPulse extracts the numeric guts — not just the prose. Free during Beta; $249/mo at general availability — we'll give you notice before it applies.</p>
                 <div class="panel-actions">
-                  <a href="/pjm" class="btn-primary">Join the PJM Beta →</a>
+                  <a href="/pjm" class="btn-primary">Try free during Beta →</a>
                   <a href="/pjm" class="panel-learn">Learn more about PJM coverage</a>
                 </div>
               </div>
@@ -482,9 +482,10 @@ import Base from '../layouts/Base.astro';
     text-transform: uppercase;
   }
 
-  .panel-beta-note {
-    font-size: 12px;
-    color: var(--np-text-muted);
+  .panel-free-note {
+    font-size: 13px;
+    font-weight: 600;
+    color: #059669;
   }
 
   .panel-heading {

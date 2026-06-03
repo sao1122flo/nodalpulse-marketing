@@ -8,19 +8,14 @@ const tiers = [
   { name: 'Org',     price: '$1,999',period: '/mo', dockets: 'Unlimited', history: 'Unlimited', qa: '300/day', seats: '25', highlight: false, contactOnly: true  },
 ];
 
-// State coverage status. Wave order: PA/NJ/MD/VA → OH/IL → rest (final order per B5)
 const pjmStates = [
-  // Federal + IMM + Stakeholder layer — Beta live at launch
-  { label: 'FERC + IMM + Stakeholder', status: 'beta',    note: 'Federal layer — complete at Beta launch' },
-  // Wave 1
+  { label: 'FERC + IMM + Stakeholder', status: 'beta',  note: 'Federal layer — complete at Beta launch' },
   { label: 'PA', status: 'wave1', note: 'Pennsylvania State Commission — Wave 1' },
   { label: 'NJ', status: 'wave1', note: 'New Jersey Board of Public Utilities — Wave 1' },
   { label: 'MD', status: 'wave1', note: 'Maryland PSC — Wave 1' },
   { label: 'VA', status: 'wave1', note: 'Virginia SCC — Wave 1' },
-  // Wave 2
   { label: 'OH', status: 'wave2', note: 'Ohio PUCO — Wave 2' },
   { label: 'IL', status: 'wave2', note: 'Illinois Commerce Commission — Wave 2' },
-  // Wave 3
   { label: 'DE', status: 'wave3', note: 'Delaware PSC — Wave 3' },
   { label: 'IN', status: 'wave3', note: 'Indiana IURC — Wave 3' },
   { label: 'KY', status: 'wave3', note: 'Kentucky PSC — Wave 3' },
@@ -46,15 +41,15 @@ const faqItems = [
     a: "No. Launch covers FERC eLibrary, the Independent Market Monitor's filings, and PJM's stakeholder/auction calendar — completely. State commissions (PA, NJ, MD, VA, OH, IL, and the rest of the PJM footprint) roll out in waves, each with a visible per-state coverage badge. The badge tells you exactly which states are live."
   },
   {
-    q: 'How are PJM deadlines different from FERC deadlines?',
-    a: "PJM's stakeholder vote/comment and auction calendar is unusually clean — dates are published in advance and confirmed, so a large share of PJM deadlines are shown as confirmed, not estimated. FERC protest/comment windows (which live in the FERC Notice, not the filing) are still shown as labeled estimates with a link to verify."
+    q: 'What does free during Beta mean?',
+    a: "PJM access is free during the Beta period — no credit card required, no charge. At general availability, PJM access is $249/mo (Pro) or +$49/mo added to an existing Texas plan. We'll notify you before any charge applies."
   },
 ];
 ---
 
 <Base
-  title="PJM Regulatory Intelligence — NodalPulse (Beta)"
-  description="Track PJM's $16.4B capacity fight, RPM auction parameters, RTEP cost allocation, and FERC dockets daily. PJM Beta includes FERC-primary, IMM, and stakeholder calendar coverage."
+  title="PJM Regulatory Intelligence — NodalPulse (Beta · Free)"
+  description="Track PJM's $16.4B capacity fight, RPM auction parameters, RTEP cost allocation, and FERC dockets daily. PJM Beta is free during the Beta period — no card required."
   extraSchema={[{
     "@type": "FAQPage",
     "mainEntity": faqItems.map(f => ({
@@ -71,7 +66,7 @@ const faqItems = [
       <div class="hero-content">
         <div class="status-flag">
           <span class="status-badge status-badge--beta">Beta</span>
-          <span class="status-note">Included at no extra cost with any paid plan during Beta</span>
+          <span class="status-free">Free during Beta — no card required</span>
         </div>
         <h1 class="hero-headline">
           The most contested capacity market in the country — tracked to the dollar. <span class="beta-inline">Beta</span>
@@ -79,13 +74,13 @@ const faqItems = [
         <p class="hero-sub">
           PJM's December 2025 capacity auction cleared at its cap and drove roughly <strong>$16.4&nbsp;billion</strong> in costs, with PJM's own Market Monitor attributing about <strong>40% — approximately $6.5&nbsp;billion — to data-center load</strong>
           <span class="cite">(PJM December 2025 BRA; Independent Market Monitor filing; via Utility Dive)</span>.
-          NodalPulse treats FERC eLibrary as the primary source, enriched with the Market Monitor's filings and PJM's vote-and-auction calendar, and extracts the numeric guts — RPM parameters, RTEP cost allocation — not just the prose.
+          NodalPulse treats FERC eLibrary as the primary source, enriched with the Market Monitor's filings and PJM's vote-and-auction calendar, and extracts the numeric guts — RPM parameters, RTEP cost allocation — not just the prose. Free during Beta.
         </p>
         <div class="hero-actions">
-          <a href="https://app.nodalpulse.com/login" class="btn-primary btn-lg">Join the PJM Beta →</a>
+          <a href="https://app.nodalpulse.com/login" class="btn-primary btn-lg">Try free during Beta →</a>
           <a href="/coverage" class="btn-secondary btn-lg">See full coverage →</a>
         </div>
-        <p class="hero-trust">14-day free trial &middot; No card required &middot; PJM Beta included at no extra cost</p>
+        <p class="hero-trust">No card required during Beta &middot; $249/mo at general availability — we'll give notice before it applies</p>
       </div>
     </div>
   </section>
@@ -132,7 +127,7 @@ const faqItems = [
           </div>
           <div>
             <h3 class="bullet-title">RTEP cost allocation, by zone.</h3>
-            <p class="bullet-body">Schedule 12 zone-by-zone dollar responsibility extracted so you see your exposure without parsing the tables. Know your transmission cost obligation before the bills arrive.</p>
+            <p class="bullet-body">Schedule 12 zone-by-zone dollar responsibility extracted so you see your exposure without parsing the tables.</p>
           </div>
         </div>
 
@@ -178,41 +173,55 @@ const faqItems = [
     </div>
   </section>
 
-  <!-- ── Pricing ladder (1D — PJM) ── -->
+  <!-- ── Pricing (Beta: struck prices + Free during Beta treatment) ── -->
   <section class="pricing-section section">
     <div class="container">
-      <h2 class="section-heading">Simple, transparent pricing</h2>
-      <p class="section-sub">PJM Beta included at no extra cost. One region, one plan. Additional regions added in-app after signup.</p>
+      <h2 class="section-heading">Free during Beta</h2>
+      <p class="section-sub">
+        PJM access is free while in Beta — no card required, no time limit. Prices below show what each plan costs at general availability.
+      </p>
 
       <div class="tier-row">
         {tiers.map(tier => (
           <div class:list={['tier-card', { 'tier-card--highlight': tier.highlight }]}>
             {tier.highlight && <div class="tier-badge">Most popular</div>}
             <div class="tier-name">{tier.name}</div>
-            <div class="tier-price">
-              <span class="tier-amount">{tier.price}</span>
-              <span class="tier-period">{tier.period}</span>
-            </div>
+
+            {tier.contactOnly ? (
+              <div class="tier-price">
+                <span class="tier-amount">{tier.price}</span>
+                <span class="tier-period">{tier.period}</span>
+              </div>
+            ) : (
+              <div class="tier-price-beta">
+                <span class="beta-free-chip">Free during Beta</span>
+                <div class="tier-price-struck">
+                  <del><span class="tier-amount-muted">{tier.price}</span><span class="tier-period-muted">{tier.period} at GA</span></del>
+                </div>
+              </div>
+            )}
+
             <ul class="tier-features">
               <li>{tier.dockets} tracked dockets</li>
               <li>{tier.history} brief history</li>
               <li>{tier.qa} Ask the Record</li>
               <li>{tier.seats} seat{tier.seats !== '1' ? 's' : ''}</li>
             </ul>
+
             {tier.contactOnly ? (
-              <a href="mailto:hello@nodalpulse.com" class:list={['tier-cta', 'btn-secondary']}>Contact us</a>
+              <a href="mailto:hello@nodalpulse.com" class="tier-cta btn-secondary">Contact us</a>
             ) : (
-              <a href={`https://app.nodalpulse.com/login?callbackURL=%2Fpricing%3Ftier%3D${tier.name.toLowerCase()}`} class:list={['tier-cta', tier.highlight ? 'btn-primary' : 'btn-secondary']}>
-                Join Beta free
-              </a>
+              <a href="https://app.nodalpulse.com/login" class="tier-cta btn-primary">Try free during Beta</a>
             )}
           </div>
         ))}
       </div>
 
-      <p class="pricing-note">
-        14-day free trial of Pro · No card required · PJM Beta included at no extra cost · Additional regions +$49/mo (Starter/Pro), +$99/mo (Team), included (Org)
+      <p class="ga-disclosure">
+        At general availability, PJM access is <strong>$249/mo</strong> (Pro) or <strong>+$49/mo</strong> added to an existing Texas plan. We'll give you notice before any charge applies — no surprise billing.
       </p>
+
+      <p class="pricing-note">No card required during Beta · Texas pricing unchanged ($99/$249/$749/$1,999/mo) · Additional regions added in-app after signup</p>
     </div>
   </section>
 
@@ -257,12 +266,13 @@ const faqItems = [
     text-transform: uppercase;
   }
 
-  .status-badge--beta {
-    background: #FEF3C7;
-    color: #92400E;
-  }
+  .status-badge--beta { background: #FEF3C7; color: #92400E; }
 
-  .status-note { font-size: 12px; color: var(--np-text-muted); }
+  .status-free {
+    font-size: 13px;
+    font-weight: 600;
+    color: #059669;
+  }
 
   .hero-headline {
     font-size: clamp(24px, 3.2vw, 38px);
@@ -294,30 +304,20 @@ const faqItems = [
     margin-bottom: 28px;
   }
 
-  .cite {
-    font-size: 13px;
-    color: var(--np-text-muted);
-    font-style: italic;
-  }
-
+  .cite { font-size: 13px; color: var(--np-text-muted); font-style: italic; }
   .hero-actions { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 12px; }
   .btn-lg { padding: 11px 22px; font-size: 15px; }
   .hero-trust { font-size: 12px; color: var(--np-text-muted); }
 
   /* Bullets */
-  .section-heading {
-    font-size: 24px;
-    font-weight: 600;
-    letter-spacing: -0.02em;
-    color: var(--np-text-primary);
-    margin-bottom: 24px;
-  }
+  .section-heading { font-size: 24px; font-weight: 600; letter-spacing: -0.02em; color: var(--np-text-primary); margin-bottom: 24px; }
 
   .section-sub {
     font-size: 15px;
     color: var(--np-text-muted);
     margin-bottom: 28px;
     margin-top: -16px;
+    max-width: 580px;
   }
 
   .bullets-list {
@@ -349,20 +349,10 @@ const faqItems = [
     margin-top: 1px;
   }
 
-  .bullet-title {
-    font-size: 14px;
-    font-weight: 600;
-    color: var(--np-text-primary);
-    margin-bottom: 4px;
-  }
+  .bullet-title { font-size: 14px; font-weight: 600; color: var(--np-text-primary); margin-bottom: 4px; }
+  .bullet-body { font-size: 14px; color: var(--np-text-muted); line-height: 1.65; }
 
-  .bullet-body {
-    font-size: 14px;
-    color: var(--np-text-muted);
-    line-height: 1.65;
-  }
-
-  /* State coverage map */
+  /* State badges */
   .states-section { border-top: 1px solid var(--np-border); }
 
   .states-grid {
@@ -386,12 +376,7 @@ const faqItems = [
   }
 
   .state-card--beta { border-color: #A7F3D0; background: #F0FDF4; }
-
-  .state-label {
-    font-size: 13px;
-    font-weight: 600;
-    color: var(--np-text-strong);
-  }
+  .state-label { font-size: 13px; font-weight: 600; color: var(--np-text-strong); }
 
   .state-badge {
     font-size: 10px;
@@ -415,25 +400,14 @@ const faqItems = [
     color: var(--np-text-muted);
   }
 
-  .legend-item {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-  }
-
-  .legend-dot {
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    flex-shrink: 0;
-  }
-
+  .legend-item { display: flex; align-items: center; gap: 6px; }
+  .legend-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
   .legend-dot--beta { background: #059669; }
   .legend-dot--wave1 { background: #7C3AED; }
   .legend-dot--wave2 { background: #4338CA; }
   .legend-dot--wave3 { background: var(--np-border-strong); }
 
-  /* Pricing */
+  /* Pricing — Beta free treatment */
   .pricing-section { border-top: 1px solid var(--np-border); }
 
   .tier-row {
@@ -444,7 +418,7 @@ const faqItems = [
     border: 1px solid var(--np-border);
     border-radius: var(--np-radius-lg);
     overflow: hidden;
-    margin-bottom: 16px;
+    margin-bottom: 0;
   }
 
   .tier-card {
@@ -452,7 +426,7 @@ const faqItems = [
     padding: 24px 20px;
     display: flex;
     flex-direction: column;
-    gap: 16px;
+    gap: 14px;
     position: relative;
   }
 
@@ -482,55 +456,59 @@ const faqItems = [
   }
 
   .tier-price { display: flex; align-items: baseline; gap: 2px; }
-
-  .tier-amount {
-    font-size: 22px;
-    font-weight: 600;
-    color: var(--np-text-primary);
-    font-variant-numeric: tabular-nums;
-    letter-spacing: -0.02em;
-  }
-
+  .tier-amount { font-size: 22px; font-weight: 600; color: var(--np-text-primary); font-variant-numeric: tabular-nums; letter-spacing: -0.02em; }
   .tier-period { font-size: 13px; color: var(--np-text-muted); }
 
-  .tier-features {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-    flex: 1;
-    list-style: none;
-    padding: 0;
+  .tier-price-beta { display: flex; flex-direction: column; gap: 4px; }
+
+  .beta-free-chip {
+    display: inline-block;
+    background: #D1FAE5;
+    color: #065F46;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 3px 8px;
+    border-radius: 3px;
+    letter-spacing: 0.04em;
+    align-self: flex-start;
   }
 
+  .tier-price-struck { display: flex; align-items: baseline; gap: 2px; }
+
+  .tier-price-struck del {
+    display: flex;
+    align-items: baseline;
+    gap: 2px;
+    text-decoration: line-through;
+    text-decoration-color: var(--np-text-muted);
+  }
+
+  .tier-amount-muted { font-size: 20px; font-weight: 500; color: var(--np-text-muted); font-variant-numeric: tabular-nums; }
+  .tier-period-muted { font-size: 12px; color: var(--np-text-muted); }
+
+  .tier-features { display: flex; flex-direction: column; gap: 6px; flex: 1; list-style: none; padding: 0; }
   .tier-features li { font-size: 13px; color: var(--np-text-body); }
 
-  .tier-cta {
-    display: block;
-    text-align: center;
+  .tier-cta { display: block; text-align: center; font-size: 13px; padding: 8px 12px; border-radius: var(--np-radius-md); }
+
+  .ga-disclosure {
     font-size: 13px;
-    padding: 8px 12px;
-    border-radius: var(--np-radius-md);
+    color: var(--np-text-muted);
+    line-height: 1.7;
+    padding: 12px 16px;
+    background: var(--np-surface-elevated);
+    border: 1px solid var(--np-border);
+    border-top: none;
+    border-radius: 0 0 var(--np-radius-lg) var(--np-radius-lg);
+    margin-bottom: 12px;
   }
 
   .pricing-note { font-size: 13px; color: var(--np-text-muted); line-height: 1.6; }
 
   /* FAQ */
   .faq-block { max-width: 680px; }
-
-  .faq-heading {
-    font-size: 20px;
-    font-weight: 600;
-    color: var(--np-text-primary);
-    letter-spacing: -0.01em;
-    margin-bottom: 20px;
-  }
-
-  .faq-list {
-    border: 1px solid var(--np-border);
-    border-radius: var(--np-radius-lg);
-    overflow: hidden;
-  }
-
+  .faq-heading { font-size: 20px; font-weight: 600; color: var(--np-text-primary); letter-spacing: -0.01em; margin-bottom: 20px; }
+  .faq-list { border: 1px solid var(--np-border); border-radius: var(--np-radius-lg); overflow: hidden; }
   .faq-item { border-bottom: 1px solid var(--np-border); }
   .faq-item:last-child { border-bottom: none; }
 
@@ -548,25 +526,10 @@ const faqItems = [
   }
 
   .faq-question::-webkit-details-marker { display: none; }
-
-  .faq-question::after {
-    content: '+';
-    font-size: 18px;
-    font-weight: 400;
-    color: var(--np-text-muted);
-    flex-shrink: 0;
-    margin-left: 16px;
-  }
-
+  .faq-question::after { content: '+'; font-size: 18px; font-weight: 400; color: var(--np-text-muted); flex-shrink: 0; margin-left: 16px; }
   details[open] .faq-question::after { content: '−'; }
   .faq-question:hover { background: var(--np-surface-elevated); }
-
-  .faq-answer {
-    padding: 0 20px 16px;
-    font-size: 14px;
-    color: var(--np-text-muted);
-    line-height: 1.7;
-  }
+  .faq-answer { padding: 0 20px 16px; font-size: 14px; color: var(--np-text-muted); line-height: 1.7; }
 
   @media (max-width: 768px) {
     .tier-row { grid-template-columns: 1fr 1fr; }
@@ -574,7 +537,5 @@ const faqItems = [
     .state-card { min-width: 70px; padding: 8px 10px; }
   }
 
-  @media (max-width: 480px) {
-    .tier-row { grid-template-columns: 1fr; }
-  }
+  @media (max-width: 480px) { .tier-row { grid-template-columns: 1fr; } }
 </style>

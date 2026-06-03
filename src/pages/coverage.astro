@@ -12,16 +12,16 @@ const coverageRows = [
   {
     market: 'California — CAISO',
     status: 'beta',
-    statusLabel: 'Beta',
-    covered: 'CAISO filings index + referenced FERC ER/EL dockets; structured extraction; initiative-linking; certain deadlines + estimated-badged protest windows',
-    roadmap: 'CPUC proceedings (Phase 2); full stakeholder-initiative extraction; Notice-confirmed deadlines',
+    statusLabel: 'Beta · Free',
+    covered: 'CAISO filings index + referenced FERC ER/EL dockets; structured extraction; initiative-linking; certain deadlines + estimated-badged protest windows. Free during Beta.',
+    roadmap: 'CPUC proceedings (Phase 2); full stakeholder-initiative extraction; Notice-confirmed deadlines. $249/mo at GA.',
   },
   {
     market: 'PJM — Mid-Atlantic/Midwest',
     status: 'beta',
-    statusLabel: 'Beta',
-    covered: 'FERC-primary + Independent Market Monitor + stakeholder/auction calendar; RPM/RTEP structured fields; per-state coverage badges',
-    roadmap: 'State commissions in waves (PA/NJ/MD/VA → OH/IL → rest); PJM library integration; Notice-confirmed deadlines',
+    statusLabel: 'Beta · Free',
+    covered: 'FERC-primary + Independent Market Monitor + stakeholder/auction calendar; RPM/RTEP structured fields; per-state coverage badges. Free during Beta.',
+    roadmap: 'State commissions in waves (PA/NJ/MD/VA → OH/IL → rest); PJM library integration; Notice-confirmed deadlines. $249/mo at GA.',
   },
   {
     market: 'Cross-jurisdictional',
@@ -111,9 +111,9 @@ const coverageRows = [
         </div>
 
         <div class="note-card">
-          <h3 class="note-heading">Beta commitment</h3>
+          <h3 class="note-heading">Beta = Free</h3>
           <p class="note-body">
-            While a market is in Beta, if a committed coverage date slips, we extend your subscription — you don't pay for a promise we missed. Beta regions are included at no extra cost with any paid plan during the Beta period.
+            California and PJM are free during their Beta period — no credit card required, no time limit. At general availability, each region is $249/mo (Pro) or +$49/mo added to an existing plan. If a committed coverage date slips, we extend your access — you don't pay for a promise we missed. We'll notify you before any charge applies.
           </p>
         </div>
 
@@ -229,7 +229,7 @@ const coverageRows = [
   }
 
   .status-badge--live { background: #D1FAE5; color: #065F46; }
-  .status-badge--beta { background: #FEF3C7; color: #92400E; }
+  .status-badge--beta { background: #D1FAE5; color: #065F46; white-space: nowrap; }
   .status-badge--roadmap { background: var(--np-surface-deep); color: var(--np-text-muted); }
 
   .cell-covered, .cell-roadmap {
