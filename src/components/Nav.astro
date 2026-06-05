@@ -20,29 +20,94 @@ const currentPath = Astro.url.pathname;
       </svg>
     </a>
 
-    <!-- Nav links + CTA -->
-    <nav class="nav-links" aria-label="Primary navigation">
-      {navLinks.map(link => (
-        <a
-          href={link.href}
-          class:list={['nav-link', { 'nav-link--active': currentPath === link.href || currentPath.startsWith(link.href + '/') }]}
-        >
-          {link.label}
-          {link.badge === 'Beta' && <span class="nav-badge nav-badge--beta">Beta</span>}
-          {link.badge === 'Live' && <span class="nav-badge nav-badge--live">Live</span>}
+    <!-- Right side: links + actions grouped so logo/nav-actions stay at opposite ends -->
+    <div class="nav-right">
+      <!-- Nav links: desktop = inline row; mobile = collapsible drawer (in HTML for crawlers) -->
+      <nav class="nav-links" id="nav-menu" aria-label="Primary navigation">
+        {navLinks.map(link => (
+          <a
+            href={link.href}
+            class:list={['nav-link', { 'nav-link--active': currentPath === link.href || currentPath.startsWith(link.href + '/') }]}
+          >
+            {link.label}
+            {link.badge === 'Beta' && <span class="nav-badge nav-badge--beta">Beta</span>}
+            {link.badge === 'Live' && <span class="nav-badge nav-badge--live">Live</span>}
+          </a>
+        ))}
+        <a href="https://app.nodalpulse.com/login" class="nav-link nav-login">
+          Log in <span aria-hidden="true">→</span>
         </a>
-      ))}
-      <a href="https://app.nodalpulse.com/login" class="nav-link nav-login">
-        Log in <span aria-hidden="true">→</span>
-      </a>
-      <a href="https://app.nodalpulse.com/login" class="btn-primary nav-cta">
-        Start free trial
-      </a>
-    </nav>
+      </nav>
+
+      <!-- CTA always visible; hamburger shown on mobile only -->
+      <div class="nav-actions">
+        <a href="https://app.nodalpulse.com/login" class="btn-primary nav-cta">
+          Start free trial
+        </a>
+        <button
+          class="nav-toggle"
+          id="nav-toggle"
+          type="button"
+          aria-controls="nav-menu"
+          aria-expanded="false"
+          aria-label="Open navigation menu"
+        >
+          <!-- hamburger (closed state) -->
+          <svg class="icon-menu" width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+            <rect x="2" y="5"  width="16" height="2" rx="1" fill="currentColor"/>
+            <rect x="2" y="9"  width="16" height="2" rx="1" fill="currentColor"/>
+            <rect x="2" y="13" width="16" height="2" rx="1" fill="currentColor"/>
+          </svg>
+          <!-- X (open state) -->
+          <svg class="icon-close" width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+            <path d="M5 5l10 10M15 5L5 15" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </button>
+      </div>
+    </div>
   </div>
 </header>
 
+<script>
+  const toggle = document.getElementById('nav-toggle') as HTMLButtonElement | null;
+  const menu   = document.getElementById('nav-menu')   as HTMLElement | null;
+
+  function open() {
+    menu?.classList.add('nav-links--open');
+    toggle?.setAttribute('aria-expanded', 'true');
+    toggle?.setAttribute('aria-label', 'Close navigation menu');
+  }
+
+  function close() {
+    menu?.classList.remove('nav-links--open');
+    toggle?.setAttribute('aria-expanded', 'false');
+    toggle?.setAttribute('aria-label', 'Open navigation menu');
+  }
+
+  toggle?.addEventListener('click', () => {
+    menu?.classList.contains('nav-links--open') ? close() : open();
+  });
+
+  // Escape key closes and returns focus
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && menu?.classList.contains('nav-links--open')) {
+      close();
+      toggle?.focus();
+    }
+  });
+
+  // Click outside closes
+  document.addEventListener('click', (e) => {
+    const t = e.target as Node;
+    if (menu?.classList.contains('nav-links--open') &&
+        !toggle?.contains(t) && !menu?.contains(t)) {
+      close();
+    }
+  });
+</script>
+
 <style>
+  /* ── Wrapper ── */
   .nav-wrapper {
     position: sticky;
     top: 0;
@@ -51,6 +116,7 @@ const currentPath = Astro.url.pathname;
     border-bottom: 1px solid var(--np-border);
   }
 
+  /* ── Top bar row ── */
   .nav-inner {
     display: flex;
     align-items: center;
@@ -58,18 +124,28 @@ const currentPath = Astro.url.pathname;
     height: 64px;
   }
 
+  /* ── Logo ── */
   .nav-logo {
     display: flex;
     align-items: center;
     flex-shrink: 0;
   }
 
+  /* ── Right group (links + actions) ── */
+  .nav-right {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  /* ── Nav links row (desktop default) ── */
   .nav-links {
     display: flex;
     align-items: center;
     gap: 2px;
   }
 
+  /* ── Individual link ── */
   .nav-link {
     display: inline-flex;
     align-items: center;
@@ -93,6 +169,7 @@ const currentPath = Astro.url.pathname;
     color: var(--np-text-primary);
   }
 
+  /* ── Badges ── */
   .nav-badge {
     display: inline-block;
     font-size: 10px;
@@ -113,17 +190,102 @@ const currentPath = Astro.url.pathname;
     color: #065F46;
   }
 
-  .nav-cta {
-    margin-left: 10px;
+  /* ── Actions (CTA + toggle) ── */
+  .nav-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-shrink: 0;
+    margin-left: 6px;
   }
 
   .nav-login {
     margin-left: 2px;
   }
 
+  /* ── Hamburger toggle: hidden on desktop ── */
+  .nav-toggle {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    border-radius: var(--np-radius-md);
+    color: var(--np-text-muted);
+    transition: background 0.12s ease, color 0.12s ease;
+    flex-shrink: 0;
+  }
+
+  .nav-toggle:hover {
+    background: var(--np-surface-deep);
+    color: var(--np-text-primary);
+  }
+
+  /* Toggle icon state driven by aria-expanded (no extra JS class needed) */
+  .icon-close { display: none; }
+  .nav-toggle[aria-expanded="true"] .icon-menu  { display: none; }
+  .nav-toggle[aria-expanded="true"] .icon-close { display: block; }
+
+  /* ── Mobile ── */
   @media (max-width: 768px) {
-    .nav-link:not(.nav-login) {
+    /* Show hamburger */
+    .nav-toggle {
+      display: flex;
+    }
+
+    /* Shrink logo slightly to keep header at one line */
+    .nav-logo svg {
+      width: 116px;
+      height: auto;
+    }
+
+    /* Compact CTA so it fits alongside hamburger */
+    .nav-cta {
+      padding: 8px 14px;
+      font-size: 13px;
+    }
+
+    /* Collapse links to drawer — still present in HTML for AI crawlers */
+    .nav-links {
       display: none;
+      flex-direction: column;
+      align-items: stretch;
+      gap: 0;
+      /* Anchored below the sticky header */
+      position: absolute;
+      top: 64px;
+      left: 0;
+      right: 0;
+      z-index: 99;
+      background: var(--np-surface);
+      border-bottom: 1px solid var(--np-border);
+      padding: 8px 16px 16px;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+    }
+
+    /* Open state */
+    .nav-links.nav-links--open {
+      display: flex;
+    }
+
+    /* Larger tap targets in the drawer */
+    .nav-link {
+      padding: 12px 8px;
+      font-size: 15px;
+      white-space: normal;
+    }
+
+    /* Separator before Log in */
+    .nav-login {
+      margin-left: 0;
+      margin-top: 4px;
+      padding-top: 16px;
+      border-top: 1px solid var(--np-border);
+    }
+
+    /* Remove desktop actions margin inside the collapsed nav-right */
+    .nav-actions {
+      margin-left: 0;
     }
   }
 </style>
