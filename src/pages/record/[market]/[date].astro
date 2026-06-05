@@ -1,0 +1,654 @@
+---
+import Base from '../../../layouts/Base.astro';
+
+const MARKET_META: Record<string, {
+  label: string;
+  jurisdiction: string;
+  marketPage: string;
+  sourceLabel: string;
+}> = {
+  puct:  { label: 'Texas (PUCT)',        jurisdiction: 'Texas',      marketPage: '/texas',       sourceLabel: 'PUCT Interchange' },
+  caiso: { label: 'California (CAISO)',  jurisdiction: 'California', marketPage: '/california',  sourceLabel: 'CAISO Regulatory Filings' },
+  ferc:  { label: 'FERC',               jurisdiction: 'Federal',    marketPage: '/pjm',         sourceLabel: 'FERC eLibrary' },
+  pjm:   { label: 'PJM / FERC',         jurisdiction: 'Federal',    marketPage: '/pjm',         sourceLabel: 'FERC eLibrary' },
+};
+
+export async function getStaticPaths() {
+  const servicesUrl =
+    import.meta.env.PUBLIC_SERVICES_URL ?? 'https://services-production.up.railway.app';
+
+  // Step 1: Enumerate only (market, date) pairs with real content.
+  // This ensures pages persist across rebuilds (never 404 on old dates) and
+  // avoids generating thin-content pages that harm SEO.
+  let index: Array<{ market: string; date: string; item_count: number }> = [];
+  try {
+    const res = await fetch(`${servicesUrl}/public/record/index`, {
+      signal: AbortSignal.timeout(15000),
+    });
+    if (res.ok) index = await res.json();
+    else console.warn(`[record] /public/record/index returned ${res.status} — 0 pages generated`);
+  } catch (e) {
+    console.warn('[record] Could not reach /public/record/index at build time — 0 pages generated', e);
+    return [];
+  }
+
+  if (!index.length) return [];
+
+  // Step 2: Fetch teaser for each content-bearing pair (parallel, graceful on failure).
+  const paths = await Promise.all(
+    index.map(async ({ market, date }) => {
+      let teaser: any = null;
+      try {
+        const res = await fetch(
+          `${servicesUrl}/public/record?market=${encodeURIComponent(market)}&date=${encodeURIComponent(date)}`,
+          { signal: AbortSignal.timeout(8000) },
+        );
+        if (res.ok) teaser = await res.json();
+      } catch { /* page renders with filing_count=0 if fetch fails */ }
+      return { params: { market, date }, props: { teaser, servicesUrl } };
+    }),
+  );
+
+  return paths;
+}
+
+const { market, date } = Astro.params;
+const { teaser, servicesUrl } = Astro.props;
+
+const meta = MARKET_META[market] ?? {
+  label: market, jurisdiction: market, marketPage: '/', sourceLabel: market,
+};
+
+const displayDate = (() => {
+  try {
+    return new Date(date + 'T12:00:00Z').toLocaleDateString('en-US', {
+      weekday: 'long', year: 'numeric', month: 'long', day: 'numeric',
+      timeZone: 'America/Chicago',
+    });
+  } catch { return date; }
+})();
+
+const filingCount: number  = teaser?.filing_count  ?? 0;
+const deadlineCount: number = teaser?.deadline_count ?? 0;
+const items: any[]         = teaser?.items          ?? [];
+
+const pageTitle = filingCount > 0
+  ? `${filingCount} ${meta.label} Filings — ${displayDate} | NodalPulse`
+  : `${meta.label} Regulatory Record — ${displayDate} | NodalPulse`;
+
+const pageDescription = filingCount > 0
+  ? `${filingCount} ${meta.label} regulatory filing${filingCount !== 1 ? 's' : ''} on ${displayDate}.${deadlineCount > 0 ? ` ${deadlineCount} deadline${deadlineCount !== 1 ? 's' : ''} extracted.` : ''} Titles, dockets, and sources cited.`
+  : `${meta.label} regulatory filings for ${displayDate} — sourced from ${meta.sourceLabel}. Titles, dockets, and sources cited.`;
+
+const canonical = `https://nodalpulse.com/record/${market}/${date}`;
+
+const datasetSchema = {
+  '@type': 'Dataset',
+  name: `${meta.label} Regulatory Filings — ${displayDate}`,
+  description: pageDescription,
+  url: canonical,
+  datePublished: date,
+  publisher: { '@id': 'https://nodalpulse.com/#organization' },
+  keywords: [`${meta.jurisdiction} regulatory filings`, meta.label, 'docket tracking', 'regulatory intelligence'],
+};
+---
+
+<Base
+  title={pageTitle}
+  description={pageDescription}
+  canonical={canonical}
+  schemaType="Article"
+  extraSchema={[datasetSchema]}
+>
+
+<section class="section-sm">
+  <div class="container record-wrap">
+
+    <!-- Breadcrumb -->
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <a href={meta.marketPage}>{meta.label}</a>
+      <span class="breadcrumb-sep" aria-hidden="true">/</span>
+      <time datetime={date}>{displayDate}</time>
+    </nav>
+
+    <!-- Page header -->
+    <header class="record-header">
+      <h1 class="record-title">
+        {filingCount > 0
+          ? `${filingCount} filing${filingCount !== 1 ? 's' : ''} processed by ${meta.label} on ${displayDate}`
+          : `${meta.label} regulatory record — ${displayDate}`}
+      </h1>
+      {deadlineCount > 0 && (
+        <p class="record-subtitle">
+          {deadlineCount} deadline{deadlineCount !== 1 ? 's' : ''} extracted from these filings.
+        </p>
+      )}
+    </header>
+
+    <!-- ── TEASER (HTML at build time — crawleable, identical for bots and humans) ── -->
+    {items.length > 0 ? (
+      <div class="record-items" id="teaser-items">
+        {items.map((item: any) => (
+          <article class="record-item">
+            <div class="record-item-meta">
+              {item.docket_number && (
+                <span class="tag-chip">Docket {item.docket_number}</span>
+              )}
+              {item.filed_at && (
+                <time class="record-item-time" datetime={item.filed_at}>
+                  {new Date(item.filed_at).toLocaleTimeString('en-US', {
+                    hour: 'numeric', minute: '2-digit', timeZone: 'America/Chicago',
+                  })} CT
+                </time>
+              )}
+            </div>
+            <h2 class="record-item-title">
+              {item.source_url
+                ? <a href={item.source_url} target="_blank" rel="noopener noreferrer" class="record-item-link">{item.title}</a>
+                : item.title}
+            </h2>
+            {item.summary && (
+              <p class="record-item-summary">{item.summary}</p>
+            )}
+            {item.key_points && item.key_points.length > 0 && (
+              <ul class="record-item-points">
+                {item.key_points.map((kp: string) => (
+                  <li>{kp}</li>
+                ))}
+              </ul>
+            )}
+          </article>
+        ))}
+        {filingCount > items.length && (
+          <p class="record-more">
+            +{filingCount - items.length} more filing{filingCount - items.length !== 1 ? 's' : ''} this day — unlock the full record below.
+          </p>
+        )}
+      </div>
+    ) : (
+      <div class="record-empty">
+        <p>No extracted filings available for this date and market yet. The pipeline processes filings as they are filed.</p>
+      </div>
+    )}
+
+    <!-- ── GATE — email+name+title → token → depth (depth NOT in HTML source) ── -->
+    <div class="gate-card" id="gate-section">
+      <div class="gate-header">
+        <h3 class="gate-title">Get all deadlines, parties, and dollar amounts</h3>
+        <p class="gate-subtitle">Enter your details to unlock the full record — free.</p>
+      </div>
+      <form id="lead-form" class="lead-form" novalidate>
+        {/* Honeypot — hidden from humans, bots fill it, server ignores the submission */}
+        <input type="text" name="website" tabindex="-1" autocomplete="off" class="honeypot" aria-hidden="true" />
+        <div class="form-fields">
+          <div class="form-field">
+            <label for="lead-email">Work email</label>
+            <input type="email" id="lead-email" name="email" placeholder="you@company.com" required autocomplete="email" />
+          </div>
+          <div class="form-field">
+            <label for="lead-name">Name</label>
+            <input type="text" id="lead-name" name="name" placeholder="Your name" required autocomplete="name" />
+          </div>
+          <div class="form-field">
+            <label for="lead-title">Job title</label>
+            <input type="text" id="lead-title" name="title" placeholder="Regulatory counsel, Trader, Rate analyst…" required autocomplete="organization-title" />
+          </div>
+        </div>
+        <div class="gate-actions">
+          <button type="submit" class="btn-primary gate-submit" id="gate-btn">
+            Unlock full record
+          </button>
+          <p class="gate-fine">No account needed. By submitting you agree to NodalPulse's <a href="/privacy">privacy policy</a>.</p>
+        </div>
+        <p class="gate-error" id="gate-error" aria-live="polite"></p>
+      </form>
+    </div>
+
+    <!-- Depth section — empty in HTML source; populated by JS after gate submission -->
+    <div class="depth-section" id="depth-section" style="display:none;" aria-live="polite"></div>
+
+    <!-- ── CTA ── -->
+    <div class="record-cta">
+      <p class="cta-label">Get these for the dockets you work</p>
+      <a href="https://app.nodalpulse.com/signup" class="btn-primary">
+        14-day trial &mdash; no card required
+      </a>
+    </div>
+
+    <!-- ── Internal market links (GEO/SEO) ── -->
+    <nav class="market-nav" aria-label="Other markets covered">
+      <span class="market-nav-label">Other markets:</span>
+      <a href="/texas">Texas (PUCT/ERCOT)</a>
+      <a href="/california">California (CAISO)</a>
+      <a href="/pjm">PJM / FERC</a>
+    </nav>
+
+  </div>
+</section>
+
+<!-- Gate + depth JS — runs after capture, fetches depth client-side -->
+<script define:vars={{ servicesUrl, market, date }}>
+  const form        = document.getElementById('lead-form');
+  const gateSection = document.getElementById('gate-section');
+  const depthSection = document.getElementById('depth-section');
+  const gateBtn     = document.getElementById('gate-btn');
+  const gateError   = document.getElementById('gate-error');
+
+  form?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const fd = new FormData(/** @type {HTMLFormElement} */ (form));
+    gateBtn.textContent = 'Unlocking…';
+    gateBtn.disabled = true;
+    gateError.textContent = '';
+
+    try {
+      const leadRes = await fetch(`${servicesUrl}/public/lead`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          email:       fd.get('email'),
+          name:        fd.get('name'),
+          title:       fd.get('title'),
+          website:     fd.get('website') ?? '',
+          market,
+          record_date: date,
+        }),
+      });
+      const leadData = await leadRes.json();
+      if (!leadRes.ok) throw new Error(leadData.error ?? 'Submission failed');
+      // Honeypot triggered server-side → empty token → graceful empty depth
+      if (!leadData.token) {
+        renderDepth([]);
+        gateSection.style.display = 'none';
+        return;
+      }
+
+      const depthRes = await fetch(
+        `${servicesUrl}/public/record/depth?market=${encodeURIComponent(market)}&date=${encodeURIComponent(date)}&token=${encodeURIComponent(leadData.token)}`,
+      );
+      const depthData = await depthRes.json();
+      if (!depthRes.ok) throw new Error(depthData.error ?? 'Could not load depth');
+
+      renderDepth(depthData.items ?? []);
+      gateSection.style.display = 'none';
+      depthSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    } catch (err) {
+      gateError.textContent = (err?.message) ?? 'Something went wrong. Please try again.';
+      gateBtn.textContent = 'Unlock full record';
+      gateBtn.disabled = false;
+    }
+  });
+
+  function fmtDate(iso) {
+    if (!iso) return '';
+    try {
+      return new Date(iso).toLocaleDateString('en-US', {
+        month: 'short', day: 'numeric', year: 'numeric', timeZone: 'UTC',
+      });
+    } catch { return iso; }
+  }
+
+  function esc(str) {
+    if (!str) return '';
+    return String(str)
+      .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;');
+  }
+
+  function renderDepth(items) {
+    if (!items.length) {
+      depthSection.innerHTML = '<p class="depth-empty">No detailed records available for this date yet.</p>';
+      depthSection.style.display = 'block';
+      return;
+    }
+
+    const html = items.map(item => {
+      const deadlines = (item.deadlines ?? []).map(d => `
+        <li class="deadline-item">
+          <span class="deadline-date${d.estimated ? ' deadline-estimated' : ''}">${fmtDate(d.date)}${d.estimated ? ' <span class="estimated-badge">est.</span>' : ''}</span>
+          ${d.type ? `<span class="deadline-type">${esc(d.type)}</span>` : ''}
+          ${d.verify_url ? `<a href="${esc(d.verify_url)}" class="deadline-verify" target="_blank" rel="noopener">verify</a>` : ''}
+        </li>
+      `).join('');
+
+      const keyPoints = (item.key_points ?? []).map(kp => `<li>${esc(kp)}</li>`).join('');
+
+      return `
+        <article class="depth-item">
+          <div class="record-item-meta">
+            ${item.docket_number ? `<span class="tag-chip">Docket ${esc(item.docket_number)}</span>` : ''}
+            ${item.filer ? `<span class="depth-filer">${esc(item.filer)}</span>` : ''}
+            ${item.filed_at ? `<time datetime="${esc(item.filed_at)}">${fmtDate(item.filed_at)}</time>` : ''}
+          </div>
+          <h3 class="record-item-title">
+            ${item.source_url
+              ? `<a href="${esc(item.source_url)}" target="_blank" rel="noopener noreferrer" class="record-item-link">${esc(item.title)}</a>`
+              : esc(item.title)}
+          </h3>
+          ${item.summary         ? `<p class="record-item-summary">${esc(item.summary)}</p>` : ''}
+          ${item.relief_requested ? `<p class="depth-field"><strong>Relief requested:</strong> ${esc(item.relief_requested)}</p>` : ''}
+          ${item.outcome          ? `<p class="depth-field"><strong>Outcome:</strong> ${esc(item.outcome)}</p>` : ''}
+          ${keyPoints             ? `<ul class="record-item-points">${keyPoints}</ul>` : ''}
+          ${deadlines             ? `
+            <div class="depth-deadlines">
+              <h4 class="depth-deadlines-title">Deadlines</h4>
+              <ul class="deadline-list">${deadlines}</ul>
+            </div>` : ''}
+        </article>
+      `;
+    }).join('');
+
+    depthSection.innerHTML = `
+      <h2 class="depth-heading">Full record — all extracted filings</h2>
+      ${html}
+    `;
+    depthSection.style.display = 'block';
+  }
+</script>
+
+<style>
+  .record-wrap {
+    max-width: 760px;
+  }
+
+  /* ── Breadcrumb ── */
+  .breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    color: var(--np-text-muted);
+    margin-bottom: 24px;
+  }
+  .breadcrumb a {
+    color: var(--np-indigo-600);
+    text-decoration: none;
+  }
+  .breadcrumb a:hover { text-decoration: underline; }
+  .breadcrumb-sep { color: var(--np-border-strong); }
+
+  /* ── Page header ── */
+  .record-header {
+    margin-bottom: 32px;
+  }
+  .record-title {
+    font-size: 22px;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    color: var(--np-text-primary);
+    line-height: 1.35;
+  }
+  .record-subtitle {
+    margin-top: 8px;
+    font-size: 14px;
+    color: var(--np-text-muted);
+  }
+
+  /* ── Teaser items ── */
+  .record-items {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    margin-bottom: 40px;
+  }
+  .record-item {
+    border: 1px solid var(--np-border);
+    border-radius: var(--np-radius-lg);
+    padding: 20px 24px;
+    background: var(--np-surface-elevated);
+  }
+  .record-item-meta {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 10px;
+    flex-wrap: wrap;
+  }
+  .record-item-time {
+    font-family: var(--np-font-mono);
+    font-size: 11px;
+    color: var(--np-text-muted);
+  }
+  .record-item-title {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--np-text-primary);
+    line-height: 1.4;
+    margin-bottom: 8px;
+  }
+  .record-item-link {
+    color: var(--np-indigo-600);
+    text-decoration: none;
+  }
+  .record-item-link:hover { text-decoration: underline; }
+  .record-item-summary {
+    font-size: 13px;
+    color: var(--np-text-body);
+    line-height: 1.6;
+    margin-bottom: 10px;
+  }
+  .record-item-points {
+    list-style: disc;
+    padding-left: 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .record-item-points li {
+    font-size: 13px;
+    color: var(--np-text-body);
+    line-height: 1.55;
+  }
+  .record-more {
+    font-size: 13px;
+    color: var(--np-text-muted);
+    font-style: italic;
+    padding: 8px 0;
+    border-top: 1px solid var(--np-border);
+  }
+  .record-empty {
+    padding: 24px;
+    border: 1px dashed var(--np-border);
+    border-radius: var(--np-radius-lg);
+    margin-bottom: 40px;
+    font-size: 14px;
+    color: var(--np-text-muted);
+  }
+
+  /* ── Gate ── */
+  .gate-card {
+    border: 1px solid var(--np-border);
+    border-radius: var(--np-radius-lg);
+    padding: 28px 32px;
+    background: var(--np-surface-elevated);
+    margin-bottom: 40px;
+  }
+  .gate-header { margin-bottom: 20px; }
+  .gate-title {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--np-text-primary);
+    margin-bottom: 4px;
+  }
+  .gate-subtitle {
+    font-size: 13px;
+    color: var(--np-text-muted);
+  }
+  .lead-form { display: flex; flex-direction: column; gap: 0; }
+  .form-fields {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+  .form-field:first-child { grid-column: 1 / -1; }
+  .form-field {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+  .form-field label {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--np-text-strong);
+    letter-spacing: 0.01em;
+  }
+  .form-field input {
+    font-family: var(--np-font-sans);
+    font-size: 14px;
+    padding: 8px 12px;
+    border: 1px solid var(--np-border-strong);
+    border-radius: var(--np-radius-md);
+    background: var(--np-surface);
+    color: var(--np-text-primary);
+    outline: none;
+    transition: border-color 0.15s;
+  }
+  .form-field input:focus {
+    border-color: var(--np-indigo-500);
+    box-shadow: 0 0 0 2px rgba(99,102,241,0.12);
+  }
+  .gate-actions { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+  .gate-submit { align-self: flex-start; }
+  .gate-fine {
+    font-size: 11px;
+    color: var(--np-text-muted);
+    line-height: 1.5;
+  }
+  .gate-fine a { color: var(--np-indigo-600); }
+  .gate-error {
+    margin-top: 10px;
+    font-size: 13px;
+    color: #DC2626;
+    min-height: 18px;
+  }
+  .honeypot {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+    height: 0;
+    width: 0;
+  }
+
+  /* ── Depth (rendered by JS — not in initial HTML) ── */
+  .depth-section { margin-bottom: 40px; }
+  .depth-heading {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--np-text-primary);
+    margin-bottom: 20px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--np-border);
+  }
+  .depth-item {
+    border: 1px solid var(--np-border);
+    border-radius: var(--np-radius-lg);
+    padding: 20px 24px;
+    background: var(--np-surface-elevated);
+    margin-bottom: 16px;
+  }
+  .depth-filer {
+    font-size: 12px;
+    color: var(--np-text-muted);
+    font-family: var(--np-font-mono);
+  }
+  .depth-field {
+    font-size: 13px;
+    color: var(--np-text-body);
+    line-height: 1.6;
+    margin-top: 6px;
+  }
+  .depth-deadlines { margin-top: 14px; }
+  .depth-deadlines-title {
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--np-text-muted);
+    margin-bottom: 8px;
+  }
+  .deadline-list {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .deadline-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 13px;
+  }
+  .deadline-date {
+    font-family: var(--np-font-mono);
+    font-size: 12px;
+    color: var(--np-text-strong);
+    font-weight: 500;
+  }
+  .deadline-estimated { color: var(--np-text-muted); }
+  .estimated-badge {
+    font-size: 10px;
+    background: var(--np-surface-deep);
+    padding: 1px 4px;
+    border-radius: 3px;
+    color: var(--np-text-muted);
+  }
+  .deadline-type {
+    font-size: 12px;
+    color: var(--np-text-body);
+    flex: 1;
+  }
+  .deadline-verify {
+    font-size: 11px;
+    color: var(--np-indigo-600);
+    text-decoration: underline;
+  }
+  .depth-empty {
+    font-size: 14px;
+    color: var(--np-text-muted);
+    padding: 20px 0;
+  }
+
+  /* ── CTA ── */
+  .record-cta {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+    padding: 24px 0;
+    border-top: 1px solid var(--np-border);
+    margin-bottom: 32px;
+  }
+  .cta-label {
+    font-size: 14px;
+    color: var(--np-text-body);
+    font-weight: 500;
+  }
+
+  /* ── Market nav ── */
+  .market-nav {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+    font-size: 13px;
+    padding-bottom: 40px;
+  }
+  .market-nav-label {
+    color: var(--np-text-muted);
+  }
+  .market-nav a {
+    color: var(--np-indigo-600);
+    text-decoration: none;
+  }
+  .market-nav a:hover { text-decoration: underline; }
+
+  /* ── Responsive ── */
+  @media (max-width: 600px) {
+    .form-fields { grid-template-columns: 1fr; }
+    .form-field:first-child { grid-column: auto; }
+    .gate-actions { flex-direction: column; align-items: flex-start; }
+    .record-cta { flex-direction: column; align-items: flex-start; }
+  }
+</style>
+
+</Base>
