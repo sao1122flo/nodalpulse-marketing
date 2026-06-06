@@ -1,0 +1,363 @@
+---
+import Base from '../../layouts/Base.astro';
+import { getCollection } from 'astro:content';
+
+export async function getStaticPaths() {
+  const entries = await getCollection('help', ({ data }) => !data.draft);
+  return entries.map(entry => ({
+    params: { slug: entry.slug },
+    props: { entry },
+  }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await entry.render();
+
+const updatedDate = entry.data.updatedDate.toLocaleDateString('en-US', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+});
+
+const categoryLabels: Record<string, string> = {
+  'getting-started': 'Getting Started',
+  'features': 'Features',
+  'account': 'Account',
+  'reference': 'Reference',
+};
+---
+
+<Base
+  title={`${entry.data.title} — NodalPulse Help`}
+  description={entry.data.description}
+  schemaType="Article"
+>
+
+  <!-- ── Article header ── -->
+  <section class="article-header section-sm">
+    <div class="container">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="/help" class="breadcrumb-link">Help</a>
+        <span class="breadcrumb-sep" aria-hidden="true">/</span>
+        <span class="breadcrumb-current">{entry.data.title}</span>
+      </nav>
+      <h1 class="article-heading">{entry.data.title}</h1>
+      <div class="article-meta">
+        <span class="meta-chip">{categoryLabels[entry.data.category]}</span>
+        <span class="meta-date">Updated {updatedDate}</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Article body ── -->
+  <section class="article-body section-sm">
+    <div class="container">
+      <div class="article-prose">
+        <Content />
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Article footer ── -->
+  <section class="article-footer section-sm">
+    <div class="container">
+      <div class="article-footer-row">
+        <a href="/help" class="back-link">← Back to Help</a>
+        <a href="mailto:hello@nodalpulse.com" class="contact-link">Questions? Email us</a>
+      </div>
+    </div>
+  </section>
+
+</Base>
+
+<style>
+  /* ── Article header ── */
+  .article-header {
+    border-bottom: 1px solid var(--np-border);
+    background: var(--np-surface-elevated);
+  }
+
+  .breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 20px;
+    font-size: 13px;
+  }
+
+  .breadcrumb-link {
+    color: var(--np-accent);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+
+  .breadcrumb-link:hover {
+    color: var(--np-accent-hover);
+  }
+
+  .breadcrumb-sep {
+    color: var(--np-text-muted);
+  }
+
+  .breadcrumb-current {
+    color: var(--np-text-muted);
+    /* truncate on narrow screens */
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 320px;
+  }
+
+  .article-heading {
+    font-size: clamp(22px, 3vw, 32px);
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    color: var(--np-text-primary);
+    line-height: 1.2;
+    margin-bottom: 16px;
+    max-width: 720px;
+  }
+
+  .article-meta {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+
+  .meta-chip {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--np-text-muted);
+    background: var(--np-surface-deep);
+    border: 1px solid var(--np-border);
+    border-radius: var(--np-radius-sm);
+    padding: 2px 8px;
+  }
+
+  .meta-date {
+    font-size: 12px;
+    color: var(--np-text-muted);
+  }
+
+  /* ── Article body ── */
+  .article-body {
+    border-bottom: 1px solid var(--np-border);
+  }
+
+  /* ── Prose — scoped styles for rendered Markdown ── */
+  .article-prose {
+    max-width: 720px;
+    font-size: 15px;
+    color: var(--np-text-body);
+    line-height: 1.75;
+  }
+
+  .article-prose :global(h2) {
+    font-size: 19px;
+    font-weight: 600;
+    color: var(--np-text-primary);
+    letter-spacing: -0.02em;
+    line-height: 1.3;
+    margin-top: 40px;
+    margin-bottom: 14px;
+  }
+
+  .article-prose :global(h3) {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--np-text-primary);
+    line-height: 1.4;
+    margin-top: 28px;
+    margin-bottom: 10px;
+  }
+
+  .article-prose :global(p) {
+    margin-bottom: 16px;
+  }
+
+  .article-prose :global(ul),
+  .article-prose :global(ol) {
+    margin-bottom: 16px;
+    padding-left: 0;
+  }
+
+  .article-prose :global(li) {
+    padding-left: 20px;
+    position: relative;
+    margin-bottom: 6px;
+    line-height: 1.7;
+  }
+
+  .article-prose :global(ul > li::before) {
+    content: '–';
+    position: absolute;
+    left: 0;
+    color: var(--np-text-muted);
+  }
+
+  .article-prose :global(ol) {
+    counter-reset: list-counter;
+  }
+
+  .article-prose :global(ol > li) {
+    counter-increment: list-counter;
+    padding-left: 24px;
+  }
+
+  .article-prose :global(ol > li::before) {
+    content: counter(list-counter) '.';
+    position: absolute;
+    left: 0;
+    color: var(--np-text-muted);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .article-prose :global(strong) {
+    font-weight: 600;
+    color: var(--np-text-primary);
+  }
+
+  .article-prose :global(em) {
+    font-style: italic;
+  }
+
+  .article-prose :global(a) {
+    color: var(--np-accent);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+    text-decoration-color: color-mix(in srgb, var(--np-accent) 40%, transparent);
+  }
+
+  .article-prose :global(a:hover) {
+    color: var(--np-accent-hover);
+    text-decoration-color: var(--np-accent-hover);
+  }
+
+  .article-prose :global(code) {
+    font-family: var(--np-font-mono);
+    font-size: 13px;
+    background: var(--np-surface-elevated);
+    border: 1px solid var(--np-border);
+    border-radius: var(--np-radius-sm);
+    padding: 1px 6px;
+    color: var(--np-text-strong);
+  }
+
+  .article-prose :global(pre) {
+    background: var(--np-surface-elevated);
+    border: 1px solid var(--np-border);
+    border-radius: var(--np-radius-lg);
+    padding: 16px 20px;
+    overflow-x: auto;
+    margin-bottom: 20px;
+  }
+
+  .article-prose :global(pre code) {
+    background: none;
+    border: none;
+    padding: 0;
+    font-size: 13px;
+    line-height: 1.65;
+  }
+
+  .article-prose :global(blockquote) {
+    border-left: 3px solid var(--np-accent);
+    padding-left: 16px;
+    margin-left: 0;
+    margin-bottom: 16px;
+    color: var(--np-text-muted);
+    font-style: italic;
+  }
+
+  .article-prose :global(table) {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+    margin-bottom: 20px;
+    border: 1px solid var(--np-border);
+    border-radius: var(--np-radius-lg);
+    overflow: hidden;
+  }
+
+  .article-prose :global(th) {
+    text-align: left;
+    padding: 10px 14px;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--np-text-strong);
+    background: var(--np-surface-elevated);
+    border-bottom: 1px solid var(--np-border-strong);
+  }
+
+  .article-prose :global(td) {
+    padding: 11px 14px;
+    vertical-align: top;
+    border-bottom: 1px solid var(--np-border);
+    color: var(--np-text-body);
+    line-height: 1.6;
+  }
+
+  .article-prose :global(tr:last-child td) {
+    border-bottom: none;
+  }
+
+  .article-prose :global(hr) {
+    border: none;
+    border-top: 1px solid var(--np-border);
+    margin: 32px 0;
+  }
+
+  /* first element — remove top margin gap */
+  .article-prose :global(> *:first-child) {
+    margin-top: 0;
+  }
+
+  /* ── Article footer ── */
+  .article-footer-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+
+  .back-link {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--np-text-muted);
+    text-decoration: none;
+    transition: color 0.12s ease;
+  }
+
+  .back-link:hover {
+    color: var(--np-text-primary);
+  }
+
+  .contact-link {
+    font-size: 13px;
+    color: var(--np-accent);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+
+  .contact-link:hover {
+    color: var(--np-accent-hover);
+  }
+
+  /* ── Responsive ── */
+  @media (max-width: 640px) {
+    .breadcrumb-current {
+      max-width: 180px;
+    }
+    .article-footer-row {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  }
+</style>
