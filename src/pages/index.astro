@@ -260,6 +260,69 @@ import Base from '../layouts/Base.astro';
     </div>
   </section>
 
+  <!-- ── What you can ask ── server-rendered; AI-search crawlable; no JS -->
+  <section class="ask-section section">
+    <div class="container">
+      <h2 class="section-heading">What practitioners ask</h2>
+      <p class="section-sub ask-sub">
+        Questions like these — answered from the record, with citations. Not generated from training data.
+      </p>
+      <div class="ask-grid">
+
+        <div class="ask-card">
+          <span class="profile-chip">Regulatory Counsel</span>
+          <p class="ask-q">"What's [party]'s current position in ER23-2309, and how has it shifted since the initial filing?"</p>
+        </div>
+
+        <div class="ask-card">
+          <span class="profile-chip">Compliance Manager</span>
+          <p class="ask-q">"What procedural deadlines do I have in the next 30 days across my tracked dockets — and which are confirmed vs. estimated?"</p>
+        </div>
+
+        <div class="ask-card">
+          <span class="profile-chip">Regulatory Affairs</span>
+          <p class="ask-q">"Give me five bullets on what moved in CAISO this week that affects storage."</p>
+        </div>
+
+        <div class="ask-card">
+          <span class="profile-chip">NERC Reliability</span>
+          <p class="ask-q">"Are there recent notices touching [standard] that change reporting or compliance obligations?"</p>
+        </div>
+
+        <div class="ask-card">
+          <span class="profile-chip">Consultant</span>
+          <p class="ask-q">"Pull every party's stated position on [issue] across these three dockets — I'm writing a memo."</p>
+        </div>
+
+        <div class="ask-card">
+          <span class="profile-chip">In-House Counsel</span>
+          <p class="ask-q">"What did commission staff say in their most recent comment on [tariff]? Cite the page."</p>
+        </div>
+
+        <div class="ask-card">
+          <span class="profile-chip">Government Affairs</span>
+          <p class="ask-q">"How are different state commissions treating [topic] this year — is there a consistent trend?"</p>
+        </div>
+
+        <div class="ask-card">
+          <span class="profile-chip">Market Analyst</span>
+          <p class="ask-q">"Surface every filing from the last 30 days that touches [capacity assumption], and cite what each one says."</p>
+        </div>
+
+        <div class="ask-card">
+          <span class="profile-chip">Expert Witness</span>
+          <p class="ask-q">"Find every mention of [term] in this docket's testimony, with exact filing and page citation."</p>
+        </div>
+
+        <div class="ask-card">
+          <span class="profile-chip">New to a Docket</span>
+          <p class="ask-q">"Where in this docket does the protest deadline appear, and what has each party filed so far?"</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
   <!-- ── Differentiators ── -->
   <section class="differentiators section">
     <div class="container">
@@ -816,6 +879,55 @@ import Base from '../layouts/Base.astro';
     line-height: 1.65;
   }
 
+  /* ── What you can ask ── */
+  .ask-section {
+    border-top: 1px solid var(--np-border);
+    border-bottom: 1px solid var(--np-border);
+  }
+
+  .ask-sub {
+    max-width: 560px;
+  }
+
+  .ask-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1px;
+    background: var(--np-border);
+    border: 1px solid var(--np-border);
+    border-radius: var(--np-radius-lg);
+    overflow: hidden;
+  }
+
+  .ask-card {
+    background: var(--np-surface);
+    padding: 22px 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .profile-chip {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--np-text-muted);
+    background: var(--np-surface-elevated);
+    border: 1px solid var(--np-border);
+    border-radius: var(--np-radius-sm);
+    padding: 2px 8px;
+    align-self: flex-start;
+  }
+
+  .ask-q {
+    font-size: 14px;
+    color: var(--np-text-body);
+    line-height: 1.65;
+    font-style: italic;
+  }
+
   /* ── Responsive ── */
   @media (max-width: 768px) {
     .panel-inner {
@@ -823,6 +935,9 @@ import Base from '../layouts/Base.astro';
       gap: 24px;
     }
     .diff-grid {
+      grid-template-columns: 1fr;
+    }
+    .ask-grid {
       grid-template-columns: 1fr;
     }
   }
