@@ -32,16 +32,8 @@ const faqs = [
     a: 'Yes. Both Beta regions are free during their Beta period — no credit card required. At general availability, access to each Beta region is $249/mo (Pro) or +$49/mo added to an existing plan. We will notify you before any charge applies.',
   },
   {
-    q: 'How is this different from asking Claude or ChatGPT?',
-    a: 'General-purpose AI relies on web search indexes that capture 30–40% of PUCT Interchange and FERC filings at best. NodalPulse runs purpose-built crawlers that hit the source systems directly on submission. Every answer is grounded in extracted filing text with source citations. Claims that cannot be sourced are dropped before delivery.',
-  },
-  {
     q: 'Can I cancel anytime?',
     a: 'Yes. Subscriptions are billed monthly and cancel at any time from your account settings. Cancellation takes effect at the end of the current billing period. No cancellation fees.',
-  },
-  {
-    q: 'What sources are covered?',
-    a: 'Texas: PUCT Interchange (all filings), ERCOT stakeholder pages. California (Beta): CAISO filings index + referenced FERC ER/EL dockets. PJM (Beta): FERC eLibrary + Independent Market Monitor + PJM stakeholder/auction calendar. See the Coverage page for full detail and roadmap.',
   },
 ];
 ---
@@ -236,6 +228,7 @@ const faqs = [
             </details>
           ))}
         </div>
+        <p class="faq-more">More questions? <a href="/help/faq">Help Center &rarr;</a></p>
       </div>
 
       <!-- Bottom CTA -->
@@ -548,6 +541,9 @@ const faqs = [
   details[open] .faq-question::after { content: '−'; }
   .faq-question:hover { background: var(--np-surface-elevated); }
   .faq-answer { padding: 0 20px 16px; font-size: 14px; color: var(--np-text-muted); line-height: 1.7; }
+  .faq-more { margin-top: 16px; font-size: 13px; color: var(--np-text-muted); }
+  .faq-more a { color: var(--np-accent); text-decoration: underline; text-underline-offset: 2px; }
+  .faq-more a:hover { color: var(--np-accent-hover); }
 
   /* Bottom CTA */
   .pricing-cta {

@@ -4,7 +4,7 @@ import Base from '../layouts/Base.astro';
 
 <Base
   title="Support — NodalPulse"
-  description="Get help with NodalPulse: contact, billing, and status information."
+  description="Reach the NodalPulse team for account, billing, and coverage questions."
 >
 
   <section class="section">
@@ -20,10 +20,29 @@ import Base from '../layouts/Base.astro';
       <div class="content-body">
 
         <div class="sec-section">
+          <h2 class="sec-heading">Before you write</h2>
+          <p>
+            Most questions about how NodalPulse works are answered in the Help Center:
+          </p>
+          <ul class="help-links">
+            <li><a href="/help/getting-started">Getting started</a></li>
+            <li><a href="/help/how-daily-briefs-work">How daily briefs work</a></li>
+            <li><a href="/help/deadlines-confirmed-vs-estimated">Deadlines: confirmed vs. estimated</a></li>
+            <li><a href="/help/ask-the-record">Ask the Record</a></li>
+            <li><a href="/help/account-and-billing">Account and billing</a></li>
+            <li><a href="/help/faq">Frequently asked questions</a></li>
+          </ul>
+        </div>
+
+        <div class="sec-section">
           <h2 class="sec-heading">Contact</h2>
           <p>
-            Email <a href="mailto:hello@nodalpulse.com">hello@nodalpulse.com</a> for questions
-            about your account, billing, or brief coverage. We respond within one business day.
+            Email <a href="mailto:hello@nodalpulse.com">hello@nodalpulse.com</a> for account,
+            billing, and coverage questions. We respond within one business day.
+          </p>
+          <p>
+            When reporting a coverage gap or a brief error, include your account email,
+            the docket number, the filing date, and what you expected to see.
           </p>
         </div>
 
@@ -58,3 +77,25 @@ import Base from '../layouts/Base.astro';
   </section>
 
 </Base>
+
+<style>
+  .help-links {
+    list-style: none;
+    padding: 0;
+    margin: 12px 0 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .help-links a {
+    font-size: 14px;
+    color: var(--np-accent);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+
+  .help-links a:hover {
+    color: var(--np-accent-hover);
+  }
+</style>
