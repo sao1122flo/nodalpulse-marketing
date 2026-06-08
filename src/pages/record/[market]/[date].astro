@@ -16,7 +16,7 @@ const MARKET_META: Record<string, {
 
 export async function getStaticPaths() {
   const servicesUrl =
-    import.meta.env.PUBLIC_SERVICES_URL ?? 'https://services-production.up.railway.app';
+    import.meta.env.PUBLIC_SERVICES_URL ?? 'https://nodalpulse-services-production.up.railway.app';
 
   // Step 1: Enumerate only (market, date) pairs with real content.
   // This ensures pages persist across rebuilds (never 404 on old dates) and
