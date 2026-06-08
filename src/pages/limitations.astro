@@ -4,7 +4,7 @@ import Base from '../layouts/Base.astro';
 
 <Base
   title="Limitations — What NodalPulse Is Not"
-  description="What NodalPulse doesn't cover yet: CAISO and PJM are Beta, CPUC is roadmap, PJM state commissions are phased, some FERC deadlines are estimated. Honest gaps, no disclaimers buried in fine print."
+  description="What NodalPulse doesn't cover yet: CAISO and PJM are Beta, CPUC has coverage caveats (no testimony in the public index, publication lag), PJM state commissions are phased, some FERC deadlines are estimated. Honest gaps, no disclaimers buried in fine print."
 >
 
   <!-- ── Hero ── -->
@@ -36,11 +36,11 @@ import Base from '../layouts/Base.astro';
 
         <div class="gap-item">
           <div class="gap-header">
-            <span class="gap-badge gap-badge--roadmap">Roadmap</span>
-            <h2 class="gap-title">CPUC is not in scope yet.</h2>
+            <span class="gap-badge gap-badge--live-caveats">Live · caveats</span>
+            <h2 class="gap-title">CPUC coverage has empirical limits.</h2>
           </div>
           <p class="gap-body">
-            California's CPUC leg is referenced — extracted from filing text where cited — but not fully crawled. CPUC's legacy system has no public API. Until a dedicated adapter ships, you'll see CPUC proceeding references in the brief, but independent CPUC docket monitoring is Phase 2. We say this in the product, not in the fine print.
+            CPUC proceedings are covered — NodalPulse crawls docs.cpuc.ca.gov daily. Two limits to know: prepared testimony is submitted directly to the ALJ and does not appear in the public documents index (Supporting Documents filings typically carry witness statements); and documents appear in the index only after they are accepted for filing, so there is a publication lag. You will see what's in the public index, accurately labeled.
           </p>
         </div>
 
@@ -160,6 +160,7 @@ import Base from '../layouts/Base.astro';
   .gap-badge--roadmap { background: var(--np-surface-deep); color: var(--np-text-muted); }
   .gap-badge--phased { background: #EDE9FE; color: #4C1D95; }
   .gap-badge--permanent { background: #F3F4F6; color: #374151; }
+  .gap-badge--live-caveats { background: #D1FAE5; color: #065F46; }
 
   .gap-title {
     font-size: 16px;

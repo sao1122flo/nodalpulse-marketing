@@ -11,7 +11,7 @@ const tiers = [
 const faqItems = [
   {
     q: 'Is CPUC covered?',
-    a: "CPUC is roadmap Phase 2. CPUC's legacy system has no public API — until a dedicated adapter ships, a matter's CPUC leg is referenced (from filing text) but not fully crawled. You will see CPUC proceeding references extracted from filings, but not independent CPUC docket monitoring."
+    a: "Yes — CPUC proceedings are covered. NodalPulse crawls docs.cpuc.ca.gov daily and indexes filed documents. Two honest limits: prepared testimony is submitted directly to the ALJ and does not appear in the public documents index (Supporting Documents filings often carry witness statements instead); and documents appear in the index only after they are accepted for filing, so there is a publication lag between submission and visibility. You will see what's in the public index, accurately labeled."
   },
   {
     q: 'What does "initiative-linking" mean?',
@@ -53,7 +53,7 @@ const faqItems = [
           Three California forums. One thread. <span class="beta-inline">Beta</span>
         </h1>
         <p class="hero-sub">
-          A California matter rarely lives in one place — a CAISO stakeholder initiative becomes a FERC docket and runs alongside a CPUC proceeding, with no shared ID. NodalPulse crawls the CAISO filings index and the FERC dockets it references daily, extracts the substance, and threads the legs together. Free during Beta — we label what's certain and what's estimated.
+          A California matter rarely lives in one place — a CAISO stakeholder initiative becomes a FERC docket and runs alongside a CPUC proceeding, with no shared ID. NodalPulse crawls CAISO filings, the FERC dockets they reference, and CPUC proceedings daily, extracts the substance, and threads the legs together. Free during Beta — we label what's certain and what's estimated.
         </p>
         <div class="hero-actions">
           <a href="https://app.nodalpulse.com/login" class="btn-primary btn-lg">Try free during Beta →</a>
@@ -128,12 +128,12 @@ const faqItems = [
   <section class="cpuc-section section-sm">
     <div class="container">
       <div class="cpuc-box">
-        <h3 class="cpuc-heading">About CPUC coverage</h3>
+        <h3 class="cpuc-heading">CPUC coverage — what's in and what's not</h3>
         <p class="cpuc-body">
-          <strong>CPUC is roadmap Phase 2.</strong> CPUC's legacy system has no public API — until it ships, a matter's CPUC leg is <em>referenced</em> (extracted from filing text where cited), not fully crawled. You'll see CPUC proceeding references in the brief, but independent CPUC docket monitoring is not available yet. We say this plainly so you know exactly what you're getting.
+          NodalPulse crawls docs.cpuc.ca.gov daily. Two empirical limits: prepared testimony is submitted directly to the ALJ and does not appear in the public documents index — Supporting Documents filings typically carry witness statements. Documents appear in the index after they are accepted for filing, so there is a publication lag between submission and visibility.
         </p>
         <p class="cpuc-body">
-          Cross-jurisdiction linking is labeled "best-effort, improves over time" as extraction reads more filings.
+          Cross-jurisdiction linking (CAISO ↔ FERC ↔ CPUC) is labeled best-effort and deepens as extraction reads more filings from the same matter.
         </p>
       </div>
     </div>
