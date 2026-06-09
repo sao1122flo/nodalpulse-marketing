@@ -1,39 +1,35 @@
 ---
 title: "Getting started with NodalPulse"
-description: "How to sign up, choose your markets, add dockets to track, and receive your first morning brief."
+description: "How to get onboarded, what you'll see when you log in, and how to get the most from your morning brief and Ask the Record."
 category: getting-started
 order: 1
 updatedDate: 2026-06-08
 draft: false
 ---
 
-## Sign up
+## Get onboarded
 
-Go to [app.nodalpulse.com](https://app.nodalpulse.com/login) and create an account. All markets start with a free trial — no credit card required.
+NodalPulse is currently in Beta. We configure your account, markets, and initial tracked dockets for you. To get started, email [hello@nodalpulse.com](mailto:hello@nodalpulse.com).
 
-## Choose your market
+Once your account is live, you'll receive a confirmation and can log in at [app.nodalpulse.com](https://app.nodalpulse.com).
 
-Pick one or more regions during onboarding:
+## Your dashboard
 
-- **Texas** — PUCT Interchange and ERCOT stakeholder processes.
-- **California** — CAISO filings, FERC ER/EL dockets, CPUC proceedings.
-- **PJM** — FERC eLibrary, Independent Market Monitor filings, PJM stakeholder calendar.
+Log in and you'll see the dockets and proceedings already set up for your markets. Each entry shows the docket, the most recent filing, and any upcoming deadlines. Prior filings are extracted and searchable from day one.
 
-Before you commit, [Coverage](/coverage) shows the exact sources crawled per market, and [Limitations](/limitations) explains honestly where extraction is less complete.
+To see exactly what NodalPulse crawls for each market, see [Coverage](/coverage). For an honest account of where extraction is less complete, see [Limitations](/limitations).
 
-## Add dockets to track
-
-After signup you land on your dashboard. Search by docket number or keyword to find the proceedings that matter to your work, then add them to your tracked list.
-
-NodalPulse crawls those dockets nightly. New filings — with parties, positions, deadlines, and citations — appear in your next morning brief.
-
-## Receive your brief
+## Your morning brief
 
 Briefs arrive by **6:00 AM** in your primary market's time zone. Each item covers a new filing in one of your tracked dockets: what was filed, who filed it, what they argued, any deadlines that appeared, and a link to the source document.
 
 If nothing new was filed overnight, no brief is sent. You get signal, not noise.
 
-## Use Ask the Record
+## Track more dockets
+
+To follow additional proceedings, search by docket number from your dashboard and add them to your tracked list. NodalPulse crawls those dockets nightly. New filings appear in your next morning brief.
+
+## Ask the Record
 
 Once your tracked dockets have filing history, Ask the Record lets you query across that corpus in plain English — "What's [party]'s latest position in this docket?" — with citations back to the source.
 
