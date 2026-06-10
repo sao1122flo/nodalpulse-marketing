@@ -1,5 +1,6 @@
 ---
 import Base from '../layouts/Base.astro';
+import { STATS } from '../data/stats';
 ---
 
 <Base
@@ -90,6 +91,17 @@ import Base from '../layouts/Base.astro';
       </div>
     </div>
   </section>
+
+  <!-- ── Social proof stats ── static HTML, AI-crawlable -->
+  <div class="stats-strip" role="note" aria-label="Platform statistics">
+    <div class="container stats-inner">
+      <span class="stat-pill">{STATS.filings} filings processed</span>
+      <span class="stat-sep" aria-hidden="true">·</span>
+      <span class="stat-pill">{STATS.dockets} dockets monitored</span>
+      <span class="stat-sep" aria-hidden="true">·</span>
+      <span class="stat-pill">{STATS.deadlines} deadline events extracted</span>
+    </div>
+  </div>
 
   <!-- ── Region toggle ── CSS-only, all content server-rendered for AI crawlers -->
   <section class="toggle-section section-sm">
@@ -626,6 +638,33 @@ import Base from '../layouts/Base.astro';
   .hero-trust {
     font-size: 12px;
     color: var(--np-text-muted);
+  }
+
+  /* ── Stats strip ── */
+  .stats-strip {
+    background: var(--np-surface-elevated);
+    border-bottom: 1px solid var(--np-border);
+    padding: 11px 0;
+  }
+
+  .stats-inner {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 6px 14px;
+  }
+
+  .stat-pill {
+    font-size: 13px;
+    color: var(--np-text-muted);
+    white-space: nowrap;
+  }
+
+  .stat-sep {
+    font-size: 13px;
+    color: var(--np-border-strong);
+    user-select: none;
   }
 
   /* ── Region toggle ── */
