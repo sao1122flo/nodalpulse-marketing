@@ -656,6 +656,13 @@ import Base from '../layouts/Base.astro';
     gap: 4px;
     margin-bottom: 0;
     border-bottom: 1px solid var(--np-border);
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+
+  .tab-bar::-webkit-scrollbar {
+    display: none;
   }
 
   .tab-label {
