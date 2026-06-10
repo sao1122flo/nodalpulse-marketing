@@ -4,7 +4,7 @@
 //   SELECT COUNT(*) FROM deadlines;
 // Round DOWN to nearest conservative milestone (e.g. 14,312 → "14,000+").
 export const STATS = {
-  filings:   'TODO+',
-  dockets:   'TODO+',
-  deadlines: 'TODO+',
+  filings:   '8,000+',
+  dockets:   '1,000+',
+  deadlines: '3,000+',
 } as const;
