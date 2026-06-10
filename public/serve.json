@@ -1,0 +1,9 @@
+{
+  "redirects": [
+    {
+      "source": "/login",
+      "destination": "https://app.nodalpulse.com/login",
+      "type": 301
+    }
+  ]
+}

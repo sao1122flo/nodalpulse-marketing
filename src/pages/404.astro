@@ -1,0 +1,68 @@
+---
+import Base from '../layouts/Base.astro';
+---
+
+<Base
+  title="Page Not Found — NodalPulse"
+  description="The page you're looking for doesn't exist. Return to NodalPulse regulatory intelligence."
+>
+  <section class="not-found-section section">
+    <div class="container">
+      <div class="not-found-content">
+        <span class="error-code">404</span>
+        <h1 class="not-found-heading">Page not found</h1>
+        <p class="not-found-body">
+          The page you're looking for doesn't exist or has moved.
+        </p>
+        <div class="not-found-actions">
+          <a href="/" class="btn-primary btn-lg">Back to home →</a>
+          <a href="https://app.nodalpulse.com/login" class="btn-secondary btn-lg">Log in</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .not-found-section {
+    min-height: 60vh;
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid var(--np-border);
+  }
+
+  .not-found-content {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    max-width: 480px;
+  }
+
+  .error-code {
+    font-size: 72px;
+    font-weight: 700;
+    color: var(--np-indigo-500);
+    line-height: 1;
+    letter-spacing: -0.04em;
+  }
+
+  .not-found-heading {
+    font-size: 28px;
+    font-weight: 600;
+    color: var(--np-text-primary);
+    letter-spacing: -0.02em;
+  }
+
+  .not-found-body {
+    font-size: 16px;
+    color: var(--np-text-muted);
+    line-height: 1.6;
+  }
+
+  .not-found-actions {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-top: 8px;
+  }
+</style>

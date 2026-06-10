@@ -10,24 +10,83 @@ import Base from '../layouts/Base.astro';
   <!-- ── Hero ── -->
   <section class="hero section">
     <div class="container">
-      <div class="hero-content">
-        <h1 class="hero-headline">
-          Never miss a procedural deadline across the markets you work.
-        </h1>
-        <p class="hero-sub">
-          NodalPulse reads the regulatory record for US power markets every morning and hands you one cited brief at 6:00&nbsp;AM&nbsp;CT — the new filings, the party positions, the dollar impacts, and the deadlines that decide whether you keep your seat in a proceeding. Rate, market, and reliability. Texas live; California and PJM in Beta.
-        </p>
-        <div class="hero-actions">
-          <a href="https://app.nodalpulse.com/login" class="btn-primary btn-lg">
-            Start your morning brief →
-          </a>
-          <a href="/coverage" class="btn-secondary btn-lg">
-            See what we cover →
-          </a>
+      <div class="hero-layout">
+
+        <!-- Text content: first in DOM for crawlers and screen readers -->
+        <div class="hero-content">
+          <h1 class="hero-headline">
+            Never miss a procedural deadline across the markets you work.
+          </h1>
+          <p class="hero-sub">
+            NodalPulse reads the regulatory record for US power markets every morning and hands you one cited brief at 6:00&nbsp;AM&nbsp;CT — the new filings, the party positions, the dollar impacts, and the deadlines that decide whether you keep your seat in a proceeding. Rate, market, and reliability. Texas live; California and PJM in Beta.
+          </p>
+          <div class="hero-actions">
+            <a href="https://app.nodalpulse.com/login" class="btn-primary btn-lg">
+              Start your morning brief →
+            </a>
+            <a href="/coverage" class="btn-secondary btn-lg">
+              See what we cover →
+            </a>
+          </div>
+          <p class="hero-trust">
+            14-day free trial &middot; No card required &middot; Cancel anytime
+          </p>
         </div>
-        <p class="hero-trust">
-          14-day free trial &middot; No card required &middot; Cancel anytime
-        </p>
+
+        <!-- Decorative product visual: desktop only, hidden from assistive tech -->
+        <aside class="hero-visual" aria-hidden="true" tabindex="-1">
+          <div class="deadline-card">
+            <div class="deadline-card-header">
+              <span class="deadline-card-title">Upcoming Deadlines</span>
+              <span class="deadline-card-count">4 in next 14 days</span>
+            </div>
+            <div class="deadline-item">
+              <div class="deadline-days deadline-days--urgent">
+                <span class="deadline-num">1</span>
+                <span class="deadline-unit">day</span>
+              </div>
+              <div class="deadline-detail">
+                <span class="tag-chip">[PUCT]</span>
+                <span class="deadline-name">Docket 57102: Initial Comments Due</span>
+                <span class="deadline-badge deadline-badge--confirmed">confirmed</span>
+              </div>
+            </div>
+            <div class="deadline-item">
+              <div class="deadline-days deadline-days--urgent">
+                <span class="deadline-num">3</span>
+                <span class="deadline-unit">days</span>
+              </div>
+              <div class="deadline-detail">
+                <span class="tag-chip">[NPRR]</span>
+                <span class="deadline-name">NPRR1234: Comment Period Closes</span>
+                <span class="deadline-badge deadline-badge--confirmed">confirmed</span>
+              </div>
+            </div>
+            <div class="deadline-item">
+              <div class="deadline-days deadline-days--warn">
+                <span class="deadline-num">7</span>
+                <span class="deadline-unit">days</span>
+              </div>
+              <div class="deadline-detail">
+                <span class="tag-chip">[FERC]</span>
+                <span class="deadline-name">ER25-114: Rehearing Window Opens</span>
+                <span class="deadline-badge deadline-badge--est">est.</span>
+              </div>
+            </div>
+            <div class="deadline-item deadline-item--last">
+              <div class="deadline-days">
+                <span class="deadline-num">14</span>
+                <span class="deadline-unit">days</span>
+              </div>
+              <div class="deadline-detail">
+                <span class="tag-chip">[PUCT]</span>
+                <span class="deadline-name">Docket 57102: Reply Comments Due</span>
+                <span class="deadline-badge deadline-badge--confirmed">confirmed</span>
+              </div>
+            </div>
+          </div>
+        </aside>
+
       </div>
     </div>
   </section>
@@ -403,8 +462,135 @@ import Base from '../layouts/Base.astro';
     border-bottom: 1px solid var(--np-border);
   }
 
+  .hero-layout {
+    display: flex;
+    align-items: center;
+    gap: 64px;
+  }
+
   .hero-content {
-    max-width: 720px;
+    flex: 1 1 0;
+    min-width: 0;
+    max-width: 600px;
+  }
+
+  .hero-visual {
+    display: none;
+    flex: 0 0 360px;
+  }
+
+  @media (min-width: 1024px) {
+    .hero-visual {
+      display: block;
+    }
+  }
+
+  /* ── Deadline card (hero visual) ── */
+  .deadline-card {
+    border: 1px solid var(--np-border-strong);
+    border-radius: var(--np-radius-lg);
+    background: var(--np-surface);
+    overflow: hidden;
+    box-shadow: 0 1px 4px 0 rgba(0,0,0,0.06), 0 4px 16px 0 rgba(0,0,0,0.04);
+  }
+
+  .deadline-card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 16px;
+    background: var(--np-surface-elevated);
+    border-bottom: 1px solid var(--np-border);
+  }
+
+  .deadline-card-title {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--np-text-strong);
+    letter-spacing: 0.02em;
+  }
+
+  .deadline-card-count {
+    font-size: 11px;
+    color: var(--np-text-muted);
+    font-family: var(--np-font-mono);
+  }
+
+  .deadline-item {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 11px 16px;
+    border-bottom: 1px solid var(--np-border);
+  }
+
+  .deadline-item--last {
+    border-bottom: none;
+  }
+
+  .deadline-days {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 38px;
+    flex-shrink: 0;
+  }
+
+  .deadline-num {
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--np-text-muted);
+    line-height: 1;
+    letter-spacing: -0.02em;
+  }
+
+  .deadline-days--urgent .deadline-num {
+    color: #DC2626;
+  }
+
+  .deadline-days--warn .deadline-num {
+    color: #D97706;
+  }
+
+  .deadline-unit {
+    font-size: 10px;
+    color: var(--np-text-muted);
+    font-weight: 500;
+    letter-spacing: 0.02em;
+  }
+
+  .deadline-detail {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    min-width: 0;
+  }
+
+  .deadline-name {
+    font-size: 12px;
+    color: var(--np-text-body);
+    line-height: 1.4;
+    font-weight: 500;
+  }
+
+  .deadline-badge {
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 600;
+    padding: 1px 6px;
+    border-radius: 3px;
+    letter-spacing: 0.03em;
+    align-self: flex-start;
+  }
+
+  .deadline-badge--confirmed {
+    background: #D1FAE5;
+    color: #065F46;
+  }
+
+  .deadline-badge--est {
+    background: #FEF3C7;
+    color: #92400E;
   }
 
   .hero-headline {
@@ -850,6 +1036,7 @@ import Base from '../layouts/Base.astro';
     font-size: 11px;
     color: var(--np-text-muted);
     line-height: 1.5;
+    overflow-wrap: anywhere;
   }
 
   /* ── Differentiators ── */
