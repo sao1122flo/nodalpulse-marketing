@@ -83,15 +83,83 @@ const pageDescription = isToday
             The public digest includes a curated selection of the day's filings. Personalized briefs — filtered to your tracked markets, dockets, and keyword searches — are available on paid plans.
           </p>
         </div>
+
+        <!-- Email capture -->
+        <div class="email-capture" id="capture-idle">
+          <p class="capture-label">Get the digest in your inbox — no card required.</p>
+          <form class="capture-form" id="digest-subscribe-form" novalidate>
+            <input
+              type="email"
+              name="email"
+              placeholder="you@yourcompany.com"
+              autocomplete="email"
+              required
+              class="capture-input"
+              id="digest-email-input"
+            />
+            <button type="submit" class="btn-primary capture-btn" id="digest-submit-btn">
+              Subscribe
+            </button>
+          </form>
+          <p class="capture-error" id="capture-error" style="display:none"></p>
+        </div>
+        <div class="capture-success" id="capture-success" style="display:none">
+          <span class="capture-success-icon" aria-hidden="true">✓</span>
+          <span>You're subscribed. Check your inbox for a confirmation.</span>
+        </div>
+
         <div class="placeholder-actions">
-          <a href="https://app.nodalpulse.com/signup" class="btn-primary">
-            Get the personalized brief
-          </a>
-          <a href="/pricing" class="btn-secondary">
-            Compare plans
+          <a href="https://app.nodalpulse.com/signup" class="btn-secondary">
+            Get the personalized brief →
           </a>
         </div>
       </div>
+
+      <script>
+        (function () {
+          const form = document.getElementById('digest-subscribe-form');
+          const input = document.getElementById('digest-email-input');
+          const btn = document.getElementById('digest-submit-btn');
+          const errEl = document.getElementById('capture-error');
+          const idleEl = document.getElementById('capture-idle');
+          const successEl = document.getElementById('capture-success');
+
+          if (!form) return;
+
+          form.addEventListener('submit', async function (e) {
+            e.preventDefault();
+            const email = input.value.trim();
+            if (!email) return;
+
+            btn.disabled = true;
+            btn.textContent = 'Subscribing…';
+            errEl.style.display = 'none';
+
+            try {
+              const res = await fetch('https://app.nodalpulse.com/api/digest-subscribe', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email }),
+              });
+              if (res.ok) {
+                idleEl.style.display = 'none';
+                successEl.style.display = 'flex';
+              } else {
+                const data = await res.json().catch(() => ({}));
+                errEl.textContent = data.error || 'Something went wrong. Try again.';
+                errEl.style.display = 'block';
+                btn.disabled = false;
+                btn.textContent = 'Subscribe';
+              }
+            } catch {
+              errEl.textContent = 'Network error. Please try again.';
+              errEl.style.display = 'block';
+              btn.disabled = false;
+              btn.textContent = 'Subscribe';
+            }
+          });
+        })();
+      </script>
 
       <!-- SEO-structured content block for future population -->
       <!-- This section will be dynamically populated by the pipeline -->
@@ -208,6 +276,62 @@ const pageDescription = isToday
     align-items: center;
     gap: 10px;
     flex-wrap: wrap;
+  }
+
+  /* ── Email capture ── */
+  .email-capture { display: flex; flex-direction: column; gap: 10px; }
+
+  .capture-label {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--np-text-body);
+  }
+
+  .capture-form {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  .capture-input {
+    flex: 1;
+    min-width: 200px;
+    padding: 9px 12px;
+    font-size: 14px;
+    border: 1px solid var(--np-border-strong);
+    border-radius: var(--np-radius-sm);
+    background: var(--np-surface);
+    color: var(--np-text-primary);
+    outline: none;
+    transition: border-color 0.12s;
+  }
+
+  .capture-input::placeholder { color: var(--np-text-muted); }
+  .capture-input:focus { border-color: var(--np-accent); }
+
+  .capture-btn {
+    white-space: nowrap;
+    padding: 9px 18px;
+    font-size: 13px;
+  }
+
+  .capture-error {
+    font-size: 12px;
+    color: #ef4444;
+  }
+
+  .capture-success {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    color: #10b981;
+    font-weight: 500;
+  }
+
+  .capture-success-icon {
+    font-size: 16px;
+    font-weight: 700;
   }
 
   /* ── Digest nav ── */
