@@ -21,15 +21,15 @@ const rows = [
 const faqs = [
   {
     q: 'How does regional pricing work?',
-    a: 'Each plan includes one region of your choice — Texas, California, or PJM. Additional regions are +$49/mo (Starter/Pro) or +$99/mo (Team), added in-app after signup. Org includes all regions. There is no published 2D pricing matrix — you pick your region when you start.',
+    a: 'Each plan starts with Texas (PUCT/ERCOT). Additional regions — California (+$49/mo Starter/Pro, +$99/mo Team) and PJM (free during Beta) — are added in-app after signup. Org includes all regions.',
   },
   {
     q: 'Is there a free trial?',
-    a: '14 days free on the Pro plan with one region of your choice. No credit card required to start. California and PJM are free during their Beta period — no trial limit, just free.',
+    a: '14 days free on the Pro plan with one region of your choice. No credit card required to start. PJM is free during its Beta period — no trial limit, just free.',
   },
   {
-    q: 'Are California and PJM really free during Beta?',
-    a: 'Yes. Both Beta regions are free during their Beta period — no credit card required. At general availability, access to each Beta region is $249/mo (Pro) or +$49/mo added to an existing plan. We will notify you before any charge applies.',
+    q: 'Is PJM free during Beta?',
+    a: 'Yes. PJM is free during its Beta period — no credit card required. At general availability, PJM access is +$49/mo (Starter/Pro) or +$99/mo (Team) added to an existing plan. We will notify you before any charge applies.',
   },
   {
     q: 'Can I cancel anytime?',
@@ -40,7 +40,7 @@ const faqs = [
 
 <Base
   title="Pricing — NodalPulse"
-  description="NodalPulse pricing: Starter $99/mo, Pro $249/mo, Team $749/mo, Org $1,999/mo. California and PJM free during Beta. 14-day free trial on Texas, no card required."
+  description="NodalPulse pricing: Starter $99/mo, Pro $249/mo, Team $749/mo, Org $1,999/mo. California add-on +$49/mo. PJM free during Beta. 14-day free trial, no card required."
   extraSchema={[{
     "@type": "FAQPage",
     "mainEntity": faqs.map(f => ({
@@ -57,7 +57,7 @@ const faqs = [
       <div class="pricing-header">
         <h1 class="page-title">Simple, transparent pricing</h1>
         <p class="page-sub">
-          Texas: 14-day free trial, no card required. California and PJM: free during Beta — no card, no time limit.
+          Texas: 14-day free trial, no card required. California: live, +$49/mo add-on. PJM: free during Beta.
         </p>
       </div>
 
@@ -70,7 +70,7 @@ const faqs = [
 
         <div class="region-tab-bar">
           <label for="price-tx"  class="region-tab-label">Texas  <span class="tab-chip tab-chip--live">Live</span></label>
-          <label for="price-ca"  class="region-tab-label">California <span class="tab-chip tab-chip--free">Free during Beta</span></label>
+          <label for="price-ca"  class="region-tab-label">California <span class="tab-chip tab-chip--live">Live</span></label>
           <label for="price-pjm" class="region-tab-label">PJM <span class="tab-chip tab-chip--free">Free during Beta</span></label>
         </div>
 
@@ -100,50 +100,39 @@ const faqs = [
               <span class="addon-icon" aria-hidden="true">+</span>
               <span>
                 Additional regions: <strong>+$49/mo</strong> (Starter &amp; Pro) · <strong>+$99/mo</strong> (Team) · <strong>Included</strong> (Org).
-                California and PJM are free during Beta.
+                PJM is free during Beta.
                 Added in-app after signup.
               </span>
             </div>
           </div>
 
-          <!-- California panel — Beta free (struck prices) -->
+          <!-- California panel — GA live (+$49/mo add-on) -->
           <div class="region-panel" id="price-panel-ca">
-            <div class="beta-region-notice">
-              <span class="beta-free-badge-lg">Free during Beta</span>
-              <span class="beta-region-note">No card required. $249/mo at general availability — we'll give you notice before any charge applies.</span>
-            </div>
             <div class="tier-cards">
               {tiers.map(tier => (
                 <div class:list={['tier-card', { 'tier-card--highlight': tier.highlight }]}>
                   {tier.highlight && <div class="tier-badge">Most popular</div>}
                   <div class="tier-name">{tier.name}</div>
-
-                  {tier.contactOnly ? (
-                    <div class="tier-price">
-                      <span class="tier-amount">{tier.price}</span>
-                      <span class="tier-period">{tier.period}</span>
-                    </div>
-                  ) : (
-                    <div class="tier-price-beta">
-                      <span class="beta-free-chip">Free during Beta</span>
-                      <div class="tier-price-struck">
-                        <del><span class="tier-amount-muted">{tier.price}</span><span class="tier-period-muted">{tier.period} at GA</span></del>
-                      </div>
-                    </div>
-                  )}
-
+                  <div class="tier-price">
+                    <span class="tier-amount">{tier.price}</span>
+                    {tier.period && <span class="tier-period">{tier.period}</span>}
+                  </div>
                   <a
-                    href={tier.contactOnly ? 'mailto:hello@nodalpulse.com' : 'https://app.nodalpulse.com/login'}
+                    href={tier.contactOnly ? 'mailto:hello@nodalpulse.com' : `https://app.nodalpulse.com/login?callbackURL=%2Fpricing%3Ftier%3D${tier.name.toLowerCase()}`}
                     class:list={[tier.highlight ? 'btn-primary' : 'btn-secondary', 'tier-cta']}
                   >
-                    {tier.contactOnly ? 'Contact us' : 'Try free during Beta'}
+                    {tier.contactOnly ? 'Contact us' : 'Start free trial'}
                   </a>
                 </div>
               ))}
             </div>
-            <p class="ga-disclosure">
-              At general availability, California access is <strong>$249/mo</strong> (Pro) or <strong>+$49/mo</strong> added to an existing Texas plan. We'll notify you before any charge applies.
-            </p>
+            <div class="addon-note">
+              <span class="addon-icon" aria-hidden="true">+</span>
+              <span>
+                California (CAISO/CPUC) add-on: <strong>+$49/mo</strong> (Starter &amp; Pro) · <strong>+$99/mo</strong> (Team) · <strong>Included</strong> (Org).
+                Added in-app after signup.
+              </span>
+            </div>
           </div>
 
           <!-- PJM panel — Beta free (struck prices) -->
@@ -236,7 +225,7 @@ const faqs = [
         <a href="https://app.nodalpulse.com/pricing" class="btn-primary btn-lg">
           Start free &rarr;
         </a>
-        <p class="pricing-cta-note">Texas: 14-day free trial, no card. California &amp; PJM: free during Beta.</p>
+        <p class="pricing-cta-note">Texas: 14-day free trial, no card. PJM: free during Beta.</p>
       </div>
 
     </div>
