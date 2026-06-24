@@ -21,7 +21,7 @@ const rows = [
 const faqs = [
   {
     q: 'How does regional pricing work?',
-    a: 'Each plan starts with Texas (PUCT/ERCOT). Additional regions — California (+$49/mo Starter/Pro, +$99/mo Team) and PJM (free during Beta) — are added in-app after signup. Org includes all regions.',
+    a: 'Each plan includes one market of your choice — Texas, California, or PJM. Additional markets are +$49/mo (Starter/Pro) or +$99/mo (Team), added in-app after signup. Org includes all markets. California is now live; PJM is free during its Beta period.',
   },
   {
     q: 'Is there a free trial?',
@@ -40,7 +40,7 @@ const faqs = [
 
 <Base
   title="Pricing — NodalPulse"
-  description="NodalPulse pricing: Starter $99/mo, Pro $249/mo, Team $749/mo, Org $1,999/mo. California add-on +$49/mo. PJM free during Beta. 14-day free trial, no card required."
+  description="NodalPulse pricing: Starter $99/mo, Pro $249/mo, Team $749/mo, Org $1,999/mo. 1 market included, additional markets +$49/mo. PJM free during Beta. 14-day free trial, no card required."
   extraSchema={[{
     "@type": "FAQPage",
     "mainEntity": faqs.map(f => ({
@@ -57,7 +57,7 @@ const faqs = [
       <div class="pricing-header">
         <h1 class="page-title">Simple, transparent pricing</h1>
         <p class="page-sub">
-          Texas: 14-day free trial, no card required. California: live, +$49/mo add-on. PJM: free during Beta.
+          1 market included with every plan. Additional markets from +$49/mo. PJM free during Beta.
         </p>
       </div>
 
@@ -99,8 +99,8 @@ const faqs = [
             <div class="addon-note">
               <span class="addon-icon" aria-hidden="true">+</span>
               <span>
-                Additional regions: <strong>+$49/mo</strong> (Starter &amp; Pro) · <strong>+$99/mo</strong> (Team) · <strong>Included</strong> (Org).
-                PJM is free during Beta.
+                Additional markets: <strong>+$49/mo</strong> (Starter &amp; Pro) · <strong>+$99/mo</strong> (Team) · <strong>Included</strong> (Org).
+                California live · PJM free during Beta.
                 Added in-app after signup.
               </span>
             </div>
@@ -129,7 +129,8 @@ const faqs = [
             <div class="addon-note">
               <span class="addon-icon" aria-hidden="true">+</span>
               <span>
-                California (CAISO/CPUC) add-on: <strong>+$49/mo</strong> (Starter &amp; Pro) · <strong>+$99/mo</strong> (Team) · <strong>Included</strong> (Org).
+                Additional markets: <strong>+$49/mo</strong> (Starter &amp; Pro) · <strong>+$99/mo</strong> (Team) · <strong>Included</strong> (Org).
+                Texas live · PJM free during Beta.
                 Added in-app after signup.
               </span>
             </div>
@@ -225,7 +226,7 @@ const faqs = [
         <a href="https://app.nodalpulse.com/pricing" class="btn-primary btn-lg">
           Start free &rarr;
         </a>
-        <p class="pricing-cta-note">Texas: 14-day free trial, no card. PJM: free during Beta.</p>
+        <p class="pricing-cta-note">14-day free trial, no card required. PJM free during Beta.</p>
       </div>
 
     </div>
