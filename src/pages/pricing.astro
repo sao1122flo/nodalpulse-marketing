@@ -2,10 +2,18 @@
 import Base from '../layouts/Base.astro';
 
 const tiers = [
-  { name: 'Starter', price: '$99',   period: '/mo', dockets: '5',         history: '30 days',   qa: '10/day',  seats: '1',  highlight: false, contactOnly: false },
-  { name: 'Pro',     price: '$249',  period: '/mo', dockets: '25',        history: '1 year',    qa: '30/day',  seats: '1',  highlight: true,  contactOnly: false },
-  { name: 'Team',    price: '$749',  period: '/mo', dockets: '100',       history: '3 years',   qa: '100/day', seats: '5',  highlight: false, contactOnly: false },
-  { name: 'Org',     price: '$1,999',period: '/mo', dockets: 'Unlimited', history: 'Unlimited', qa: '300/day', seats: '25', highlight: false, contactOnly: true  },
+  { name: 'Starter', price: '$99',   period: '/mo', dockets: '5',         history: '30 days',   qa: '10/day',  seats: '1',  highlight: false, contactOnly: false,
+    tagline: 'One market, one analyst',
+    features: ['5 tracked dockets', '30-day brief history', '10 Ask-the-Record Q/day'] },
+  { name: 'Pro',     price: '$249',  period: '/mo', dockets: '25',        history: '1 year',    qa: '30/day',  seats: '1',  highlight: true,  contactOnly: false,
+    tagline: 'Daily coverage for a working practitioner',
+    features: ['25 tracked dockets', '1-year brief history', '30 Ask-the-Record Q/day'] },
+  { name: 'Team',    price: '$749',  period: '/mo', dockets: '100',       history: '3 years',   qa: '100/day', seats: '5',  highlight: false, contactOnly: false,
+    tagline: 'A regulatory desk, in sync',
+    features: ['100 tracked dockets', '5 team seats', '99.5% uptime SLA'] },
+  { name: 'Org',     price: '$1,999',period: '/mo', dockets: 'Unlimited', history: 'Unlimited', qa: '300/day', seats: '25', highlight: false, contactOnly: true,
+    tagline: 'Enterprise, every market',
+    features: ['Unlimited dockets, all markets', '25 seats + API access', '99.9% uptime SLA'] },
 ];
 
 const rows = [
@@ -59,6 +67,9 @@ const faqs = [
         <p class="page-sub">
           1 market included with every plan. Additional markets from +$49/mo. PJM free during Beta.
         </p>
+        <p class="value-anchor">
+          One missed comment window can cost more than a year of NodalPulse — <strong>we make sure you see it coming.</strong>
+        </p>
       </div>
 
       <!-- ── Region toggle (CSS-only) ── -->
@@ -83,10 +94,14 @@ const faqs = [
                 <div class:list={['tier-card', { 'tier-card--highlight': tier.highlight }]}>
                   {tier.highlight && <div class="tier-badge">Most popular</div>}
                   <div class="tier-name">{tier.name}</div>
+                  <p class="tier-tagline">{tier.tagline}</p>
                   <div class="tier-price">
                     <span class="tier-amount">{tier.price}</span>
                     {tier.period && <span class="tier-period">{tier.period}</span>}
                   </div>
+                  <ul class="tier-features">
+                    {tier.features.map(f => <li>{f}</li>)}
+                  </ul>
                   <a
                     href={tier.contactOnly ? 'mailto:hello@nodalpulse.com' : `https://app.nodalpulse.com/login?callbackURL=%2Fpricing%3Ftier%3D${tier.name.toLowerCase()}`}
                     class:list={[tier.highlight ? 'btn-primary' : 'btn-secondary', 'tier-cta']}
@@ -113,10 +128,14 @@ const faqs = [
                 <div class:list={['tier-card', { 'tier-card--highlight': tier.highlight }]}>
                   {tier.highlight && <div class="tier-badge">Most popular</div>}
                   <div class="tier-name">{tier.name}</div>
+                  <p class="tier-tagline">{tier.tagline}</p>
                   <div class="tier-price">
                     <span class="tier-amount">{tier.price}</span>
                     {tier.period && <span class="tier-period">{tier.period}</span>}
                   </div>
+                  <ul class="tier-features">
+                    {tier.features.map(f => <li>{f}</li>)}
+                  </ul>
                   <a
                     href={tier.contactOnly ? 'mailto:hello@nodalpulse.com' : `https://app.nodalpulse.com/login?callbackURL=%2Fpricing%3Ftier%3D${tier.name.toLowerCase()}`}
                     class:list={[tier.highlight ? 'btn-primary' : 'btn-secondary', 'tier-cta']}
@@ -147,6 +166,7 @@ const faqs = [
                 <div class:list={['tier-card', { 'tier-card--highlight': tier.highlight }]}>
                   {tier.highlight && <div class="tier-badge">Most popular</div>}
                   <div class="tier-name">{tier.name}</div>
+                  <p class="tier-tagline">{tier.tagline}</p>
 
                   {tier.contactOnly ? (
                     <div class="tier-price">
@@ -162,6 +182,9 @@ const faqs = [
                     </div>
                   )}
 
+                  <ul class="tier-features">
+                    {tier.features.map(f => <li>{f}</li>)}
+                  </ul>
                   <a
                     href={tier.contactOnly ? 'mailto:hello@nodalpulse.com' : 'https://app.nodalpulse.com/login'}
                     class:list={[tier.highlight ? 'btn-primary' : 'btn-secondary', 'tier-cta']}
@@ -246,6 +269,16 @@ const faqs = [
   }
 
   .page-sub { font-size: 16px; color: var(--np-text-muted); max-width: 540px; margin: 0 auto; line-height: 1.6; }
+
+  .value-anchor {
+    max-width: 560px;
+    margin: 16px auto 0;
+    font-size: 15px;
+    line-height: 1.6;
+    color: var(--np-text-body);
+    text-align: center;
+  }
+  .value-anchor strong { color: var(--np-text-primary); font-weight: 600; }
 
   /* ── Region toggle (CSS-only) ── */
   .region-radio { position: absolute; opacity: 0; pointer-events: none; width: 0; height: 0; }
@@ -371,6 +404,40 @@ const faqs = [
     margin-top: 10px;
   }
 
+  .tier-tagline {
+    font-size: 12px;
+    color: var(--np-text-muted);
+    line-height: 1.4;
+    min-height: 34px;
+  }
+
+  .tier-features {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin: 2px 0 2px;
+  }
+
+  .tier-features li {
+    position: relative;
+    padding-left: 20px;
+    font-size: 12.5px;
+    color: var(--np-text-body);
+    line-height: 1.45;
+  }
+
+  .tier-features li::before {
+    content: "";
+    position: absolute;
+    left: 2px;
+    top: 4px;
+    width: 9px;
+    height: 5px;
+    border-left: 1.5px solid var(--np-indigo-600);
+    border-bottom: 1.5px solid var(--np-indigo-600);
+    transform: rotate(-45deg);
+  }
+
   /* Normal price (Texas + Org) */
   .tier-price { display: flex; align-items: baseline; gap: 3px; }
   .tier-amount { font-size: 24px; font-weight: 600; color: var(--np-text-primary); letter-spacing: -0.02em; font-variant-numeric: tabular-nums; }
@@ -411,6 +478,7 @@ const faqs = [
     padding: 8px 12px;
     text-align: center;
     display: block;
+    margin-top: auto;
   }
 
   /* GA disclosure */
