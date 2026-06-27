@@ -4,16 +4,20 @@ import Base from '../layouts/Base.astro';
 const tiers = [
   { name: 'Starter', price: '$99',   period: '/mo', dockets: '5',         history: '30 days',   qa: '10/day',  seats: '1',  highlight: false, contactOnly: false,
     tagline: 'One market, one analyst',
-    features: ['5 tracked dockets', '30-day brief history', '10 Ask-the-Record Q/day'] },
+    features: ['5 tracked dockets', '30-day brief history', '10 Ask-the-Record Q/day'],
+    description: 'Best for an individual covering a single market with moderate tracking needs — focused monitoring without heavy team collaboration.' },
   { name: 'Pro',     price: '$249',  period: '/mo', dockets: '25',        history: '1 year',    qa: '30/day',  seats: '1',  highlight: true,  contactOnly: false,
     tagline: 'Daily coverage for a working practitioner',
-    features: ['25 tracked dockets', '1-year brief history', '30 Ask-the-Record Q/day'] },
+    features: ['25 tracked dockets', '1-year brief history', '30 Ask-the-Record Q/day'],
+    description: 'The right balance for most regulatory specialists: meaningful docket capacity, a full year of history, and enough query volume for daily use. The plan most serious practitioners and small teams choose.' },
   { name: 'Team',    price: '$749',  period: '/mo', dockets: '100',       history: '3 years',   qa: '100/day', seats: '5',  highlight: false, contactOnly: false,
     tagline: 'A regulatory desk, in sync',
-    features: ['100 tracked dockets', '5 team seats', '99.5% uptime SLA'] },
+    features: ['100 tracked dockets', '5 team seats', '99.5% uptime SLA'],
+    description: 'For groups collaborating across multiple seats — deeper history, higher query volume, and stronger reliability guarantees for active market operations.' },
   { name: 'Org',     price: '$1,999',period: '/mo', dockets: 'Unlimited', history: 'Unlimited', qa: '300/day', seats: '25', highlight: false, contactOnly: true,
     tagline: 'Enterprise, every market',
-    features: ['Unlimited dockets, all markets', '25 seats + API access', '99.9% uptime SLA'] },
+    features: ['Unlimited dockets, all markets', '25 seats + API access', '99.9% uptime SLA'],
+    description: 'For larger organizations needing broad coverage, unlimited scale, enterprise-grade SLAs, and API access for internal systems — significant regulatory exposure across multiple ISO/RTO markets.' },
 ];
 
 const rows = [
@@ -21,7 +25,8 @@ const rows = [
   { label: 'Brief history',    values: ['30 days', '1 year', '3 years', 'Unlimited'] },
   { label: 'Ask the Record',   values: ['10 q/day', '30 q/day', '100 q/day', '300 q/day'] },
   { label: 'Team seats',       values: ['1', '1', '5', '25'] },
-  { label: 'Regions included', values: ['1', '1', '1', 'All'] },
+  { label: 'Markets included',  values: ['1', '1', '1', 'All'] },
+  { label: 'Additional markets', values: ['+$49/mo', '+$49/mo', '+$99/mo', 'Included'] },
   { label: 'SLA',              values: ['—', '—', '99.5%', '99.9%'] },
   { label: 'API access',       values: ['—', '—', '—', '✓'] },
 ];
@@ -63,12 +68,12 @@ const faqs = [
     <div class="container">
 
       <div class="pricing-header">
-        <h1 class="page-title">Simple, transparent pricing</h1>
+        <h1 class="page-title">Pricing built for how professionals actually work.</h1>
         <p class="page-sub">
-          1 market included with every plan. Additional markets from +$49/mo. PJM free during Beta.
+          Choose the level of coverage and capability that matches your regulatory monitoring needs. Every plan includes direct access to primary sources and structured, cited intelligence.
         </p>
-        <p class="value-anchor">
-          One missed comment window can cost more than a year of NodalPulse — <strong>we make sure you see it coming.</strong>
+        <p class="pricing-intro">
+          Built for regulatory counsel, capacity traders, interconnection teams, and market professionals who need reliable, actionable intelligence — not another inbox full of links. Plans scale with the dockets you track, depth of history, team seats, and enterprise needs.
         </p>
       </div>
 
@@ -230,6 +235,35 @@ const faqs = [
         </table>
       </div>
 
+      <!-- Plan descriptions — help users self-select the right tier -->
+      <div class="plan-desc-section">
+        <h2 class="plan-desc-heading">Which plan fits you</h2>
+        <div class="plan-desc-grid">
+          {tiers.map(tier => (
+            <div class:list={['plan-desc-card', { 'plan-desc-card--highlight': tier.highlight }]}>
+              <div class="plan-desc-top">
+                <span class="plan-desc-name">{tier.name}</span>
+                {tier.highlight && <span class="plan-desc-badge">Most popular</span>}
+              </div>
+              <p class="plan-desc-body">{tier.description}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <!-- Why professionals choose NodalPulse -->
+      <div class="why-pro-section">
+        <h2 class="why-pro-heading">Why professionals choose NodalPulse</h2>
+        <ul class="why-pro-list">
+          <li>Direct ingestion from primary regulatory sources</li>
+          <li>Structured extraction with verifiable citations</li>
+          <li>Cross-jurisdictional threading across FERC, the ISOs, and state commissions</li>
+          <li>Reliable daily delivery at 6:00&nbsp;AM&nbsp;CT</li>
+          <li>Transparent methodology built for professional use</li>
+        </ul>
+        <a href="/methodology" class="why-pro-link">See how we build trust in every brief →</a>
+      </div>
+
       <!-- FAQ -->
       <div class="faq-section">
         <h2 class="faq-heading">Frequently asked questions</h2>
@@ -244,12 +278,16 @@ const faqs = [
         <p class="faq-more">More questions? <a href="/help/faq">Help Center &rarr;</a></p>
       </div>
 
-      <!-- Bottom CTA -->
-      <div class="pricing-cta">
-        <a href="https://app.nodalpulse.com/pricing" class="btn-primary btn-lg">
-          Start free &rarr;
+      <!-- Final CTA -->
+      <div class="pricing-final">
+        <h2 class="pricing-final-heading">Ready to operate with greater clarity?</h2>
+        <p class="pricing-final-sub">
+          Start with the plan that fits your needs today — you can upgrade as your coverage grows.
+        </p>
+        <a href="https://app.nodalpulse.com/login" class="btn-primary btn-lg pricing-final-cta">
+          Start your free trial &rarr;
         </a>
-        <p class="pricing-cta-note">14-day free trial, no card required. PJM free during Beta.</p>
+        <p class="pricing-cta-note">14-day free trial · No card required · Cancel anytime. PJM free during Beta.</p>
       </div>
 
     </div>
@@ -270,15 +308,14 @@ const faqs = [
 
   .page-sub { font-size: 16px; color: var(--np-text-muted); max-width: 540px; margin: 0 auto; line-height: 1.6; }
 
-  .value-anchor {
-    max-width: 560px;
+  .pricing-intro {
+    max-width: 640px;
     margin: 16px auto 0;
-    font-size: 15px;
-    line-height: 1.6;
-    color: var(--np-text-body);
+    font-size: 14px;
+    line-height: 1.7;
+    color: var(--np-text-muted);
     text-align: center;
   }
-  .value-anchor strong { color: var(--np-text-primary); font-weight: 600; }
 
   /* ── Region toggle (CSS-only) ── */
   .region-radio { position: absolute; opacity: 0; pointer-events: none; width: 0; height: 0; }
@@ -603,14 +640,145 @@ const faqs = [
   .faq-more a { color: var(--np-accent); text-decoration: underline; text-underline-offset: 2px; }
   .faq-more a:hover { color: var(--np-accent-hover); }
 
-  /* Bottom CTA */
-  .pricing-cta {
+  /* Plan descriptions */
+  .plan-desc-section { max-width: 900px; margin: 0 auto 56px; }
+
+  .plan-desc-heading {
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--np-text-primary);
+    letter-spacing: -0.01em;
     text-align: center;
+    margin-bottom: 24px;
+  }
+
+  .plan-desc-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1px;
+    background: var(--np-border);
+    border: 1px solid var(--np-border);
+    border-radius: var(--np-radius-lg);
+    overflow: hidden;
+  }
+
+  .plan-desc-card {
+    background: var(--np-surface);
+    padding: 20px 22px;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    gap: 10px;
+    gap: 8px;
   }
+
+  .plan-desc-card--highlight { background: var(--np-indigo-50); }
+
+  .plan-desc-top { display: flex; align-items: center; gap: 10px; }
+
+  .plan-desc-name {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--np-text-primary);
+  }
+
+  .plan-desc-badge {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--np-indigo-700);
+    background: var(--np-surface);
+    border: 1px solid var(--np-indigo-500);
+    border-radius: var(--np-radius-sm);
+    padding: 1px 7px;
+  }
+
+  .plan-desc-body {
+    font-size: 13.5px;
+    color: var(--np-text-muted);
+    line-height: 1.65;
+  }
+
+  /* Why professionals choose */
+  .why-pro-section {
+    max-width: 680px;
+    margin: 0 auto 56px;
+    padding: 28px 28px 24px;
+    background: var(--np-surface-elevated);
+    border: 1px solid var(--np-border);
+    border-radius: var(--np-radius-lg);
+  }
+
+  .why-pro-heading {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--np-text-primary);
+    letter-spacing: -0.01em;
+    margin-bottom: 18px;
+  }
+
+  .why-pro-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 18px;
+  }
+
+  .why-pro-list li {
+    position: relative;
+    padding-left: 26px;
+    font-size: 14px;
+    color: var(--np-text-body);
+    line-height: 1.55;
+  }
+
+  .why-pro-list li::before {
+    content: "";
+    position: absolute;
+    left: 4px;
+    top: 5px;
+    width: 10px;
+    height: 6px;
+    border-left: 1.5px solid var(--np-indigo-600);
+    border-bottom: 1.5px solid var(--np-indigo-600);
+    transform: rotate(-45deg);
+  }
+
+  .why-pro-link {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--np-accent);
+  }
+
+  .why-pro-link:hover { color: var(--np-accent-hover); text-decoration: underline; text-underline-offset: 2px; }
+
+  /* Final CTA */
+  .pricing-final {
+    text-align: center;
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 36px 28px;
+    background: var(--np-indigo-50);
+    border: 1px solid var(--np-border);
+    border-radius: var(--np-radius-lg);
+  }
+
+  .pricing-final-heading {
+    font-size: 24px;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    color: var(--np-text-primary);
+    margin-bottom: 10px;
+  }
+
+  .pricing-final-sub {
+    font-size: 15px;
+    color: var(--np-text-muted);
+    line-height: 1.6;
+    max-width: 460px;
+    margin: 0 auto 22px;
+  }
+
+  .pricing-final-cta { margin-bottom: 14px; }
 
   .pricing-cta-note { font-size: 13px; color: var(--np-text-muted); }
 
@@ -619,6 +787,7 @@ const faqs = [
   @media (max-width: 768px) {
     .tier-cards { grid-template-columns: 1fr 1fr; }
     .region-tab-label { padding: 10px 10px; font-size: 13px; }
+    .plan-desc-grid { grid-template-columns: 1fr; }
   }
 
   @media (max-width: 480px) { .tier-cards { grid-template-columns: 1fr; } }
