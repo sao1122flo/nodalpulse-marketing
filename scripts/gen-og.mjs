@@ -44,12 +44,12 @@ const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" v
   <!-- Main headline — line 2 -->
   <text x="48" y="366"
     font-family="Inter, Arial, Helvetica, sans-serif"
-    font-weight="700" font-size="68" fill="#18181B" letter-spacing="-2.5">for ERCOT Participants</text>
+    font-weight="700" font-size="68" fill="#18181B" letter-spacing="-2.5">for US Power Markets</text>
 
   <!-- Sub-line -->
   <text x="48" y="440"
     font-family="Inter, Arial, Helvetica, sans-serif"
-    font-weight="400" font-size="28" fill="#71717A">Cited daily brief · PUCT · ERCOT · FERC · 06:00 CT</text>
+    font-weight="400" font-size="28" fill="#71717A">Cited daily brief · ERCOT · CAISO · PJM · before the trading day</text>
 
   <!-- Domain -->
   <text x="48" y="580"
