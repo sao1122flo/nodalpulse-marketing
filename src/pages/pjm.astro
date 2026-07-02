@@ -10,10 +10,10 @@ const tiers = [
 
 const pjmStates = [
   { label: 'FERC + IMM + Stakeholder', status: 'beta',  note: 'Federal layer — complete at Beta launch' },
-  { label: 'PA', status: 'wave1', note: 'Pennsylvania State Commission — Wave 1' },
-  { label: 'NJ', status: 'wave1', note: 'New Jersey Board of Public Utilities — Wave 1' },
-  { label: 'MD', status: 'wave1', note: 'Maryland PSC — Wave 1' },
-  { label: 'VA', status: 'wave1', note: 'Virginia SCC — Wave 1' },
+  { label: 'NJ', status: 'live', note: 'New Jersey Board of Public Utilities — live (18-month backfill)' },
+  { label: 'MD', status: 'live', note: 'Maryland PSC — live (18-month backfill)' },
+  { label: 'VA', status: 'live', note: 'Virginia SCC — live (18-month backfill)' },
+  { label: 'PA', status: 'wave2', note: 'Pennsylvania PUC — Wave 2' },
   { label: 'OH', status: 'wave2', note: 'Ohio PUCO — Wave 2' },
   { label: 'IL', status: 'wave2', note: 'Illinois Commerce Commission — Wave 2' },
   { label: 'DE', status: 'wave3', note: 'Delaware PSC — Wave 3' },
@@ -37,8 +37,8 @@ const faqItems = [
     a: "RPM (Reliability Pricing Model) auction parameters — caps, floors, $/MW-day by Delivery Year, UCAP vs. ICAP distinctions — are extracted as structured data with unit validation so a mix-up between UCAP and ICAP can't silently corrupt a number. RTEP (Regional Transmission Expansion Plan) cost allocation by zone is similarly extracted so you see your zone's dollar exposure without parsing Schedule 12 tables."
   },
   {
-    q: 'Are state commission filings covered at launch?',
-    a: "No. Launch covers FERC eLibrary, the Independent Market Monitor's filings, and PJM's stakeholder/auction calendar — completely. State commissions (PA, NJ, MD, VA, OH, IL, and the rest of the PJM footprint) roll out in waves, each with a visible per-state coverage badge. The badge tells you exactly which states are live."
+    q: 'Which state commissions are covered?',
+    a: "The federal layer — FERC eLibrary, the Independent Market Monitor's filings, and PJM's stakeholder/auction calendar — is complete. Three state commissions are now live: New Jersey (BPU), Maryland (PSC), and Virginia (SCC), each backfilled 18 months. Pennsylvania, Ohio, Illinois, and the rest of the PJM footprint roll out in waves, each with a visible per-state coverage badge that tells you exactly which states are live."
   },
   {
     q: 'What does free during Beta mean?',
@@ -137,7 +137,7 @@ const faqItems = [
           </div>
           <div>
             <h3 class="bullet-title">State echoes, badged honestly.</h3>
-            <p class="bullet-body">A PJM matter ripples across up to 13 states and DC. We launch complete on the FERC + Market Monitor + stakeholder surface and roll out state commissions in waves — <strong>PA/NJ/MD/VA → OH/IL → the rest</strong> — each with a live per-state coverage badge. See the coverage map below.</p>
+            <p class="bullet-body">A PJM matter ripples across up to 13 states and DC. We launch complete on the FERC + Market Monitor + stakeholder surface and roll out state commissions in waves — <strong>NJ, MD, VA now live → PA, OH, IL next → the rest</strong> — each with a live per-state coverage badge. See the coverage map below.</p>
           </div>
         </div>
 
@@ -150,7 +150,7 @@ const faqItems = [
     <div class="container">
       <h2 class="section-heading">State coverage map</h2>
       <p class="section-sub">
-        Launch is complete on FERC + Market Monitor + stakeholder. State commissions roll out in waves. Each state shows its own status — never a blanket claim.
+        Launch is complete on FERC + Market Monitor + stakeholder, and New Jersey, Maryland, and Virginia are now live. Remaining state commissions roll out in waves. Each state shows its own status — never a blanket claim.
       </p>
 
       <div class="states-grid">
@@ -158,16 +158,16 @@ const faqItems = [
           <div class:list={['state-card', `state-card--${state.status}`]} title={state.note}>
             <span class="state-label">{state.label}</span>
             <span class:list={['state-badge', `state-badge--${state.status}`]}>
-              {state.status === 'beta' ? 'Beta' : state.status === 'wave1' ? 'Wave 1' : state.status === 'wave2' ? 'Wave 2' : 'Wave 3'}
+              {state.status === 'beta' ? 'Beta' : state.status === 'live' ? 'Live' : state.status === 'wave2' ? 'Wave 2' : 'Wave 3'}
             </span>
           </div>
         ))}
       </div>
 
       <div class="states-legend">
-        <span class="legend-item"><span class="legend-dot legend-dot--beta"></span> Beta (live at launch)</span>
-        <span class="legend-item"><span class="legend-dot legend-dot--wave1"></span> Wave 1 — Roadmap (PA/NJ/MD/VA)</span>
-        <span class="legend-item"><span class="legend-dot legend-dot--wave2"></span> Wave 2 — Roadmap (OH/IL)</span>
+        <span class="legend-item"><span class="legend-dot legend-dot--live"></span> Live — state commission crawled (NJ/MD/VA)</span>
+        <span class="legend-item"><span class="legend-dot legend-dot--beta"></span> Beta — federal layer (live at launch)</span>
+        <span class="legend-item"><span class="legend-dot legend-dot--wave2"></span> Wave 2 — Roadmap (PA/OH/IL)</span>
         <span class="legend-item"><span class="legend-dot legend-dot--wave3"></span> Wave 3 — Roadmap (remaining states)</span>
       </div>
     </div>
@@ -375,6 +375,7 @@ const faqItems = [
     background: var(--np-surface);
   }
 
+  .state-card--live { border-color: #6EE7B7; background: #ECFDF5; }
   .state-card--beta { border-color: #A7F3D0; background: #F0FDF4; }
   .state-label { font-size: 13px; font-weight: 600; color: var(--np-text-strong); }
 
@@ -387,8 +388,8 @@ const faqItems = [
     text-transform: uppercase;
   }
 
+  .state-badge--live { background: #10B981; color: #FFFFFF; }
   .state-badge--beta { background: #D1FAE5; color: #065F46; }
-  .state-badge--wave1 { background: #EDE9FE; color: #4C1D95; }
   .state-badge--wave2 { background: #E0E7FF; color: #312E81; }
   .state-badge--wave3 { background: var(--np-surface-deep); color: var(--np-text-muted); }
 
@@ -402,8 +403,8 @@ const faqItems = [
 
   .legend-item { display: flex; align-items: center; gap: 6px; }
   .legend-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+  .legend-dot--live { background: #10B981; }
   .legend-dot--beta { background: #059669; }
-  .legend-dot--wave1 { background: #7C3AED; }
   .legend-dot--wave2 { background: #4338CA; }
   .legend-dot--wave3 { background: var(--np-border-strong); }
 
