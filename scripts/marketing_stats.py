@@ -30,10 +30,16 @@ def floor_milestone(n: int, magnitude: int) -> str:
 cur.execute("SELECT COUNT(*) FROM filings;")
 filings_raw = cur.fetchone()[0]
 
-cur.execute("SELECT COUNT(DISTINCT docket_id) FROM dockets;")
+# Real (non-ghost) dockets only — jurisdiction IS NULL rows are legacy stubs.
+cur.execute("SELECT COUNT(*) FROM dockets WHERE jurisdiction IS NOT NULL;")
 dockets_raw = cur.fetchone()[0]
 
-cur.execute("SELECT COUNT(*) FROM deadlines;")
+# Deadline events live in the extractions payload (deadlines JSON array), not a
+# standalone table. Sum the array lengths across all extractions.
+cur.execute(
+    "SELECT COALESCE(SUM(jsonb_array_length(payload->'deadlines')), 0) "
+    "FROM extractions WHERE jsonb_typeof(payload->'deadlines') = 'array';"
+)
 deadlines_raw = cur.fetchone()[0]
 
 cur.close()
