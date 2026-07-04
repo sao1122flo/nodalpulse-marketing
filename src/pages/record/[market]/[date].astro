@@ -35,26 +35,41 @@ export async function getStaticPaths() {
 
   if (!index.length) return [];
 
-  // Step 2: Fetch teaser for each content-bearing pair (parallel, graceful on failure).
-  const paths = await Promise.all(
-    index.map(async ({ market, date }) => {
-      let teaser: any = null;
+  // Step 2: Fetch teaser for each content-bearing pair.
+  // Bounded concurrency + retry so transient build-time fetch failures don't
+  // ship EMPTY pages for dates that actually have filings. Firing all ~600
+  // fetches at once was timing out some of them, producing thin "regulatory
+  // record" pages Google then marks "crawled, currently not indexed".
+  async function fetchTeaser(market: string, date: string): Promise<any> {
+    const url = `${servicesUrl}/public/record?market=${encodeURIComponent(market)}&date=${encodeURIComponent(date)}`;
+    for (let attempt = 1; attempt <= 3; attempt++) {
       try {
-        const res = await fetch(
-          `${servicesUrl}/public/record?market=${encodeURIComponent(market)}&date=${encodeURIComponent(date)}`,
-          { signal: AbortSignal.timeout(8000) },
-        );
-        if (res.ok) teaser = await res.json();
-      } catch { /* page renders with filing_count=0 if fetch fails */ }
-      return { params: { market, date }, props: { teaser, servicesUrl } };
-    }),
-  );
+        const res = await fetch(url, { signal: AbortSignal.timeout(12000) });
+        if (res.ok) return await res.json();
+      } catch { /* fall through to retry */ }
+      await new Promise((r) => setTimeout(r, 300 * attempt));
+    }
+    return null; // itemCount floor (below) keeps the page non-empty
+  }
+
+  const CONCURRENCY = 20;
+  const paths: any[] = [];
+  for (let i = 0; i < index.length; i += CONCURRENCY) {
+    const chunk = index.slice(i, i + CONCURRENCY);
+    const chunkPaths = await Promise.all(
+      chunk.map(async ({ market, date, item_count }) => {
+        const teaser = await fetchTeaser(market, date);
+        return { params: { market, date }, props: { teaser, servicesUrl, itemCount: item_count ?? 0 } };
+      }),
+    );
+    paths.push(...chunkPaths);
+  }
 
   return paths;
 }
 
 const { market, date } = Astro.params;
-const { teaser, servicesUrl } = Astro.props;
+const { teaser, servicesUrl, itemCount } = Astro.props;
 
 const meta = MARKET_META[market] ?? {
   label: market, jurisdiction: market, marketPage: '/', sourceLabel: market,
@@ -69,7 +84,7 @@ const displayDate = (() => {
   } catch { return date; }
 })();
 
-const filingCount: number  = teaser?.filing_count  ?? 0;
+const filingCount: number  = teaser?.filing_count  ?? itemCount ?? 0;
 const deadlineCount: number = teaser?.deadline_count ?? 0;
 const items: any[]         = teaser?.items          ?? [];
 
@@ -168,7 +183,11 @@ const datasetSchema = {
       </div>
     ) : (
       <div class="record-empty">
-        <p>No extracted filings available for this date and market yet. The pipeline processes filings as they are filed.</p>
+        {filingCount > 0 ? (
+          <p>This record has {filingCount} filing{filingCount !== 1 ? 's' : ''} on file. Detailed extracts are being assembled — unlock the full record below.</p>
+        ) : (
+          <p>No extracted filings available for this date and market yet. The pipeline processes filings as they are filed.</p>
+        )}
       </div>
     )}
 
