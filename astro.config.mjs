@@ -4,6 +4,7 @@ import sitemap from '@astrojs/sitemap';
 export default defineConfig({
   output: 'static',
   site: 'https://nodalpulse.com',
+  trailingSlash: 'always',
   integrations: [
     sitemap({
       filter: (page) => !page.includes('/digest/'),

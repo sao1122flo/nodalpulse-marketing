@@ -81,7 +81,7 @@ const pageDescription = filingCount > 0
   ? `${filingCount} ${meta.label} regulatory filing${filingCount !== 1 ? 's' : ''} on ${displayDate}.${deadlineCount > 0 ? ` ${deadlineCount} deadline${deadlineCount !== 1 ? 's' : ''} extracted.` : ''} Titles, dockets, and sources cited.`
   : `${meta.label} regulatory filings for ${displayDate} — sourced from ${meta.sourceLabel}. Titles, dockets, and sources cited.`;
 
-const canonical = `https://nodalpulse.com/record/${market}/${date}`;
+const canonical = `https://nodalpulse.com/record/${market}/${date}/`;
 
 const datasetSchema = {
   '@type': 'Dataset',
@@ -199,7 +199,7 @@ const datasetSchema = {
           <button type="submit" class="btn-primary gate-submit" id="gate-btn">
             Unlock full record
           </button>
-          <p class="gate-fine">No account needed. By submitting you agree to NodalPulse's <a href="/privacy">privacy policy</a>.</p>
+          <p class="gate-fine">No account needed. By submitting you agree to NodalPulse's <a href="/privacy/">privacy policy</a>.</p>
         </div>
         <p class="gate-error" id="gate-error" aria-live="polite"></p>
       </form>
@@ -219,9 +219,9 @@ const datasetSchema = {
     <!-- ── Internal market links (GEO/SEO) ── -->
     <nav class="market-nav" aria-label="Other markets covered">
       <span class="market-nav-label">Other markets:</span>
-      <a href="/texas">Texas (PUCT/ERCOT)</a>
-      <a href="/california">California (CAISO)</a>
-      <a href="/pjm">PJM / FERC</a>
+      <a href="/texas/">Texas (PUCT/ERCOT)</a>
+      <a href="/california/">California (CAISO)</a>
+      <a href="/pjm/">PJM / FERC</a>
     </nav>
 
   </div>
