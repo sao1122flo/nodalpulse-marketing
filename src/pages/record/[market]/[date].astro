@@ -1,5 +1,6 @@
 ---
 import Base from '../../../layouts/Base.astro';
+import { MIN_INDEXABLE_ITEMS } from '../../../lib/record-seo.mjs';
 
 const MARKET_META: Record<string, {
   label: string;
@@ -98,6 +99,13 @@ const pageDescription = filingCount > 0
 
 const canonical = `https://nodalpulse.com/record/${market}/${date}/`;
 
+// Thin pages (a quiet day with <MIN_INDEXABLE_ITEMS relevant filings) render too
+// little unique content to index well and drag on domain quality. Keep them live
+// (no 404s) but noindex them; astro.config.mjs also drops them from the sitemap,
+// using the SAME itemCount threshold. itemCount comes from the build manifest so
+// it's reliable even if the per-page teaser fetch failed.
+const thin = (itemCount ?? 0) < MIN_INDEXABLE_ITEMS;
+
 const datasetSchema = {
   '@type': 'Dataset',
   name: `${meta.label} Regulatory Filings — ${displayDate}`,
@@ -115,6 +123,7 @@ const datasetSchema = {
   canonical={canonical}
   schemaType="Article"
   extraSchema={[datasetSchema]}
+  noindex={thin}
 >
 
 <section class="section-sm">
