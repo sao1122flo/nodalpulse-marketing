@@ -13,6 +13,9 @@ const MARKET_META: Record<string, {
   cpuc:  { label: 'California (CPUC)',   jurisdiction: 'California', marketPage: '/california',  sourceLabel: 'CPUC Online Documents (docs.cpuc.ca.gov)' },
   ferc:  { label: 'FERC',               jurisdiction: 'Federal',    marketPage: '/pjm',         sourceLabel: 'FERC eLibrary' },
   pjm:   { label: 'PJM / FERC',         jurisdiction: 'Federal',    marketPage: '/pjm',         sourceLabel: 'FERC eLibrary' },
+  vascc: { label: 'Virginia (SCC)',     jurisdiction: 'Virginia',   marketPage: '/pjm',         sourceLabel: 'Virginia SCC Docket Search' },
+  mdpsc: { label: 'Maryland (PSC)',     jurisdiction: 'Maryland',   marketPage: '/pjm',         sourceLabel: 'Maryland PSC' },
+  njbpu: { label: 'New Jersey (BPU)',   jurisdiction: 'New Jersey', marketPage: '/pjm',         sourceLabel: 'New Jersey BPU' },
 };
 
 export async function getStaticPaths() {
