@@ -30,6 +30,14 @@ export default defineConfig({
   output: 'static',
   site: 'https://nodalpulse.com',
   trailingSlash: 'always',
+  // /digest was an unfinished lead-magnet stub (placeholder, never wired to data)
+  // — removed. Redirect the two slugs that ever existed to home so any crawled
+  // stub resolves instead of 404ing. The lead magnet now lives on record pages.
+  redirects: {
+    '/digest': '/',
+    '/digest/today': '/',
+    '/digest/2026-05-09': '/',
+  },
   integrations: [
     sitemap({
       filter: (page) => {
