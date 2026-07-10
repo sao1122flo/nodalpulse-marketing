@@ -1,0 +1,38 @@
+name: Daily rebuild
+
+# The marketing site is a STATIC Astro build: the /record/[market]/[date] pages
+# are enumerated at build time from the services API (getStaticPaths). The
+# content changes every day as new filings are crawled, but Railway only
+# rebuilds on a push to master — so without a scheduled trigger the record pages
+# freeze at the last deploy and serve 404s for fresh dates (observed ~8 days
+# stale on 2026-07-10; newest page was 2026-07-02).
+#
+# This pushes an empty commit once a day, which fires Railway's confirmed
+# auto-deploy-on-push and re-runs getStaticPaths against fresh data. Pushes made
+# with GITHUB_TOKEN do not trigger workflows, so there is no self-trigger loop.
+# The message must NOT contain [skip ci]/[skip deploy] — Railway honours those
+# and would skip the very deploy we want.
+
+on:
+  schedule:
+    - cron: "0 12 * * *"   # 12:00 UTC ≈ 07:00 CT, after the daily crawl completes
+  workflow_dispatch: {}     # allow a manual rebuild from the Actions tab
+
+permissions:
+  contents: write
+
+concurrency:
+  group: daily-rebuild
+  cancel-in-progress: false
+
+jobs:
+  rebuild:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Push empty commit to trigger Railway redeploy
+        run: |
+          git config user.name "nodalpulse-bot"
+          git config user.email "bot@nodalpulse.com"
+          git commit --allow-empty -m "chore: daily rebuild to refresh record pages ($(date -u +%Y-%m-%d))"
+          git push
