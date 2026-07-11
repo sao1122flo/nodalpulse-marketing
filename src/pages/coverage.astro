@@ -20,8 +20,8 @@ const coverageRows = [
     market: 'PJM — Mid-Atlantic/Midwest',
     status: 'beta',
     statusLabel: 'Beta · Free',
-    covered: 'FERC-primary + Independent Market Monitor + stakeholder/auction calendar; RPM/RTEP structured fields. State commissions live: NJ (BPU), MD (PSC), VA (SCC). Per-state coverage badges. Free during Beta.',
-    roadmap: 'Remaining state commissions in waves (PA/OH/IL → rest); PJM library integration; Notice-confirmed deadlines. $249/mo at GA.',
+    covered: 'FERC-primary + Independent Market Monitor + stakeholder/auction calendar; RPM/RTEP structured fields. State commissions live: NJ (BPU), VA (SCC); MD (PSC) crawling, extraction in progress. Per-state coverage badges. Free during Beta.',
+    roadmap: 'Remaining state commissions in waves (MD extraction, then PA/OH/IL → rest); PJM library integration; Notice-confirmed deadlines. $249/mo at GA.',
   },
   {
     market: 'Cross-jurisdictional',
@@ -42,7 +42,7 @@ const coverageRows = [
 
 <Base
   title="Coverage — What NodalPulse Covers (and What It Doesn't, Yet)"
-  description="Honest coverage map: Texas and California live, PJM in Beta with NJ/MD/VA state commissions live, more rolling out in waves. Per-market and per-state status badges. No over-claims."
+  description="Honest coverage map: Texas and California live, PJM in Beta with NJ/VA state commissions live (MD crawling), more rolling out in waves. Per-market and per-state status badges. No over-claims."
 >
 
   <!-- ── Hero ── -->
@@ -99,7 +99,7 @@ const coverageRows = [
         <div class="note-card">
           <h3 class="note-heading">Per-state PJM badges</h3>
           <p class="note-body">
-            Every PJM state shows its own status badge on the <a href="/pjm/" class="inline-link">PJM page</a>. We'd rather show an honest badge than imply uniform coverage. Launch is complete on FERC + Market Monitor + stakeholder, and NJ, MD, VA are now live. Remaining state commissions ship by ICP concentration: <strong>PA/OH/IL next → the rest.</strong>
+            Every PJM state shows its own status badge on the <a href="/pjm/" class="inline-link">PJM page</a>. We'd rather show an honest badge than imply uniform coverage. Launch is complete on FERC + Market Monitor + stakeholder, and NJ, VA are now live (MD crawling, extraction in progress). Remaining state commissions ship by ICP concentration: <strong>MD/PA/OH/IL next → the rest.</strong>
           </p>
         </div>
 

@@ -11,8 +11,8 @@ const tiers = [
 const pjmStates = [
   { label: 'FERC + IMM + Stakeholder', status: 'beta',  note: 'Federal layer — complete at Beta launch' },
   { label: 'NJ', status: 'live', note: 'New Jersey Board of Public Utilities — live (18-month backfill)' },
-  { label: 'MD', status: 'live', note: 'Maryland PSC — live (18-month backfill)' },
   { label: 'VA', status: 'live', note: 'Virginia SCC — live (18-month backfill)' },
+  { label: 'MD', status: 'wave2', note: 'Maryland PSC — crawling; document extraction in progress' },
   { label: 'PA', status: 'wave2', note: 'Pennsylvania PUC — Wave 2' },
   { label: 'OH', status: 'wave2', note: 'Ohio PUCO — Wave 2' },
   { label: 'IL', status: 'wave2', note: 'Illinois Commerce Commission — Wave 2' },
@@ -38,7 +38,7 @@ const faqItems = [
   },
   {
     q: 'Which state commissions are covered?',
-    a: "The federal layer — FERC eLibrary, the Independent Market Monitor's filings, and PJM's stakeholder/auction calendar — is complete. Three state commissions are now live: New Jersey (BPU), Maryland (PSC), and Virginia (SCC), each backfilled 18 months. Pennsylvania, Ohio, Illinois, and the rest of the PJM footprint roll out in waves, each with a visible per-state coverage badge that tells you exactly which states are live."
+    a: "The federal layer — FERC eLibrary, the Independent Market Monitor's filings, and PJM's stakeholder/auction calendar — is complete. Two state commissions are now live: New Jersey (BPU) and Virginia (SCC), each backfilled 18 months. Maryland (PSC) is crawling now, with document extraction still in progress. Pennsylvania, Ohio, Illinois, and the rest of the PJM footprint roll out in waves, each with a visible per-state coverage badge that tells you exactly which states are live."
   },
   {
     q: 'What does free during Beta mean?',
@@ -137,7 +137,7 @@ const faqItems = [
           </div>
           <div>
             <h3 class="bullet-title">State echoes, badged honestly.</h3>
-            <p class="bullet-body">A PJM matter ripples across up to 13 states and DC. We launch complete on the FERC + Market Monitor + stakeholder surface and roll out state commissions in waves — <strong>NJ, MD, VA now live → PA, OH, IL next → the rest</strong> — each with a live per-state coverage badge. See the coverage map below.</p>
+            <p class="bullet-body">A PJM matter ripples across up to 13 states and DC. We launch complete on the FERC + Market Monitor + stakeholder surface and roll out state commissions in waves — <strong>NJ, VA now live → MD, PA, OH, IL next → the rest</strong> — each with a live per-state coverage badge. See the coverage map below.</p>
           </div>
         </div>
 
@@ -150,7 +150,7 @@ const faqItems = [
     <div class="container">
       <h2 class="section-heading">State coverage map</h2>
       <p class="section-sub">
-        Launch is complete on FERC + Market Monitor + stakeholder, and New Jersey, Maryland, and Virginia are now live. Remaining state commissions roll out in waves. Each state shows its own status — never a blanket claim.
+        Launch is complete on FERC + Market Monitor + stakeholder, and New Jersey and Virginia are now live. Maryland is crawling now, with document extraction in progress. Remaining state commissions roll out in waves. Each state shows its own status — never a blanket claim.
       </p>
 
       <div class="states-grid">
@@ -165,7 +165,7 @@ const faqItems = [
       </div>
 
       <div class="states-legend">
-        <span class="legend-item"><span class="legend-dot legend-dot--live"></span> Live — state commission crawled (NJ/MD/VA)</span>
+        <span class="legend-item"><span class="legend-dot legend-dot--live"></span> Live — state commission crawled + extracted (NJ/VA)</span>
         <span class="legend-item"><span class="legend-dot legend-dot--beta"></span> Beta — federal layer (live at launch)</span>
         <span class="legend-item"><span class="legend-dot legend-dot--wave2"></span> Wave 2 — Roadmap (PA/OH/IL)</span>
         <span class="legend-item"><span class="legend-dot legend-dot--wave3"></span> Wave 3 — Roadmap (remaining states)</span>
