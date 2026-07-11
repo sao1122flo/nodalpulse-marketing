@@ -6,6 +6,12 @@ const marketLinks = [
   { label: 'Coverage',    href: '/coverage'    },
 ];
 
+const guideLinks = [
+  { label: 'Data centers',        href: '/data-centers'        },
+  { label: 'Track ERCOT filings', href: '/track-ercot-filings' },
+  { label: 'Compare tools',       href: '/compare'             },
+];
+
 const productLinks = [
   { label: 'Pricing',     href: '/pricing'    },
   { label: 'Methodology', href: '/methodology'},
@@ -46,6 +52,14 @@ const legalLinks = [
           <h3 class="footer-col-heading">Markets</h3>
           <ul>
             {marketLinks.map(link => (
+              <li><a href={link.href} class="footer-link">{link.label}</a></li>
+            ))}
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h3 class="footer-col-heading">Guides</h3>
+          <ul>
+            {guideLinks.map(link => (
               <li><a href={link.href} class="footer-link">{link.label}</a></li>
             ))}
           </ul>

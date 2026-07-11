@@ -1,0 +1,235 @@
+---
+import Base from '../layouts/Base.astro';
+
+const faqItems = [
+  {
+    q: 'How do I track a PUCT or ERCOT docket?',
+    a: "You can monitor the PUCT Interchange and ERCOT stakeholder pages manually, refreshing each portal for new filings — or you can track a docket in NodalPulse and get every new filing summarized, with its deadlines and party positions extracted and cited, delivered in a daily brief. NodalPulse sits on top of the primary sources; it doesn't replace the record, it reads it for you."
+  },
+  {
+    q: 'What is the PUCT Interchange?',
+    a: "The PUCT Interchange (interchange.puc.texas.gov) is the Public Utility Commission of Texas's official electronic filing system, where every docket, control number, and filing in a Texas utility proceeding is posted. It's the authoritative source — but it's built for filing, not for monitoring, so tracking active matters across it by hand is slow. NodalPulse crawls it directly and structures what's filed."
+  },
+  {
+    q: 'Can I get email alerts for new ERCOT and PUCT filings?',
+    a: "Yes. NodalPulse delivers a cited brief every weekday morning covering new filings on the dockets you track — plus the deadlines extracted from inside those filings, distinguished as confirmed or estimated. You see material changes the morning after they're filed, not a week later."
+  },
+  {
+    q: 'What is an NPRR or PGRR?',
+    a: "An NPRR (Nodal Protocol Revision Request) is a proposed change to ERCOT's market protocols; a PGRR (Planning Guide Revision Request) changes ERCOT's planning guides. Both move through ERCOT's stakeholder process with comment periods and effective dates, and many carry real dollar or operational impact. NodalPulse tracks NPRRs and PGRRs alongside PUCT dockets and surfaces the deadlines and party positions."
+  },
+  {
+    q: 'How do I look up a PUCT control number?',
+    a: "A PUCT control number (also called a project or docket number, e.g. 58481) identifies a proceeding in the Interchange. NodalPulse indexes proceedings by control number and assembles a living Record page per docket — every filing, deadline, and party position for that matter in one place, cited to the source."
+  }
+];
+---
+
+<Base
+  title="Track ERCOT & PUCT Filings — Docket Tracker & Interchange Alternative | NodalPulse"
+  description="Track PUCT Interchange and ERCOT filings without living in the portal: dockets, NPRRs, PGRRs and rate cases monitored, with deadlines and party positions extracted and cited in a daily brief. A faster, readable alternative to the Interchange."
+  extraSchema={[{
+    "@type": "FAQPage",
+    "mainEntity": faqItems.map(f => ({
+      "@type": "Question",
+      "name": f.q,
+      "acceptedAnswer": { "@type": "Answer", "text": f.a }
+    }))
+  }]}
+>
+
+  <!-- ── Hero ── -->
+  <section class="hero section">
+    <div class="container">
+      <div class="hero-content">
+        <div class="chip-row">
+          <span class="chip chip--live">ERCOT / PUCT · Live · GA</span>
+        </div>
+        <h1 class="hero-headline">
+          Track ERCOT &amp; PUCT filings without living in the Interchange.
+        </h1>
+        <p class="hero-lead">
+          NodalPulse monitors every PUCT Interchange filing and ERCOT stakeholder document — <strong>dockets, NPRRs, PGRRs, rate cases</strong> — and extracts the <strong>deadlines, party positions, and dollar impacts</strong>, cited to the source, in one brief before the trading day. The primary record is authoritative but built for filing, not monitoring. We read it for you.
+        </p>
+        <div class="hero-actions">
+          <a href="https://app.nodalpulse.com/login" class="btn-primary btn-lg">Start tracking ERCOT →</a>
+          <a href="/texas/" class="btn-secondary btn-lg">See Texas coverage →</a>
+        </div>
+        <p class="hero-trust">14-day free trial · No card required · Cancel anytime</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── The Interchange problem ── -->
+  <section class="section stakes-section">
+    <div class="container">
+      <div class="prob-inner">
+        <h2 class="section-heading">The record is public. Monitoring it is the hard part.</h2>
+        <p class="prob-body">
+          Everything you need is in the PUCT Interchange and on ERCOT's stakeholder pages — which is exactly the problem. To stay current you refresh multiple portals, open PDFs one by one, and reconstruct which filing changed what. Deadlines live <em>inside</em> the documents, so a comment window can close before you've read the filing that opened it.
+        </p>
+        <p class="prob-body">
+          NodalPulse crawls the primary sources directly, on submission — not through web search — and turns each filing into structured, cited output you can act on in minutes.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── What we track ── -->
+  <section class="section bordered">
+    <div class="container">
+      <h2 class="section-heading">What gets tracked under Texas (ERCOT/PUCT)</h2>
+      <div class="bullets-list">
+
+        <div class="bullet-row">
+          <div class="bullet-num" aria-hidden="true">1</div>
+          <div>
+            <h3 class="bullet-title">PUCT dockets &amp; control numbers.</h3>
+            <p class="bullet-body">All open PUCT Interchange proceedings, indexed by control number and assembled into a living Record page per docket — every filing, deadline, and party position in one place.</p>
+          </div>
+        </div>
+
+        <div class="bullet-row">
+          <div class="bullet-num" aria-hidden="true">2</div>
+          <div>
+            <h3 class="bullet-title">NPRRs, PGRRs &amp; protocol revisions.</h3>
+            <p class="bullet-body">ERCOT stakeholder changes tracked with their comment periods and effective dates surfaced, and party positions structured as support / oppose / conditional — not buried in a PDF.</p>
+          </div>
+        </div>
+
+        <div class="bullet-row">
+          <div class="bullet-num" aria-hidden="true">3</div>
+          <div>
+            <h3 class="bullet-title">Deadline extraction.</h3>
+            <p class="bullet-body">ERCOT deadlines mostly live inside the filings themselves — we pull them out and mark each one confirmed or estimated, with a verification link for anything computed. We never present a computed date as confirmed.</p>
+          </div>
+        </div>
+
+        <div class="bullet-row">
+          <div class="bullet-num" aria-hidden="true">4</div>
+          <div>
+            <h3 class="bullet-title">Ask the Record.</h3>
+            <p class="bullet-body">Ask a plain-English question about any tracked docket and get an answer grounded in the extracted filing text, with citations back to the specific document — not a web search, not a guess.</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Rigor ── -->
+  <section class="section thread-section">
+    <div class="container">
+      <div class="thread-inner">
+        <h2 class="section-heading">Straight from the source. Cited or dropped.</h2>
+        <p class="thread-body">
+          Our crawlers hit the PUCT Interchange and ERCOT's stakeholder pages directly — not general web search. Every claim in a brief links back to the filing it came from, and any claim that can't be sourced is dropped before delivery. For a filing of record, we link you to the primary source so you can verify it yourself.
+        </p>
+        <a href="/methodology/" class="thread-link">See the full methodology →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── FAQ ── -->
+  <section class="section-sm bordered-top">
+    <div class="container">
+      <div class="faq-block">
+        <h2 class="faq-heading">Tracking ERCOT &amp; PUCT filings: common questions</h2>
+        <div class="faq-list">
+          {faqItems.map(item => (
+            <details class="faq-item">
+              <summary class="faq-question">{item.q}</summary>
+              <div class="faq-answer">{item.a}</div>
+            </details>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── CTA ── -->
+  <section class="cta-final section-sm">
+    <div class="container">
+      <div class="cta-inner">
+        <h2 class="cta-heading">Stop refreshing the Interchange.</h2>
+        <p class="cta-sub">Texas (PUCT/ERCOT) is live and in general availability. Start free — no card required.</p>
+        <div class="cta-actions">
+          <a href="https://app.nodalpulse.com/login" class="btn-primary btn-lg">Start free trial →</a>
+          <a href="/pricing/" class="btn-secondary btn-lg">See pricing →</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</Base>
+
+<style>
+  .hero { border-bottom: 1px solid var(--np-border); }
+  .hero-content { max-width: 760px; }
+
+  .chip-row { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 18px; }
+  .chip { display: inline-block; font-size: 11px; font-weight: 500; padding: 2px 8px; border-radius: 3px; }
+  .chip--live { background: #D1FAE5; color: #065F46; }
+
+  .hero-headline {
+    font-size: clamp(26px, 3.5vw, 40px);
+    font-weight: 600; letter-spacing: -0.03em; line-height: 1.2;
+    color: var(--np-text-primary); margin-bottom: 18px;
+  }
+  .hero-lead { font-size: 16px; color: var(--np-text-body); line-height: 1.7; max-width: 680px; margin-bottom: 28px; }
+  .hero-lead strong { color: var(--np-text-primary); font-weight: 600; }
+  .hero-actions { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 12px; }
+  .btn-lg { padding: 11px 22px; font-size: 15px; }
+  .hero-trust { font-size: 12px; color: var(--np-text-muted); }
+
+  .section-heading {
+    font-size: 24px; font-weight: 600; letter-spacing: -0.02em;
+    color: var(--np-text-primary); margin-bottom: 24px; line-height: 1.25;
+  }
+  .bordered { border-top: 1px solid var(--np-border); border-bottom: 1px solid var(--np-border); }
+  .bordered-top { border-top: 1px solid var(--np-border); }
+
+  .stakes-section { background: var(--np-surface-elevated); border-bottom: 1px solid var(--np-border); }
+  .prob-inner { max-width: 720px; }
+  .prob-body { font-size: 15px; color: var(--np-text-body); line-height: 1.7; margin-bottom: 16px; }
+
+  .bullets-list { max-width: 800px; border: 1px solid var(--np-border); border-radius: var(--np-radius-lg); overflow: hidden; }
+  .bullet-row { display: flex; gap: 16px; padding: 20px 24px; border-bottom: 1px solid var(--np-border); align-items: flex-start; }
+  .bullet-row:last-child { border-bottom: none; }
+  .bullet-num {
+    width: 28px; height: 28px; flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+    background: var(--np-indigo-50); color: var(--np-indigo-700);
+    border-radius: var(--np-radius-md); font-size: 13px; font-weight: 700; font-family: var(--np-font-mono);
+  }
+  .bullet-title { font-size: 14px; font-weight: 600; color: var(--np-text-primary); margin-bottom: 4px; }
+  .bullet-body { font-size: 14px; color: var(--np-text-muted); line-height: 1.65; }
+
+  .thread-section { background: var(--np-surface-elevated); border-bottom: 1px solid var(--np-border); }
+  .thread-inner { max-width: 720px; }
+  .thread-body { font-size: 15px; color: var(--np-text-body); line-height: 1.7; margin-bottom: 16px; }
+  .thread-link { font-size: 14px; font-weight: 600; color: var(--np-accent); }
+  .thread-link:hover { text-decoration: underline; text-underline-offset: 2px; }
+
+  .faq-block { max-width: 720px; }
+  .faq-heading { font-size: 20px; font-weight: 600; color: var(--np-text-primary); margin-bottom: 20px; }
+  .faq-list { border: 1px solid var(--np-border); border-radius: var(--np-radius-lg); overflow: hidden; }
+  .faq-item { border-bottom: 1px solid var(--np-border); }
+  .faq-item:last-child { border-bottom: none; }
+  .faq-question {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 16px 20px; font-size: 14px; font-weight: 500;
+    color: var(--np-text-primary); cursor: pointer; list-style: none; user-select: none;
+  }
+  .faq-question::-webkit-details-marker { display: none; }
+  .faq-question::after { content: '+'; font-size: 18px; color: var(--np-text-muted); margin-left: 16px; flex-shrink: 0; }
+  details[open] .faq-question::after { content: '−'; }
+  .faq-question:hover { background: var(--np-surface-elevated); }
+  .faq-answer { padding: 0 20px 16px; font-size: 14px; color: var(--np-text-muted); line-height: 1.7; }
+
+  .cta-final { background: var(--np-indigo-50); border-top: 1px solid var(--np-border); }
+  .cta-inner { max-width: 640px; margin: 0 auto; text-align: center; }
+  .cta-heading { font-size: clamp(22px, 3vw, 28px); font-weight: 600; letter-spacing: -0.02em; color: var(--np-text-primary); margin-bottom: 10px; }
+  .cta-sub { font-size: 15px; color: var(--np-text-muted); line-height: 1.6; margin-bottom: 24px; }
+  .cta-actions { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+</style>

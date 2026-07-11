@@ -1,0 +1,282 @@
+---
+import Base from '../layouts/Base.astro';
+
+const faqItems = [
+  {
+    q: 'How are data centers affecting electricity prices and power markets?',
+    a: "Large-load data centers are the fastest-growing driver of US power costs. In PJM, the December 2025 capacity auction cleared at roughly $16.4 billion — with PJM's own Independent Market Monitor attributing about 40% (~$6.5 billion) to data-center load. In ERCOT, large-load interconnection requests (data centers and crypto) now run to tens of gigawatts. The fights over who pays, how loads interconnect, and what tariffs apply are being decided in PUCT, ERCOT, PJM and FERC dockets."
+  },
+  {
+    q: 'Where are data-center power regulations actually decided?',
+    a: "In three overlapping venues: state public utility commissions (e.g. the PUCT for Texas/ERCOT) set large-load tariffs and cost allocation; the ISOs/RTOs (ERCOT, PJM) set interconnection and market rules; and FERC governs wholesale rates and interstate interconnection for the FERC-jurisdictional markets. A single data-center matter usually spans several of these at once, in dockets with no shared ID."
+  },
+  {
+    q: 'What is ERCOT large-load interconnection (and "Batch Zero")?',
+    a: "ERCOT's large-load interconnection process governs how very large new loads — data centers, crypto miners, hydrogen — connect to the grid, and in what order they're studied. Protocol and rule revisions (NPRRs/PGRRs) and PUCT proceedings continually reshape the queue priority, study requirements, and cost responsibility. These changes carry hard comment and effective-date deadlines that are easy to miss."
+  },
+  {
+    q: 'How do I track data-center and large-load energy dockets across states and ISOs?',
+    a: "NodalPulse tracks the PUCT, ERCOT, PJM and FERC dockets governing large-load interconnection, cost allocation, and tariffs — extracting the deadlines, party positions, and dollar impacts, and threading the related filings across jurisdictions into one record, each claim cited to the source filing. Start a free 14-day trial (no card) to track the matters you care about."
+  }
+];
+---
+
+<Base
+  title="Data Center & Large-Load Power Regulation Tracker — ERCOT, PJM & FERC | NodalPulse"
+  description="Track the regulatory record behind the data-center power buildout: PUCT, ERCOT, PJM and FERC dockets on large-load interconnection, cost allocation, and tariffs — deadlines and party positions extracted and cited, threaded across jurisdictions."
+  extraSchema={[{
+    "@type": "FAQPage",
+    "mainEntity": faqItems.map(f => ({
+      "@type": "Question",
+      "name": f.q,
+      "acceptedAnswer": { "@type": "Answer", "text": f.a }
+    }))
+  }]}
+>
+
+  <!-- ── Hero ── number-first lead answer for GEO/AI citation -->
+  <section class="hero section">
+    <div class="container">
+      <div class="hero-content">
+        <div class="chip-row">
+          <span class="chip chip--live">ERCOT / PUCT · Live</span>
+          <span class="chip chip--beta">PJM · Beta</span>
+          <span class="chip chip--layer">FERC · Layer</span>
+        </div>
+        <h1 class="hero-headline">
+          Track the regulatory record behind the data-center power buildout.
+        </h1>
+        <p class="hero-lead">
+          Data centers are the fastest-growing force in US power markets — driving about <strong>40% of PJM's ~$16.4&nbsp;billion</strong> December 2025 capacity cost (per PJM's Independent Market Monitor) and flooding ERCOT's large-load interconnection queue. NodalPulse tracks the <strong>PUCT, ERCOT, PJM and FERC dockets</strong> behind it — large-load interconnection, cost allocation, and tariffs — with deadlines and party positions extracted, threaded across jurisdictions, and cited to the filing.
+        </p>
+        <div class="hero-actions">
+          <a href="https://app.nodalpulse.com/login" class="btn-primary btn-lg">Start free trial →</a>
+          <a href="/coverage/" class="btn-secondary btn-lg">See full coverage →</a>
+        </div>
+        <p class="hero-trust">14-day free trial · No card required · Cancel anytime</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── The stakes ── -->
+  <section class="section stakes-section">
+    <div class="container">
+      <h2 class="section-heading">Why this is the story of the decade in power.</h2>
+      <div class="stat-grid">
+        <div class="stat-card">
+          <span class="stat-num">~$16.4B</span>
+          <span class="stat-desc">PJM's December 2025 capacity auction cost — up roughly 10× on the prior cycle. <span class="stat-src">PJM BRA; via Utility Dive</span></span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-num">~40%</span>
+          <span class="stat-desc">Share PJM's Independent Market Monitor attributes to data-center load (~$6.5B). <span class="stat-src">PJM IMM filing</span></span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-num">Tens of GW</span>
+          <span class="stat-desc">Large-load (data center + crypto) interconnection requests in ERCOT's queue. <span class="stat-src">ERCOT large-load process</span></span>
+        </div>
+      </div>
+      <p class="stakes-note">
+        The dollars are decided in dockets — who pays for the buildout, how large loads interconnect, and which tariffs apply. Miss a comment window or an effective date and the outcome is set without you.
+      </p>
+    </div>
+  </section>
+
+  <!-- ── What we track ── -->
+  <section class="section bordered">
+    <div class="container">
+      <h2 class="section-heading">What NodalPulse tracks for data-center &amp; large-load matters</h2>
+      <div class="bullets-list">
+
+        <div class="bullet-row">
+          <div class="bullet-num" aria-hidden="true">1</div>
+          <div>
+            <h3 class="bullet-title">ERCOT large-load interconnection rules.</h3>
+            <p class="bullet-body">NPRRs, PGRRs, and PUCT proceedings that reshape large-load queue priority, study requirements, and cost responsibility — with the comment and effective-date deadlines pulled out and put on your radar.</p>
+          </div>
+        </div>
+
+        <div class="bullet-row">
+          <div class="bullet-num" aria-hidden="true">2</div>
+          <div>
+            <h3 class="bullet-title">Large-load tariffs &amp; cost allocation.</h3>
+            <p class="bullet-body">The state and ISO proceedings that decide who pays for the buildout — new large-load rate classes, minimum-take provisions, and cost-allocation methods — with party positions structured, not paraphrased.</p>
+          </div>
+        </div>
+
+        <div class="bullet-row">
+          <div class="bullet-num" aria-hidden="true">3</div>
+          <div>
+            <h3 class="bullet-title">PJM capacity &amp; the data-center cost fight.</h3>
+            <p class="bullet-body">RPM auction parameters and the Independent Market Monitor's data-center analysis — the numeric guts, not just the headline — so you can trace the $/MW-day exposure to your zone.</p>
+          </div>
+        </div>
+
+        <div class="bullet-row">
+          <div class="bullet-num" aria-hidden="true">4</div>
+          <div>
+            <h3 class="bullet-title">The FERC layer, threaded in.</h3>
+            <p class="bullet-body">Large-load matters in the FERC-jurisdictional markets pull in their FERC ER/EL dockets automatically — connected to the ISO and state legs so the matter reads as one story, not four disconnected searches.</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ── The threading problem ── the differentiator -->
+  <section class="section thread-section">
+    <div class="container">
+      <div class="thread-inner">
+        <h2 class="section-heading">One data-center matter. Four venues. No shared ID.</h2>
+        <p class="thread-body">
+          A large-load interconnection fight rarely lives in one place: an ERCOT protocol revision runs alongside a PUCT tariff docket, while a parallel matter in PJM becomes a FERC filing — none of them sharing a docket number. Tracking it by hand means four portals and a spreadsheet that's stale by lunch.
+        </p>
+        <p class="thread-body">
+          NodalPulse connects the legs into one living Record page per matter, so a change in any venue surfaces in context — with the deadline, the parties, and the citation back to the filing it came from.
+        </p>
+        <a href="/pjm/" class="thread-link">See how we cover PJM &amp; the FERC layer →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── FAQ ── GEO: FAQPage schema + extractable answers -->
+  <section class="section-sm bordered-top">
+    <div class="container">
+      <div class="faq-block">
+        <h2 class="faq-heading">Data-center power regulation: common questions</h2>
+        <div class="faq-list">
+          {faqItems.map(item => (
+            <details class="faq-item">
+              <summary class="faq-question">{item.q}</summary>
+              <div class="faq-answer">{item.a}</div>
+            </details>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── CTA ── -->
+  <section class="cta-final section-sm">
+    <div class="container">
+      <div class="cta-inner">
+        <h2 class="cta-heading">Track the dockets shaping the data-center buildout.</h2>
+        <p class="cta-sub">ERCOT and California live · PJM in Beta · FERC layer threaded in. Start free — no card.</p>
+        <div class="cta-actions">
+          <a href="https://app.nodalpulse.com/login" class="btn-primary btn-lg">Start free trial →</a>
+          <a href="/compare/" class="btn-secondary btn-lg">Compare tools →</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</Base>
+
+<style>
+  .hero { border-bottom: 1px solid var(--np-border); }
+  .hero-content { max-width: 760px; }
+
+  .chip-row { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 18px; }
+  .chip {
+    display: inline-block; font-size: 11px; font-weight: 500;
+    padding: 2px 8px; border-radius: 3px; letter-spacing: 0.01em;
+  }
+  .chip--live  { background: #D1FAE5; color: #065F46; }
+  .chip--beta  { background: #FEF3C7; color: #92400E; }
+  .chip--layer { background: var(--np-indigo-50); color: var(--np-indigo-700); }
+
+  .hero-headline {
+    font-size: clamp(26px, 3.5vw, 40px);
+    font-weight: 600; letter-spacing: -0.03em; line-height: 1.2;
+    color: var(--np-text-primary); margin-bottom: 18px;
+  }
+  .hero-lead {
+    font-size: 16px; color: var(--np-text-body); line-height: 1.7;
+    max-width: 680px; margin-bottom: 28px;
+  }
+  .hero-lead strong { color: var(--np-text-primary); font-weight: 600; }
+  .hero-actions { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 12px; }
+  .btn-lg { padding: 11px 22px; font-size: 15px; }
+  .hero-trust { font-size: 12px; color: var(--np-text-muted); }
+
+  .section-heading {
+    font-size: 24px; font-weight: 600; letter-spacing: -0.02em;
+    color: var(--np-text-primary); margin-bottom: 24px; line-height: 1.25;
+  }
+  .bordered { border-top: 1px solid var(--np-border); border-bottom: 1px solid var(--np-border); }
+  .bordered-top { border-top: 1px solid var(--np-border); }
+
+  /* Stats */
+  .stakes-section { background: var(--np-surface-elevated); border-bottom: 1px solid var(--np-border); }
+  .stat-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 24px;
+  }
+  .stat-card {
+    background: var(--np-surface); border: 1px solid var(--np-border);
+    border-radius: var(--np-radius-lg); padding: 22px 20px;
+    display: flex; flex-direction: column; gap: 8px;
+  }
+  .stat-num {
+    font-size: 28px; font-weight: 700; letter-spacing: -0.02em;
+    color: var(--np-text-primary); line-height: 1;
+  }
+  .stat-desc { font-size: 13px; color: var(--np-text-body); line-height: 1.55; }
+  .stat-src { display: block; font-size: 11px; color: var(--np-text-muted); font-family: var(--np-font-mono); margin-top: 6px; }
+  .stakes-note { max-width: 720px; font-size: 15px; color: var(--np-text-primary); font-weight: 500; line-height: 1.6; }
+
+  /* Bullets */
+  .bullets-list {
+    max-width: 800px; border: 1px solid var(--np-border);
+    border-radius: var(--np-radius-lg); overflow: hidden;
+  }
+  .bullet-row {
+    display: flex; gap: 16px; padding: 20px 24px;
+    border-bottom: 1px solid var(--np-border); align-items: flex-start;
+  }
+  .bullet-row:last-child { border-bottom: none; }
+  .bullet-num {
+    width: 28px; height: 28px; flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+    background: var(--np-indigo-50); color: var(--np-indigo-700);
+    border-radius: var(--np-radius-md); font-size: 13px; font-weight: 700;
+    font-family: var(--np-font-mono);
+  }
+  .bullet-title { font-size: 14px; font-weight: 600; color: var(--np-text-primary); margin-bottom: 4px; }
+  .bullet-body { font-size: 14px; color: var(--np-text-muted); line-height: 1.65; }
+
+  /* Threading */
+  .thread-section { background: var(--np-surface-elevated); border-bottom: 1px solid var(--np-border); }
+  .thread-inner { max-width: 720px; }
+  .thread-body { font-size: 15px; color: var(--np-text-body); line-height: 1.7; margin-bottom: 16px; }
+  .thread-link { font-size: 14px; font-weight: 600; color: var(--np-accent); }
+  .thread-link:hover { text-decoration: underline; text-underline-offset: 2px; }
+
+  /* FAQ */
+  .faq-block { max-width: 720px; }
+  .faq-heading { font-size: 20px; font-weight: 600; color: var(--np-text-primary); margin-bottom: 20px; }
+  .faq-list { border: 1px solid var(--np-border); border-radius: var(--np-radius-lg); overflow: hidden; }
+  .faq-item { border-bottom: 1px solid var(--np-border); }
+  .faq-item:last-child { border-bottom: none; }
+  .faq-question {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 16px 20px; font-size: 14px; font-weight: 500;
+    color: var(--np-text-primary); cursor: pointer; list-style: none; user-select: none;
+  }
+  .faq-question::-webkit-details-marker { display: none; }
+  .faq-question::after { content: '+'; font-size: 18px; color: var(--np-text-muted); margin-left: 16px; flex-shrink: 0; }
+  details[open] .faq-question::after { content: '−'; }
+  .faq-question:hover { background: var(--np-surface-elevated); }
+  .faq-answer { padding: 0 20px 16px; font-size: 14px; color: var(--np-text-muted); line-height: 1.7; }
+
+  /* CTA */
+  .cta-final { background: var(--np-indigo-50); border-top: 1px solid var(--np-border); }
+  .cta-inner { max-width: 640px; margin: 0 auto; text-align: center; }
+  .cta-heading { font-size: clamp(22px, 3vw, 28px); font-weight: 600; letter-spacing: -0.02em; color: var(--np-text-primary); margin-bottom: 10px; }
+  .cta-sub { font-size: 15px; color: var(--np-text-muted); line-height: 1.6; margin-bottom: 24px; }
+  .cta-actions { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+
+  @media (max-width: 768px) {
+    .stat-grid { grid-template-columns: 1fr; }
+  }
+</style>
