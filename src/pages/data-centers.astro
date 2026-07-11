@@ -135,7 +135,10 @@ const faqItems = [
         <p class="thread-body">
           NodalPulse connects the legs into one living Record page per matter, so a change in any venue surfaces in context — with the deadline, the parties, and the citation back to the filing it came from.
         </p>
-        <a href="/pjm/" class="thread-link">See how we cover PJM &amp; the FERC layer →</a>
+        <div class="thread-links">
+          <a href="/pjm/" class="thread-link">See how we cover PJM &amp; the FERC layer →</a>
+          <a href="/battery-storage/" class="thread-link">Track the battery-storage record →</a>
+        </div>
       </div>
     </div>
   </section>
@@ -249,6 +252,7 @@ const faqItems = [
   .thread-section { background: var(--np-surface-elevated); border-bottom: 1px solid var(--np-border); }
   .thread-inner { max-width: 720px; }
   .thread-body { font-size: 15px; color: var(--np-text-body); line-height: 1.7; margin-bottom: 16px; }
+  .thread-links { display: flex; flex-direction: column; gap: 8px; align-items: flex-start; }
   .thread-link { font-size: 14px; font-weight: 600; color: var(--np-accent); }
   .thread-link:hover { text-decoration: underline; text-underline-offset: 2px; }
 

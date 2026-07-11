@@ -1,0 +1,275 @@
+---
+import Base from '../layouts/Base.astro';
+
+const faqItems = [
+  {
+    q: 'How is battery storage (BESS) regulated in US power markets?',
+    a: "Storage sits at the intersection of federal and market rules. FERC sets the wholesale-market participation framework — Order 841 (2018) required RTOs/ISOs to open their energy, capacity, and ancillary-services markets to storage, and Order 2222 (2020) extended participation to distributed-energy aggregations that include batteries. On top of that, each ISO (ERCOT, CAISO, PJM) sets how storage is dispatched, accredited for capacity, and interconnected. A single BESS project's economics depend on all of these at once."
+  },
+  {
+    q: 'What are FERC Order 841 and Order 2222?',
+    a: "Order 841 (2018) is FERC's landmark rule directing each RTO/ISO to remove barriers to electric storage participation in the wholesale energy, capacity, and ancillary-services markets. Order 2222 (2020) requires RTOs/ISOs to allow distributed energy resource aggregations — which can include behind-the-meter and small-scale storage — to participate in those markets. Both continue to generate compliance filings and disputes at FERC and in each ISO's stakeholder process."
+  },
+  {
+    q: 'How does ERCOT Real-Time Co-optimization affect batteries?',
+    a: "ERCOT's Real-Time Co-optimization (RTC) co-optimizes energy and ancillary services in the same real-time dispatch — a structural change that reshapes how batteries are dispatched and paid for reserves. Because so much of a battery's revenue in ERCOT comes from ancillary services, RTC and its associated protocol revisions materially affect storage economics, and they move through ERCOT's stakeholder process with hard implementation deadlines."
+  },
+  {
+    q: 'What is capacity accreditation (ELCC) for storage?',
+    a: "Capacity accreditation determines how much a resource counts toward reliability requirements. Many markets use an Effective Load Carrying Capability (ELCC) method that discounts a battery's nameplate MW based on its duration and marginal reliability contribution — so a 4-hour battery may be credited for far less than its rated capacity. PJM and other markets continually revise these methods in dockets, and the outcome directly affects a storage project's capacity revenue."
+  },
+  {
+    q: 'How do I track battery storage (BESS) dockets and interconnection rules?',
+    a: "NodalPulse tracks the regulatory record behind storage — the FERC orders and compliance proceedings, ERCOT/CAISO/PJM market-design and capacity-accreditation dockets, and interconnection-reform proceedings (e.g. FERC Order 2023) that govern how storage connects and gets paid — extracting the deadlines and party positions, threaded across jurisdictions and cited to the filing. Start a free 14-day trial (no card) to track the matters that affect your projects."
+  }
+];
+---
+
+<Base
+  title="Battery Storage (BESS) Regulation & Docket Tracker — ERCOT, CAISO, PJM & FERC | NodalPulse"
+  description="Track the regulatory record behind battery storage: FERC Order 841/2222, capacity accreditation (ELCC), ERCOT Real-Time Co-optimization, and interconnection-reform dockets across ERCOT, CAISO, PJM and FERC — deadlines and party positions extracted and cited."
+  extraSchema={[{
+    "@type": "FAQPage",
+    "mainEntity": faqItems.map(f => ({
+      "@type": "Question",
+      "name": f.q,
+      "acceptedAnswer": { "@type": "Answer", "text": f.a }
+    }))
+  }]}
+>
+
+  <!-- ── Hero ── date-anchored lead answer for GEO/AI citation -->
+  <section class="hero section">
+    <div class="container">
+      <div class="hero-content">
+        <div class="chip-row">
+          <span class="chip chip--live">ERCOT / PUCT · Live</span>
+          <span class="chip chip--live">CAISO · Live</span>
+          <span class="chip chip--beta">PJM · Beta</span>
+          <span class="chip chip--layer">FERC · Layer</span>
+        </div>
+        <h1 class="hero-headline">
+          Track the regulatory record behind battery storage.
+        </h1>
+        <p class="hero-lead">
+          Battery storage is the fastest-growing resource on the US grid — and since FERC's landmark <strong>Order 841 (2018)</strong> opened wholesale markets to storage, ERCOT and CAISO have led its deployment. But whether a BESS project pencils out is decided in the regulatory record: the <strong>FERC orders, ISO market rules, capacity-accreditation methods, and interconnection dockets</strong> that determine how storage is dispatched, paid, and connected. NodalPulse tracks that record across ERCOT, CAISO, PJM and FERC — deadlines and party positions extracted, threaded, and cited to the filing.
+        </p>
+        <div class="hero-actions">
+          <a href="https://app.nodalpulse.com/login" class="btn-primary btn-lg">Start free trial →</a>
+          <a href="/coverage/" class="btn-secondary btn-lg">See full coverage →</a>
+        </div>
+        <p class="hero-trust">14-day free trial · No card required · Cancel anytime</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── The rules that decide storage economics ── -->
+  <section class="section stakes-section">
+    <div class="container">
+      <h2 class="section-heading">A battery's revenue is written in the rules.</h2>
+      <div class="rule-grid">
+        <div class="rule-card">
+          <span class="rule-tag">FERC Order 841 · 2018</span>
+          <span class="rule-desc">Opened RTO/ISO energy, capacity, and ancillary-services markets to storage. Still generating compliance filings and disputes.</span>
+        </div>
+        <div class="rule-card">
+          <span class="rule-tag">FERC Order 2222 · 2020</span>
+          <span class="rule-desc">Enabled distributed-energy aggregations — including batteries — to participate in wholesale markets, ISO by ISO.</span>
+        </div>
+        <div class="rule-card">
+          <span class="rule-tag">ERCOT RTC</span>
+          <span class="rule-desc">Real-Time Co-optimization reshapes how batteries are dispatched and paid for reserves — where much of ERCOT storage revenue lives.</span>
+        </div>
+        <div class="rule-card">
+          <span class="rule-tag">Capacity accreditation · ELCC</span>
+          <span class="rule-desc">Duration-based accreditation can credit a 4-hour battery for a fraction of its nameplate MW — and the method keeps changing in dockets.</span>
+        </div>
+      </div>
+      <p class="stakes-note">
+        Every one of these carries comment windows and effective dates buried inside the filings. Miss one and your project's revenue assumptions change without you in the room.
+      </p>
+    </div>
+  </section>
+
+  <!-- ── What we track ── -->
+  <section class="section bordered">
+    <div class="container">
+      <h2 class="section-heading">What NodalPulse tracks for storage</h2>
+      <div class="bullets-list">
+
+        <div class="bullet-row">
+          <div class="bullet-num" aria-hidden="true">1</div>
+          <div>
+            <h3 class="bullet-title">ISO market-design &amp; dispatch rules.</h3>
+            <p class="bullet-body">ERCOT (incl. Real-Time Co-optimization), CAISO and PJM protocol revisions that change how storage is dispatched and paid for energy and ancillary services — with the deadlines and party positions surfaced.</p>
+          </div>
+        </div>
+
+        <div class="bullet-row">
+          <div class="bullet-num" aria-hidden="true">2</div>
+          <div>
+            <h3 class="bullet-title">Capacity accreditation (ELCC).</h3>
+            <p class="bullet-body">The accreditation dockets that decide how much a battery counts toward capacity — and therefore how much capacity revenue it earns — tracked as they evolve, especially in PJM.</p>
+          </div>
+        </div>
+
+        <div class="bullet-row">
+          <div class="bullet-num" aria-hidden="true">3</div>
+          <div>
+            <h3 class="bullet-title">FERC storage orders &amp; compliance.</h3>
+            <p class="bullet-body">Order 841 and Order 2222 compliance proceedings and the disputes around them, threaded to the ISO filings that implement them — so a federal change and its market-level effect read as one story.</p>
+          </div>
+        </div>
+
+        <div class="bullet-row">
+          <div class="bullet-num" aria-hidden="true">4</div>
+          <div>
+            <h3 class="bullet-title">Interconnection-reform dockets.</h3>
+            <p class="bullet-body">Proceedings like FERC Order 2023 and the ISO interconnection-process revisions that reshape how — and how fast — storage projects reach the grid. We track the rules and dockets, not a project-by-project queue database.</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Threading ── -->
+  <section class="section thread-section">
+    <div class="container">
+      <div class="thread-inner">
+        <h2 class="section-heading">One battery. Federal rules, ISO markets, and a queue.</h2>
+        <p class="thread-body">
+          A storage project's return depends on a FERC order, an ISO's dispatch and accreditation rules, and an interconnection proceeding — decided in separate venues, in dockets with no shared ID. Tracking them apart means you learn about a capacity-accreditation change or an ancillary-services revision after it's already priced into someone else's model.
+        </p>
+        <p class="thread-body">
+          NodalPulse threads the legs into one living Record page per matter, with the deadline, the parties, and the citation back to the filing — so the record reads as one story.
+        </p>
+        <a href="/data-centers/" class="thread-link">See the large-load &amp; data-center record →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── FAQ ── -->
+  <section class="section-sm bordered-top">
+    <div class="container">
+      <div class="faq-block">
+        <h2 class="faq-heading">Battery storage regulation: common questions</h2>
+        <div class="faq-list">
+          {faqItems.map(item => (
+            <details class="faq-item">
+              <summary class="faq-question">{item.q}</summary>
+              <div class="faq-answer">{item.a}</div>
+            </details>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── CTA ── -->
+  <section class="cta-final section-sm">
+    <div class="container">
+      <div class="cta-inner">
+        <h2 class="cta-heading">Track the rules that price your batteries.</h2>
+        <p class="cta-sub">ERCOT and California live · PJM in Beta · FERC layer threaded in. Start free — no card.</p>
+        <div class="cta-actions">
+          <a href="https://app.nodalpulse.com/login" class="btn-primary btn-lg">Start free trial →</a>
+          <a href="/compare/" class="btn-secondary btn-lg">Compare tools →</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</Base>
+
+<style>
+  .hero { border-bottom: 1px solid var(--np-border); }
+  .hero-content { max-width: 760px; }
+
+  .chip-row { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 18px; }
+  .chip { display: inline-block; font-size: 11px; font-weight: 500; padding: 2px 8px; border-radius: 3px; letter-spacing: 0.01em; }
+  .chip--live  { background: #D1FAE5; color: #065F46; }
+  .chip--beta  { background: #FEF3C7; color: #92400E; }
+  .chip--layer { background: var(--np-indigo-50); color: var(--np-indigo-700); }
+
+  .hero-headline {
+    font-size: clamp(26px, 3.5vw, 40px);
+    font-weight: 600; letter-spacing: -0.03em; line-height: 1.2;
+    color: var(--np-text-primary); margin-bottom: 18px;
+  }
+  .hero-lead { font-size: 16px; color: var(--np-text-body); line-height: 1.7; max-width: 700px; margin-bottom: 28px; }
+  .hero-lead strong { color: var(--np-text-primary); font-weight: 600; }
+  .hero-actions { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 12px; }
+  .btn-lg { padding: 11px 22px; font-size: 15px; }
+  .hero-trust { font-size: 12px; color: var(--np-text-muted); }
+
+  .section-heading {
+    font-size: 24px; font-weight: 600; letter-spacing: -0.02em;
+    color: var(--np-text-primary); margin-bottom: 24px; line-height: 1.25;
+  }
+  .bordered { border-top: 1px solid var(--np-border); border-bottom: 1px solid var(--np-border); }
+  .bordered-top { border-top: 1px solid var(--np-border); }
+
+  /* Rule cards */
+  .stakes-section { background: var(--np-surface-elevated); border-bottom: 1px solid var(--np-border); }
+  .rule-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; margin-bottom: 24px; }
+  .rule-card {
+    background: var(--np-surface); border: 1px solid var(--np-border);
+    border-radius: var(--np-radius-lg); padding: 20px;
+    display: flex; flex-direction: column; gap: 8px;
+  }
+  .rule-tag {
+    font-size: 12px; font-weight: 700; color: var(--np-indigo-700);
+    font-family: var(--np-font-mono); letter-spacing: 0.01em;
+  }
+  .rule-desc { font-size: 13.5px; color: var(--np-text-body); line-height: 1.55; }
+  .stakes-note { max-width: 720px; font-size: 15px; color: var(--np-text-primary); font-weight: 500; line-height: 1.6; }
+
+  /* Bullets */
+  .bullets-list { max-width: 800px; border: 1px solid var(--np-border); border-radius: var(--np-radius-lg); overflow: hidden; }
+  .bullet-row { display: flex; gap: 16px; padding: 20px 24px; border-bottom: 1px solid var(--np-border); align-items: flex-start; }
+  .bullet-row:last-child { border-bottom: none; }
+  .bullet-num {
+    width: 28px; height: 28px; flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+    background: var(--np-indigo-50); color: var(--np-indigo-700);
+    border-radius: var(--np-radius-md); font-size: 13px; font-weight: 700; font-family: var(--np-font-mono);
+  }
+  .bullet-title { font-size: 14px; font-weight: 600; color: var(--np-text-primary); margin-bottom: 4px; }
+  .bullet-body { font-size: 14px; color: var(--np-text-muted); line-height: 1.65; }
+
+  /* Threading */
+  .thread-section { background: var(--np-surface-elevated); border-bottom: 1px solid var(--np-border); }
+  .thread-inner { max-width: 720px; }
+  .thread-body { font-size: 15px; color: var(--np-text-body); line-height: 1.7; margin-bottom: 16px; }
+  .thread-link { font-size: 14px; font-weight: 600; color: var(--np-accent); }
+  .thread-link:hover { text-decoration: underline; text-underline-offset: 2px; }
+
+  /* FAQ */
+  .faq-block { max-width: 720px; }
+  .faq-heading { font-size: 20px; font-weight: 600; color: var(--np-text-primary); margin-bottom: 20px; }
+  .faq-list { border: 1px solid var(--np-border); border-radius: var(--np-radius-lg); overflow: hidden; }
+  .faq-item { border-bottom: 1px solid var(--np-border); }
+  .faq-item:last-child { border-bottom: none; }
+  .faq-question {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 16px 20px; font-size: 14px; font-weight: 500;
+    color: var(--np-text-primary); cursor: pointer; list-style: none; user-select: none;
+  }
+  .faq-question::-webkit-details-marker { display: none; }
+  .faq-question::after { content: '+'; font-size: 18px; color: var(--np-text-muted); margin-left: 16px; flex-shrink: 0; }
+  details[open] .faq-question::after { content: '−'; }
+  .faq-question:hover { background: var(--np-surface-elevated); }
+  .faq-answer { padding: 0 20px 16px; font-size: 14px; color: var(--np-text-muted); line-height: 1.7; }
+
+  /* CTA */
+  .cta-final { background: var(--np-indigo-50); border-top: 1px solid var(--np-border); }
+  .cta-inner { max-width: 640px; margin: 0 auto; text-align: center; }
+  .cta-heading { font-size: clamp(22px, 3vw, 28px); font-weight: 600; letter-spacing: -0.02em; color: var(--np-text-primary); margin-bottom: 10px; }
+  .cta-sub { font-size: 15px; color: var(--np-text-muted); line-height: 1.6; margin-bottom: 24px; }
+  .cta-actions { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+
+  @media (max-width: 768px) {
+    .rule-grid { grid-template-columns: 1fr; }
+  }
+</style>
