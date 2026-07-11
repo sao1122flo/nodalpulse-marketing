@@ -1,6 +1,11 @@
 ---
 import Base from '../layouts/Base.astro';
 import { STATS } from '../data/stats';
+
+// Services API base — used client-side by the "Check a docket" lead magnet.
+// PUBLIC_ prefix so Astro inlines it into the client bundle.
+const servicesUrl =
+  import.meta.env.PUBLIC_SERVICES_URL ?? 'https://nodalpulse-services-production.up.railway.app';
 ---
 
 <Base
@@ -25,8 +30,8 @@ import { STATS } from '../data/stats';
             <a href="https://app.nodalpulse.com/login" class="btn-primary btn-lg">
               Start free trial →
             </a>
-            <a href="#surfaces" class="btn-secondary btn-lg">
-              See how a Record page works →
+            <a href="#check" class="btn-secondary btn-lg">
+              Check a docket — free →
             </a>
           </div>
           <p class="hero-trust">
@@ -101,6 +106,106 @@ import { STATS } from '../data/stats';
       <span class="stat-pill">{STATS.deadlines} deadline events extracted</span>
     </div>
   </div>
+
+  <!-- ── Check a docket ── product-led lead magnet (replaces the retired /digest) -->
+  <section id="check" class="check-section section-sm">
+    <div class="container">
+      <div class="check-inner">
+        <span class="check-eyebrow">Try it now — free</span>
+        <h2 class="check-heading">Check any docket. We'll assemble its Record.</h2>
+        <p class="check-sub">
+          Drop a docket number and we'll confirm it in the primary source — then start a free trial to get the full living Record: every filing, deadline, and cross-jurisdictional thread, cited.
+        </p>
+
+        <form id="docket-form" class="check-form" novalidate>
+          <div class="check-fields">
+            <select id="check-market" name="market" class="check-select" aria-label="Market" required>
+              <option value="puct">Texas · PUCT</option>
+              <option value="ferc">FERC (federal / PJM)</option>
+              <option value="cpuc">California · CPUC</option>
+            </select>
+            <input id="check-docket" name="docket" type="text" class="check-input" placeholder="Docket number — e.g. 58481, EL25-49" aria-label="Docket number" autocomplete="off" required>
+            <input id="check-email" name="email" type="email" class="check-input" placeholder="Work email" aria-label="Work email" autocomplete="email" required>
+            <!-- Honeypot: hidden from humans, bots fill it -->
+            <input name="website" type="text" class="check-hp" tabindex="-1" autocomplete="off" aria-hidden="true">
+            <button type="submit" id="check-submit" class="btn-primary btn-lg check-submit">Check docket →</button>
+          </div>
+          <p id="check-result" class="check-result" role="status" aria-live="polite"></p>
+          <p class="check-fineprint">Free to check · No card required · Texas, FERC &amp; California dockets.</p>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <script define:vars={{ servicesUrl }}>
+    (function () {
+      const form = document.getElementById('docket-form');
+      if (!form) return;
+      const submitBtn = document.getElementById('check-submit');
+      const result = document.getElementById('check-result');
+      const marketSel = document.getElementById('check-market');
+      const docketInp = document.getElementById('check-docket');
+      const emailInp = document.getElementById('check-email');
+      const LABELS = { puct: 'Texas (PUCT)', ferc: 'FERC', cpuc: 'California (CPUC)' };
+
+      function esc(s) {
+        return String(s == null ? '' : s)
+          .replace(/&/g, '&amp;').replace(/</g, '&lt;')
+          .replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+      }
+
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const market = marketSel.value;
+        const docket = (docketInp.value || '').trim();
+        const email = (emailInp.value || '').trim();
+        result.className = 'check-result';
+        result.textContent = '';
+
+        if (!docket) { result.classList.add('check-result--err'); result.textContent = 'Enter a docket number.'; return; }
+        if (!email || email.indexOf('@') < 0) { result.classList.add('check-result--err'); result.textContent = 'Enter a valid work email.'; return; }
+
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'Checking…';
+
+        try {
+          const res = await fetch(`${servicesUrl}/public/record-request`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ market, docket, email, website: form.website.value || '' }),
+          });
+          const data = await res.json().catch(() => ({}));
+
+          if (res.status === 429) {
+            result.classList.add('check-result--err');
+            result.textContent = 'A few too many checks — give it a minute and try again.';
+          } else if (!res.ok) {
+            result.classList.add('check-result--err');
+            result.textContent =
+              data.error === 'unsupported_market' ? "That market isn't checkable yet — pick Texas, FERC, or California."
+              : data.error === 'invalid_docket' ? "That doesn't look like a valid docket number."
+              : 'Something went wrong — please try again.';
+          } else if (!data.valid || !data.found) {
+            result.classList.add('check-result--err');
+            result.textContent = `We couldn't find docket ${docket} in ${LABELS[market] || market}. Double-check the number?`;
+          } else {
+            result.classList.add('check-result--ok');
+            const n = data.found;
+            result.innerHTML =
+              `✓ Confirmed — <strong>${n} filing${n === 1 ? '' : 's'}</strong> in ${esc(LABELS[market] || market)} ${esc(docket)}. `
+              + `<a class="check-cta" href="https://app.nodalpulse.com/login">Start a free trial to assemble the full Record →</a>`;
+            form.reset();
+          }
+        } catch (err) {
+          result.classList.add('check-result--err');
+          result.textContent = 'Network error — please try again.';
+        } finally {
+          submitBtn.disabled = false;
+          submitBtn.textContent = 'Check docket →';
+        }
+      });
+    })();
+  </script>
 
   <!-- ── The real cost ── problem reframe -->
   <section class="problem section">
@@ -1776,5 +1881,136 @@ import { STATS } from '../data/stats';
     font-size: 14px;
     color: var(--np-text-body);
     line-height: 1.6;
+  }
+
+  /* ── Check a docket (lead magnet) ── */
+  .check-section {
+    background: var(--np-indigo-50);
+    border-bottom: 1px solid var(--np-border);
+  }
+
+  .check-inner {
+    max-width: 720px;
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  .check-eyebrow {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--np-indigo-700);
+    margin-bottom: 12px;
+  }
+
+  .check-heading {
+    font-size: clamp(22px, 3vw, 30px);
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    color: var(--np-text-primary);
+    margin-bottom: 12px;
+  }
+
+  .check-sub {
+    font-size: 15px;
+    color: var(--np-text-muted);
+    line-height: 1.6;
+    margin-bottom: 24px;
+  }
+
+  .check-form {
+    position: relative;
+  }
+
+  .check-fields {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: center;
+  }
+
+  .check-select,
+  .check-input {
+    font-family: var(--np-font-sans);
+    font-size: 14px;
+    padding: 10px 12px;
+    border: 1px solid var(--np-border-strong);
+    border-radius: var(--np-radius-md);
+    background: var(--np-surface);
+    color: var(--np-text-primary);
+  }
+
+  .check-select {
+    flex: 0 0 auto;
+    cursor: pointer;
+  }
+
+  .check-input {
+    flex: 1 1 200px;
+    min-width: 0;
+  }
+
+  .check-select:focus,
+  .check-input:focus {
+    outline: none;
+    border-color: var(--np-accent);
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
+  }
+
+  .check-submit {
+    flex: 0 0 auto;
+  }
+
+  .check-hp {
+    position: absolute;
+    left: -9999px;
+    width: 1px;
+    height: 1px;
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .check-result {
+    font-size: 14px;
+    line-height: 1.55;
+    margin-top: 14px;
+    text-align: center;
+    min-height: 1.2em;
+  }
+
+  .check-result--ok {
+    color: #065F46;
+  }
+
+  .check-result--err {
+    color: #B91C1C;
+  }
+
+  .check-cta {
+    color: var(--np-accent);
+    font-weight: 600;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+
+  .check-cta:hover {
+    color: var(--np-accent-hover);
+  }
+
+  .check-fineprint {
+    font-size: 12px;
+    color: var(--np-text-muted);
+    text-align: center;
+    margin-top: 12px;
+  }
+
+  @media (max-width: 560px) {
+    .check-select,
+    .check-input,
+    .check-submit {
+      flex: 1 1 100%;
+    }
   }
 </style>
